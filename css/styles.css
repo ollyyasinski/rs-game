@@ -1,0 +1,54 @@
+@import "../css/reset.css";
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    position: relative;
+    padding: 0;
+    background-color: #000;
+    width: 100%;
+    font-size: 10px;
+}
+
+.game-background {
+    background-image: url("../assets/img/office-background/office-3-no-door.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% auto;
+    height: 100%;
+    background-color: #030000;
+    position: relative;
+}
+
+.door {
+    background-image: url("../assets/img/office-background/door-right.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% auto;
+    position: absolute;
+    height: 100%;
+    top: 2.6%;
+    transition: 1s transform linear;
+    cursor: pointer;
+}
+
+.door-left {
+    background-image: url("../assets/img/office-background/door-left.png");
+    transform-origin: left;
+    left: 4%;
+    width: 6.35%;
+}
+
+.door-right {
+    background-image: url("../assets/img/office-background/door-right.png");
+    transform-origin: right;
+    right: 3.8%;
+    width: 6.59%;
+}
+
+.doorOpened {
+    transform: rotateY(90deg);
+    transition: .5s linear;
+}
