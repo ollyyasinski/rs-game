@@ -3,9 +3,10 @@
 @import "../monsters/monster-legs.css";
 
 .monster-container{
-    height: 80%;
+    height: 66vh;
+    min-width: 22vh;
     display: grid;
-    grid-template: "monster-head" 27% "monster-body" 22% "monster-legs";
+    grid-template: "monster-head" 20vh "monster-body" 19vh "monster-legs" 24vh;
     background-position: center;
     position: relative;
     grid-area: monster;
@@ -14,14 +15,23 @@
 .monster-head-container{
     background-repeat: no-repeat;
     grid-area: monster-head;
+    background-position: center bottom;
+    background-size: auto 100%;
+    height: 21vh;
 }
 
 .monster-body-container{
     background-repeat: no-repeat;
     grid-area: monster-body;
+    background-position: center bottom;
+    background-size: auto 100%;
+    height: 21.4vh;
 }
 
 .monster-legs-container{
     background-repeat: no-repeat;
     grid-area: monster-legs;
+    background-position: center top;
+    background-size: auto 100%;
+    height: 27vh;
 }

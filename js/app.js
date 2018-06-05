@@ -40,6 +40,6 @@ let randomHeadIndex = _.random(0, 3, 0),
     randomBodyIndex =  _.random(0, 4, 0),
     randomLegsIndex = _.random(0, 2, 0);
 
-monsterHeadContainer.addClass(monsterHeadArray[randomHeadIndex]);
+// monsterHeadContainer.addClass(monsterHeadArray[randomHeadIndex]);
 monsterBodyContainer.addClass(monsterBodyArray[randomBodyIndex]);
 monsterLegsContainer.addClass(monsterLegsArray[randomLegsIndex]);
