@@ -11,35 +11,33 @@ function openDoor() {
 
 
 // monster generator
-
 let monsterHeadContainer = $(".monster-head-container"),
     monsterBodyContainer = $(".monster-body-container"),
-    monsterLegsContainer = $(".monster-legs-container");
-
-const monsterHead1 = "monster-head-1",
-    monsterHead2 = "monster-head-2",
-    monsterHead3 = "monster-head-3",
-    monsterHead4 = "monster-head-4";
-
-const monsterBody1 = "monster-body-1",
-    monsterBody2 = "monster-body-2",
-    monsterBody3 = "monster-body-3",
-    monsterBody4 = "monster-body-4",
-    monsterBody5 = "monster-body-5";
-
-const monsterLegs1 = "monster-legs-1",
-    monsterLegs2 = "monster-legs-2",
-    monsterLegs3 = "monster-legs-3";
-
-let monsterHeadArray = [monsterHead1, monsterHead2, monsterHead3, monsterHead4],
-    monsterBodyArray = [monsterBody1, monsterBody2, monsterBody3, monsterBody4, monsterBody5],
-    monsterLegsArray = [monsterLegs1, monsterLegs2, monsterLegs3];
+    monsterLegsContainer = $(".monster-legs-container"),
+    monsterHeadArray = ["monster-head-1", "monster-head-2", "monster-head-3", "monster-head-4"],
+    monsterBodyArray = ["monster-body-1", "monster-body-2", "monster-body-3", "monster-body-4", "monster-body-5"],
+    monsterLegsArray = ["monster-legs-1", "monster-legs-2", "monster-legs-3"];
 
 // random index generator
-let randomHeadIndex = _.random(0, 3, 0),
-    randomBodyIndex =  _.random(0, 4, 0),
-    randomLegsIndex = _.random(0, 2, 0);
+let generateRandomArrayIndex = (array) => {
+    return _.random(0, array.length - 1, 0);
+};
 
-// monsterHeadContainer.addClass(monsterHeadArray[randomHeadIndex]);
-monsterBodyContainer.addClass(monsterBodyArray[randomBodyIndex]);
-monsterLegsContainer.addClass(monsterLegsArray[randomLegsIndex]);
+let addRandomClass = (target, sourceArray) => {
+    return target.addClass(sourceArray[generateRandomArrayIndex(sourceArray)]);
+}
+
+// addRandomClass(monsterHeadContainer, monsterHeadArray);
+addRandomClass(monsterBodyContainer, monsterBodyArray);
+addRandomClass(monsterLegsContainer, monsterLegsArray);
+
+
+const roleArray = ["Project Manager", "Product Owner", "Scrum Master", "Team Lead", "Key Developer"],
+    nameArray = ["Jack", "Tom", "Dzmitry", "Abishek", "Alyaxey", "Richard", "John", "Kiran", "Yauheniy"],
+    secondNameArray = ["Jones", "Abhishek", "Smith", "Brown", "Ivanou", "Hill", "Omar", "Clark"];
+
+generateRandomName = (array1, array2, array3) => {
+    return console.log(array1[generateRandomArrayIndex(array1)] + ' ' + array2[generateRandomArrayIndex(array2)] + ' ' + array3[generateRandomArrayIndex(array3)]);
+}
+
+generateRandomName(roleArray, nameArray, secondNameArray);
