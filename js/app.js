@@ -27,7 +27,7 @@ let addRandomClass = (target, sourceArray) => {
     return target.addClass(sourceArray[generateRandomArrayIndex(sourceArray)]);
 }
 
-// addRandomClass(monsterHeadContainer, monsterHeadArray);
+addRandomClass(monsterHeadContainer, monsterHeadArray);
 addRandomClass(monsterBodyContainer, monsterBodyArray);
 addRandomClass(monsterLegsContainer, monsterLegsArray);
 
