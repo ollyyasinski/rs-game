@@ -1,11 +1,12 @@
 @import "../css/reset.css";
+@import "../css/monsters/monsters-main.css";
+@import "../css/heroes.css";
 body, html {
     height: 100%;
     margin: 0;
 }
 
 body {
-    position: relative;
     padding: 0;
     background-color: #000;
     width: 100%;
@@ -20,10 +21,12 @@ body {
     height: 100%;
     background-color: #030000;
     position: relative;
+    display: grid;
+    grid-template: ". . . . . ." ". hero . . monster ." ". . . . . .";
+    align-items: end;
 }
 
 .door {
-    background-image: url("../assets/img/office-background/door-right.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100% auto;

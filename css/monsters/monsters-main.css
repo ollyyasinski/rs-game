@@ -1,0 +1,27 @@
+@import "../monsters/monster-body.css";
+@import "../monsters/monster-head.css";
+@import "../monsters/monster-legs.css";
+
+.monster-container{
+    height: 80%;
+    display: grid;
+    grid-template: "monster-head" 27% "monster-body" 22% "monster-legs";
+    background-position: center;
+    position: relative;
+    grid-area: monster;
+}
+
+.monster-head-container{
+    background-repeat: no-repeat;
+    grid-area: monster-head;
+}
+
+.monster-body-container{
+    background-repeat: no-repeat;
+    grid-area: monster-body;
+}
+
+.monster-legs-container{
+    background-repeat: no-repeat;
+    grid-area: monster-legs;
+}
