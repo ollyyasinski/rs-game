@@ -1,4 +1,4 @@
-class AttackQuestions(){
+class AttackQuestions{
 	constructor(){
 		this.rules = `Read the tasks carefully!\nYour answer may be:\n  1. number (1, 2.1)\n  2. string (more than one word is possible)\n  3. boolean (true/false)\n  4. array ([1,2,3], [[1,2],[3,4]])\nThere is not case sensitivity\nError is possible answer`;
 	}
@@ -124,7 +124,7 @@ class AttackQuestions(){
 	}
 }
 
-class ShieldQuestions(){
+class ShieldQuestions{
 	constructor(){
 		this.rules = `Write the name of the function/keyword/other.\nDon't use () for functions!\nUse the following characters:\n  1. <>\n  2. :\n  3. -`;
 	}
