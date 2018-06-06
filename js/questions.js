@@ -1,4 +1,4 @@
-class AttackQuestions(){
+class AttackQuestions{
 	constructor(){
 		this.rules = `Read the tasks carefully!\nYour answer may be:\n  1. number (1, 2.1)\n  2. string (more than one word is possible)\n  3. boolean (true/false)\n  4. array ([1,2,3], [[1,2],[3,4]])\nThere is not case sensitivity\nError is possible answer`;
 	}
@@ -81,7 +81,7 @@ class AttackQuestions(){
 		let arr = [
 			[`$numeric = 42;\n$type = gettype(gettype($numeric + 0.0));\necho $type;\nThe output will be:`, 'string'],
 			[`$a = 11;\n$b = 22;\n$c = 33;\necho $b = $a = $c;\nThe output will be:`, '33'],
-			[`<?php\necho 'A';\nif ('A' != 'B')\n  echo "B"\n# C ?>D;\nThe output will be:`, 'abd'],
+			[`$state = array ("Karnataka", "Goa", "Tamil Nadu","Andhra Pradesh");\necho (array_search ("Tamil Nadu", $state) );\nThe output will be:`, '2'],
 			[`$fruits = array('apple', 0, 'banana', 1, 'orange');\nfor each ($fruits as $fruit) {\n  echo $fruit;\n}\nThe output will be:`, 'error'],
 			[`echo 'Hello';\nif (false)\n  echo "PHP "; echo " Friend";\necho "!";\nThe output will be:`, 'hello friend!'],
 			[`echo 'Hello';\nif (false){\n  echo "PHP "; echo " Friend";\n}\necho "!";\nThe output will be:`, 'hello!'],
@@ -124,7 +124,7 @@ class AttackQuestions(){
 	}
 }
 
-class ShieldQuestions(){
+class ShieldQuestions{
 	constructor(){
 		this.rules = `Write the name of the function/keyword/other.\nDon't use () for functions!\nUse the following characters:\n  1. <>\n  2. :\n  3. -`;
 	}
@@ -274,7 +274,7 @@ class HealQuestions{
 			[`Which option is not a valid value for the border-style property?`, ['dotted', 'inset', 'glazed', 'groove'], 'glazed'],
 			[`Which option is not a valid length value?`, ['cm', 'em', 'mm', 'dm'], 'dm'],
 			[`Which property doesn't affect the box model?`, ['margin', 'padding', 'outline', 'content'], 'outline'],
-			[`How does CSS decrypted?`, ['Cascading Style Sheets', 'Common Style Sheets', 'Computer Style Sheets', 'Current Style Sheets'], 'cascading style sheets'],
+			[`How does CSS decrypted?`, ['Cascading Style Sheets', 'Common Style Sheets', 'Computer Style Sheets', 'Current Style Sheets'], 'Cascading Style Sheets'],
 			[`Which pseudo-class is applied to the form field whose content doesn't match the specified type?`, [':activ', ':hover', ':valid', ':invalid'], ':invalid'],
 			[`Which color name doesn't exist in CSS?`, ['cyan', 'golden', 'ivory', 'cornsilk'], 'golden'],
 			[`Which selector allows you to access each element of a web page?`, ['all', '*', 'each', 'every'], '*'],
@@ -286,12 +286,12 @@ class HealQuestions{
 	}
 	html(){
 		let arr = [
-			[`How does HTML decrypted?`, ['HyperThread Mask Language', 'HyperThread Markup Language', 'HyperText Mask Language', 'HyperText Markup Language'], 'hypertext markup language'],
+			[`How does HTML decrypted?`, ['HyperThread Mask Language', 'HyperThread Markup Language', 'HyperText Mask Language', 'HyperText Markup Language'], 'Hypertext Markup Language'],
 			[`Which <link> attribute contains the link address?`, ['url', 'src', 'href', 'address'], 'href'],
 			[`Which attribute can't be contained in <p>?`, ['class', 'title', 'align', 'id'], 'title'],
 			[`Which tag is used to name the document on the World Wide Web?`, ['meta', 'base', 'title', 'head'], 'title'],
 			[`Which option is used to create items for selecting multiple options?`, ['<input type=radio>', '<input type=radiobox>', '<input type=check>', '<input type=checkbox>'], '<input type=checkbox>'],
-			[`Which tag doesn't exist?`, ['<pre>', '<hr>', '<adress>', '<progress>'], '<adress'],
+			[`Which tag doesn't exist?`, ['<pre>', '<hr>', '<adress>', '<progress>'], '<adress>'],
 			[`Which attribute can't be contained in <img>?`, ['longdesc', 'lowsrc', 'name', 'align'], 'name'],
 			[`Which tag is not semantic?`, ['<main>', '<footer>', '<aside>', '<content>'], '<content>'],
 			[`Which tag is used for citations?`, ['<figure>', '<blockquote>', '<quote>', '<summary>'], '<blockquote>'],
