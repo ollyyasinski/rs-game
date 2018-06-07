@@ -5,9 +5,13 @@
     <meta charset="UTF-8">
     <title>Door Effect</title>
     <link rel="stylesheet" href="css/styles.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"
+    />
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
     <script async src="js/app.js"></script>
+    <script async src="js/script.js"></script>
 </head>
 
 <body>
@@ -20,5 +24,21 @@
             <div class="monster-body-container"></div>
             <div class="monster-legs-container"></div>
         </div>
+    </div>
+
+    <button id="myBtn">Open Modal</button>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1 class='task__caption'>TASK NAME</h1>
+            <div class='task__task'>
+                <p class='task__task-description' id='taskDesc'></p>
+                <p class='task__task-text' id='taskText'></p>
+            </div>
+            <form class='task__form' id='form'>
+            </form>
+        </div>
+
     </div>
 </body>
