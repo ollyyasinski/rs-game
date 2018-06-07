@@ -1,0 +1,124 @@
+* 
+{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	font-family: "Gwent";
+	background: linear-gradient(133deg, #F2C14E, #F78154);
+	width: 100%;
+	height: 100vh;
+}
+
+.wrapper{
+	padding: 15px 50px;
+}
+
+.greeting__caption{
+	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 48px;
+  width: 100%;
+  text-align: center; 
+}
+
+.greeting__text{
+	font-size: 30px;
+	width: 100%;
+  text-align: center;
+  margin: 20px 0;
+  color: white;
+}
+
+.greeting__profile_caption,
+.greeting__profile_character-caption{
+	font-size: 25px;
+	width: 100%;
+  text-align: center;
+  margin: 15px 0;
+	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  
+}
+
+.greeting__profile_name{
+	font-family: "Gwent";
+	font-size: 25px;
+	vertical-align: middle;
+	display: block;
+	border: 2px solid #0B2349;
+	margin: 0 auto;
+	border-radius: 5px;
+	width: 206px;
+	padding-left: 10px;
+	color: #181c1f;
+	outline: none;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+.greeting__profile_name:focus{
+	border: 2px solid #76fbed;
+}
+
+.greeting__profile_character-items{
+	display: grid;
+	max-width: 1000px;
+	grid-template-columns: repeat(4, 1fr);
+	align-items: center;
+	justify-content: center;
+  grid-column-gap: 20px;
+  height: 324px;
+  margin: 20px auto;
+}
+
+.greeting__profile_character-item-wrapper{
+	border: 2px solid #0B2349;
+  height: inherit;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+.greeting__profile_character-item-wrapper:hover{
+	box-shadow: 0 0 15px rgba(118, 251, 237, 1);
+}
+
+.greeting__profile_character-item{
+	display: block;
+	height: 100%;
+	margin: 0 auto;
+}
+
+.greeting__profile_button{
+  display: block;
+  padding: 10px 0;
+  width: 220px;
+  font-family: 'Gwent';
+  color: white;
+  border: none;
+  background: #0D61BC;
+  font-size: 30px;
+  border-radius: 5px;
+  margin: 25px auto 0;
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+  background: linear-gradient(180deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
+}
+
+.greeting__profile_button:hover{
+	background: linear-gradient(180deg, #091b37 33%, #0B2349 66%, #0D61BC);
+}
+
+.selected{
+	border: 2px solid #76fbed;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+@font-face {
+  font-family: "Gwent";
+  font-weight: bold;
+  font-style: normal;
+  src: url("../fonts/gwent/GWENT-ExtraBold.eot");
+  src: url("../fonts/gwent/GWENT-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../fonts/GWENT-ExtraBold.ttf") format("truetype"); }
