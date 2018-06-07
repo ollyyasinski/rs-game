@@ -3,8 +3,69 @@ let answerArray = [];
 
 let languages = ['js', 'css', 'html', 'c', 'java', 'php', 'ruby', 'python']; // ЯП для монстров (уровней)
 let form = document.getElementById('form');
+const main = document.querySelector('.wrapper');
 let attackQuestions, shieldQuestions, healQuestions; // массивы вопросов (чтобы исключить повторение вопросов)
 let answerButtom; // кнопка "отправки" ответа, создается в процессе отображения задачи
+const incantationsPower = { // силы способностей (будем тестировать)
+  attack: 40,
+  shield: 50,
+  heal: 30,
+  helper: {
+    health: 40,
+    attack: 15,
+  },
+  multipleAttack: 20,
+};
+let player, monster; // объекты игрока и монстра
+let level = 1;
+
+// выбор аватарки игрока (потом закинум в какой-нибудь класс. или нет)
+const characters = document.getElementById('characters'); 
+Array.from(characters.children).forEach(div => {
+  div.addEventListener('click', e => {
+    let current = document.querySelector('.selected');
+    let elem = e.target;
+    if(current){
+      current.classList.remove('selected');
+    }
+    if(elem.tagName === 'IMG'){
+      elem = e.target.parentElement;
+    };
+    elem.classList.add('selected');
+  });
+});
+
+class Player { // класс игрока
+  constructor(name, character) {
+    this.name = name;
+    this.health = 100;
+    this.incantations = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
+    this.character = character; // ссылка на выбранного персонажа;
+  }
+}
+
+class Monster { // класс монстра
+  constructor(level) {
+    let name = generateRandomName(roleArray, nameArray, secondNameArray);
+    let health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
+    let incantations = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
+  }
+} 
+
+class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
+  constructor() { }
+  reseption() { // страница ресепшена
+    new Helpers().createPlayer();
+    main.innerHTML = ``;
+    // отрисовать, повесть события, написать ф-ю для диалога
+  }
+  level() { // страница уровня
+    let levelLanguage = new Helpers().chooseLanguage(languages);
+    main.innerHTML = `<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>
+                      <div>some div for dialog</div>`; //нарисовать страницу
+    monster = new Monster(level);
+  }
+}
 
 class Helpers {
   constructor() { }
@@ -16,6 +77,10 @@ class Helpers {
     let language = languages.splice(index, 1).toString();
     return language;
   }
+  createPlayer() { // создание объекта игрока
+    player = new Player(document.getElementById('name').value || 'Anonim', Array.from(document.querySelector('.selected').children)[0].src);
+  }
+  createMonster() { } // сюда запихнем создание имени, тела, объекта 
 }
 
 class Tasks { // дополнитльные (рандомные) задания
@@ -173,8 +238,42 @@ class checkAnswer { // класс проверки ответов
   }
 }
 
-let levelLanguage = new Helpers().chooseLanguage(languages);
+class Dialogs{
+  constructor(){}
+  instructions(){
+    // потом разобъем строку на части, чтобы красиво отображать
+    let arr = [`Hello, ${player.name}, we were waiting for you! Welcome to 'Company name' - one of the best companies in the world. To get a job you have to go through 5 interviews. Each interview will check your knowledge in some programming language. Your "monsters" are waiting for you, if you are ready - go through that door. Good luck!`];
+    return arr;
+  }
+  monstersPhrases(){
+    let arr = [
+      `Well ${player.name}, let's check your ${levelLanguage} skills.`,
+      `Heard you are a big fan of ${levelLanguage}. Will see!`,
+      `Glad to see you, ${player.name}! Let's do ${levelLanguage}`, 
+      `You think my level is easy? ${levelLanguage} is not a language, it's a life style!`,
+      `Let's see what you got, ${player.name}!.`,
+      `Let's see how you cope with ${levelLanguage} level, ${player.name}!`,
+      `I can't wait to start, ${player.name}!`,
+      `Don't be afraid, ${player.name}, ${levelLanguage} - it's easy. Let's start!`,
+      `You shall not pass, ${player.name}!!!`,
+      `Only one candidate have passed this level. Are you ready, ${player.name}?`
+    ];
+    return arr;
+  }
+  monstersPhrasesFinal(){
+    let arr = [
+      `Great work, ${player.name}! It is the last test, let's begin!`,
+      `Was it easy to get here? Well, the last fight!`,
+      `Don't be too happy, ${player.name}! Here everything can end!`
+    ];
+    return arr;
+  }
+}
 
+const startButton = document.getElementById('startGame');
+startButton.addEventListener('click', new createPage().reseption);
+//rightDoor.addEventListener('click', new createPage().level);
+//leftDoor.addEventListener('click', new createPage().level);
 //тест разных способностей
 
 //new Incantations().heal();
