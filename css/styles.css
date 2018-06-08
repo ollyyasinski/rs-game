@@ -27,6 +27,9 @@ body {
     align-items: end;
 }
 
+.game-background-mirror{
+    grid-template: ". . . . . ." ". . . . hero-mirror ." ". . . . . .";
+}
 .door {
     background-repeat: no-repeat;
     background-position: center center;

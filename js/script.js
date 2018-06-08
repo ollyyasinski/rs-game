@@ -3,7 +3,8 @@ let answerArray = [];
 
 let languages = ['js', 'css', 'html', 'c', 'java', 'php', 'ruby', 'python']; // ЯП для монстров (уровней)
 let taskField = document.getElementById('taskFieldAnswer');
-let main = document.querySelector('main');
+let main = document.querySelector('main'),
+  body = $('body');
 let attackQuestions, shieldQuestions, healQuestions, monstersPhrases; // массивы вопросов (чтобы исключить повторение вопросов)
 let answerButtom; // кнопка "отправки" ответа, создается в процессе отображения задачи
 const incantationsPower = { // силы способностей (будем тестировать)
@@ -19,6 +20,22 @@ const incantationsPower = { // силы способностей (будем т�
 let player, monster; // объекты игрока и монстра
 let level = 1;
 let levelLanguage;
+let gameBackground,
+  offices = ['reception', 'office-1', 'office-2', 'office-3', 'office-4'],
+  fullGameBody = `<div class="game-background">
+  <div class="door door-left"></div>
+  <div class="door door-right"></div>
+  <div class="hero-container"></div>
+  <div class="monster-container">
+      <div class="monster-head-container"></div>
+      <div class="monster-body-container"></div>
+      <div class="monster-legs-container"></div>
+  </div>
+</div>`,
+  oneDoorGameBody = `<div class="game-background game-background-mirror">
+<div class="door door-right"></div>
+<div class="hero-container"></div>
+</div>`;
 
 // выбор аватарки игрока (потом закинум в какой-нибудь класс. или нет)
 // const characters = document.getElementById('characters'); 
@@ -53,15 +70,18 @@ class Monster { // класс монстра
   }
 }
 
+
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
-  reseption() { // страница ресепшена
+  goToLevel() { // страница ресепшена
     new Helpers().createPlayer();
-    main.classList.add('wrapper__reception');
-    main.innerHTML = `<div class='dialog' id='dialog'>
-                        <p class='dialog__message' id='message'></p>
-                        <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
-                      </div>`;
+
+    main.innerHTML = oneDoorGameBody;
+    gameBackground = $('.game-background');
+    gameBackground.addClass(offices[0]);
+
+    new Door(rightDoor).openDoor();
+
     setTimeout(function () {
       let dialogText = new Dialogs().instructions();
       new dialogActions().showDialog(dialogText);
@@ -315,9 +335,9 @@ class Dialogs {
 }
 
 const startButton = document.getElementById('startGame');
-// startButton.addEventListener('click', new createPage().reseption);
-//rightDoor.addEventListener('click', new createPage().level);
-//leftDoor.addEventListener('click', new createPage().level);
+startButton.addEventListener('click', new createPage().goToLevel);
+// rightDoor.addEventListener('click', new createPage().level);
+// leftDoor.addEventListener('click', new createPage().level);
 //тест разных способностей
 
 //new Incantations().heal();
@@ -325,4 +345,4 @@ const startButton = document.getElementById('startGame');
 //new Incantations().shield();
 //new Tasks().calculator();
 
-$("#myBtn").click(new Tasks().putInRightOrder());
+// $("#myBtn").click(new Tasks().putInRightOrder());
