@@ -2,7 +2,7 @@ let result;
 let answerArray = [];
 
 let languages = ['js', 'css', 'html', 'c', 'java', 'php', 'ruby', 'python']; // ЯП для монстров (уровней)
-let form = document.getElementById('form');
+let taskField = document.getElementById('taskFieldAnswer');
 let main = document.querySelector('main');
 let attackQuestions, shieldQuestions, healQuestions, monstersPhrases; // массивы вопросов (чтобы исключить повторение вопросов)
 let answerButtom; // кнопка "отправки" ответа, создается в процессе отображения задачи
@@ -21,20 +21,20 @@ let level = 1;
 let levelLanguage;
 
 // выбор аватарки игрока (потом закинум в какой-нибудь класс. или нет)
-const characters = document.getElementById('characters'); 
-Array.from(characters.children).forEach(div => {
-  div.addEventListener('click', e => {
-    let current = document.querySelector('.selected');
-    let elem = e.target;
-    if(current){
-      current.classList.remove('selected');
-    }
-    if(elem.tagName === 'IMG'){
-      elem = e.target.parentElement;
-    };
-    elem.classList.add('selected');
-  });
-});
+// const characters = document.getElementById('characters'); 
+// Array.from(characters.children).forEach(div => {
+//   div.addEventListener('click', e => {
+//     let current = document.querySelector('.selected');
+//     let elem = e.target;
+//     if(current){
+//       current.classList.remove('selected');
+//     }
+//     if(elem.tagName === 'IMG'){
+//       elem = e.target.parentElement;
+//     };
+//     elem.classList.add('selected');
+//   });
+// });
 
 class Player { // класс игрока
   constructor(name, character) {
@@ -51,7 +51,7 @@ class Monster { // класс монстра
     this.health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
     this.incantations = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
   }
-} 
+}
 
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
@@ -62,7 +62,7 @@ class createPage { // класс для создания страниц (ско�
                         <p class='dialog__message' id='message'></p>
                         <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
                       </div>`;
-    setTimeout(function() {
+    setTimeout(function () {
       let dialogText = new Dialogs().instructions();
       new dialogActions().showDialog(dialogText);
     }, 2000);
@@ -72,10 +72,10 @@ class createPage { // класс для создания страниц (ско�
     main.innerHTML = `<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1> 
                       <div class='dialog' id = dialog></div>`; //нарисовать страницу
     monster = new Monster(level);
-    if(!monstersPhrases){
+    if (!monstersPhrases) {
       monstersPhrases = new Dialogs().monstersPhrases();
     }
-    setTimeout(function() {
+    setTimeout(function () {
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
       new dialogActions().showDialog(Array.from(dialogText));
     }, 2000);
@@ -97,7 +97,7 @@ class Helpers {
     return language;
   }
   createPlayer() { // создание объекта игрока
-    let character = document.querySelector('.selected')? Array.from(document.querySelector('.selected').children)[0].src : 
+    let character = document.querySelector('.selected') ? Array.from(document.querySelector('.selected').children)[0].src :
       document.querySelector('.greeting__profile_character-item').src; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
     player = new Player(document.getElementById('name').value || 'Anonim', character);
   }
@@ -115,19 +115,19 @@ class dialogActions { // методы окна диалога
   }
   writeDialogText(id, text, speed) { // вывод текста
     let ele = document.getElementById(id),
-    txt = text.join("").split("");
-    let interval = setInterval(function(){
-      if(!txt[0]){
+      txt = text.join("").split("");
+    let interval = setInterval(function () {
+      if (!txt[0]) {
         return clearInterval(interval);
       };
       ele.innerHTML += txt.shift();
     }, speed != undefined ? speed : 100);
     return false;
   }
-  closeDialog(){ // закрыть окно
+  closeDialog() { // закрыть окно
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
-  }  
+  }
 }
 
 class Tasks { // дополнитльные (рандомные) задания
@@ -161,25 +161,25 @@ class Tasks { // дополнитльные (рандомные) задания
 class Incantations { // заклинания
   constructor() { } //в консоли пока отображаются ответы для задач
   attack() {
-    if (!attackQuestions){
+    if (!attackQuestions) {
       attackQuestions = new AttackQuestions()[levelLanguage](); // получаем массив в вопросами для данного уровня
-    }  
+    }
     let question = new Helpers().randomArrayElem(attackQuestions);
     console.log('Answer ', question[1]);
     let rules = new AttackQuestions().rules; // правила для этого вида заклинаний
     new giveTask().showTaskSimple(rules, question[0], question[1]); // выводим вопрос
   }
   shield() {
-    if(!shieldQuestions){
+    if (!shieldQuestions) {
       shieldQuestions = new ShieldQuestions()[levelLanguage]();
     }
-    let question = new Helpers().randomArrayElem(shieldQuestions); 
+    let question = new Helpers().randomArrayElem(shieldQuestions);
     console.log('Answer ', question[1]);
     let rules = new ShieldQuestions().rules;
     new giveTask().showTaskSimple(rules, question[0], question[1]);
   }
   heal() {
-    if(!healQuestions){
+    if (!healQuestions) {
       healQuestions = new HealQuestions()[levelLanguage]();
     }
     let question = new Helpers().randomArrayElem(healQuestions);
@@ -192,7 +192,7 @@ class Incantations { // заклинания
 class giveTask { // вывод вопросов на экран
   constructor() { }
   showTaskSimple(rules, task, answer) { // вопросы по схеме правило -> текст 
-    form.innerHTML = `<input type="text" class='task__form_answer'>
+    taskField.innerHTML = `<input type="text" class='task__form_answer'>
                       <input type="button" class='task__form_button' value="Answer">`;
     answerButtom = document.querySelector('.task__form_button');
     let description = document.getElementById('taskDesc');
@@ -203,7 +203,7 @@ class giveTask { // вывод вопросов на экран
     answerButtom.addEventListener('click', result.checkSimpleAnswer); // по клику - проверять результат
   }
   showTaskWithOptions(rules, task, options, answer) { //вопросы по схеме правило -> варианты ответов 
-    form.innerHTML = `<label><input type='radio' class='task__form_options' name='answer' value='${options[0]}'>${options[0]}</label>
+    taskField.innerHTML = `<label><input type='radio' class='task__form_options' name='answer' value='${options[0]}'>${options[0]}</label>
                       <label><input type='radio' class='task__form_options' name='answer' value='${options[1]}'>${options[1]}</label>
                       <label><input type='radio' class='task__form_options' name='answer' value='${options[2]}'>${options[2]}</label>
                       <label><input type='radio' class='task__form_options' name='answer' value='${options[3]}'>${options[3]}</label>
@@ -217,7 +217,7 @@ class giveTask { // вывод вопросов на экран
     answerButtom.addEventListener('click', result.checkSelectedAnswer);
   }
   showTaskOrder(rules, task, answer) {
-    form.innerHTML = `<ul id="sortable">
+    taskField.innerHTML = `<ul class="sortable task-filed-answer">
                         <li class="default" id="id_1">${task[0]}</li>
                         <li class="default" id="id_2">${task[1]}</li>
                         <li class="default" id="id_3">${task[2]}</li>
@@ -227,14 +227,14 @@ class giveTask { // вывод вопросов на экран
                         <li class="default" id="id_7">${task[6]}</li>
                         <li class="default" id="id_7">${task[7]}</li>
                         <li class="default" id="id_7">${task[8]}</li>
-                      </ul>
-                      <input type="button" class='task__form_button' value="Answer">`;
-    answerButtom = document.querySelector('.task__form_button');
+                      </ul>`;
+    // <input type="button" class='btn task-filed-btn' value="Answer">`;
+    answerButtom = document.querySelector('.task-field-btn');
     let description = document.getElementById('taskDesc');
     description.innerHTML = rules;
     result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователяЧ
     $(function () {
-      $("#sortable").sortable();
+      $(".sortable").sortable();
     });
     answerButtom.addEventListener('click', result.checkDroppedAnswer);
   }
@@ -255,8 +255,8 @@ class checkAnswer { // класс проверки ответов
     }
   }
   checkSelectedAnswer() { // проверка для вопросов с вариантами ответов
-    console.log(form.querySelector(':checked').value);
-    let answer = form.querySelector(':checked').value;
+    console.log(taskField.querySelector(':checked').value);
+    let answer = taskField.querySelector(':checked').value;
     if (answer === result.result) {
       console.log(true);
       // correct, do action
@@ -266,7 +266,7 @@ class checkAnswer { // класс проверки ответов
     }
   }
   checkDroppedAnswer() {
-    let children = $('#sortable').sortable('refreshPositions').children();
+    let children = $('.sortable').sortable('refreshPositions').children();
     $.each(children, function () {
       answerArray.push($(this).text().trim());
     });
@@ -282,18 +282,18 @@ class checkAnswer { // класс проверки ответов
   }
 }
 
-class Dialogs{
-  constructor(){}
-  instructions(){
+class Dialogs {
+  constructor() { }
+  instructions() {
     // потом разобъем строку на части, чтобы красиво отображать
     let arr = [`Hello, ${player.name}, we were waiting for you! Welcome to 'Company name' - one of the best companies in the world. To get a job you have to go through 5 interviews. Each interview will check your knowledge in some programming language. Your "monsters" are waiting for you, if you are ready - go through that door. Good luck!`];
     return arr;
   }
-  monstersPhrases(){
+  monstersPhrases() {
     let arr = [
       `Well ${player.name}, let's check your ${levelLanguage} skills.`,
       `Heard you are a big fan of ${levelLanguage}. Will see!`,
-      `Glad to see you, ${player.name}! Let's do ${levelLanguage}`, 
+      `Glad to see you, ${player.name}! Let's do ${levelLanguage}`,
       `You think my level is easy? ${levelLanguage} is not a language, it's a life style!`,
       `Let's see what you got, ${player.name}!.`,
       `Let's see how you cope with ${levelLanguage} level, ${player.name}!`,
@@ -304,7 +304,7 @@ class Dialogs{
     ];
     return arr;
   }
-  monstersPhrasesFinal(){
+  monstersPhrasesFinal() {
     let arr = [
       `Great work, ${player.name}! It is the last test, let's begin!`,
       `Was it easy to get here? Well, the last fight!`,
@@ -315,7 +315,7 @@ class Dialogs{
 }
 
 const startButton = document.getElementById('startGame');
-startButton.addEventListener('click', new createPage().reseption);
+// startButton.addEventListener('click', new createPage().reseption);
 //rightDoor.addEventListener('click', new createPage().level);
 //leftDoor.addEventListener('click', new createPage().level);
 //тест разных способностей

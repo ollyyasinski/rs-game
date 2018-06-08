@@ -1,6 +1,8 @@
 @import "../css/reset.css";
 @import "../css/monsters/monsters-main.css";
 @import "../css/heroes.css";
+@import "../css/task-modal.css";
+@import "../css/office-backgrounds.css";
 body, html {
     height: 100%;
     margin: 0;
@@ -14,7 +16,6 @@ body {
 }
 
 .game-background {
-    background-image: url("../assets/img/office-background/office-3-no-door.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100% auto;
@@ -54,112 +55,4 @@ body {
 .doorOpened {
     transform: rotateY(90deg);
     transition: .5s linear;
-}
-
-/* The Modal (background) */
-
-.modal {
-    display: none;
-    position: fixed;
-    /* Stay in place */
-    z-index: 1;
-    /* Sit on top */
-    padding-top: 3vh;
-    padding-bottom: 3vh;
-    /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%;
-    /* Full width */
-    height: 100%;
-    /* Full height */
-    overflow: auto;
-    /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0);
-    /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4);
-    /* Black w/ opacity */
-}
-
-/* Modal Content */
-
-.modal-content {
-    background-image: url("../assets/img/extras/white-board.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin: auto;
-    padding: 2rem -1rem;
-    border: 1px solid #888;
-    width: 80%;
-    height: 85%;
-    text-align: center;
-}
-
-/* The Close Button */
-
-.close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover, .close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-#sortable {
-    list-style-type: none;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    width: 78%;
-    text-align: center;
-    top: 15rem;
-    position: absolute;
-}
-
-#sortable li {
-    float: left;
-    margin: 0rem 0.6rem;
-    padding: 1rem 0.5rem;
-    font-size: 1.7rem;
-    display: inline-block;
-    cursor: pointer;
-}
-
-.default {
-    background: #cedc98;
-    border: 1px solid #DDDDDD;
-    color: #333333;
-}
-
-.task__form {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-h1 {
-    position: absolute;
-    top: 10rem;
-    font-size: 5rem;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-}
-
-.task__form_button {
-    position: absolute;
-    top: 25rem;
-    height: 3rem;
-    width: 11rem;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
 }

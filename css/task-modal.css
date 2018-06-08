@@ -1,0 +1,89 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.task-modal-content {
+    background-image: url("../assets/img/extras/white-board.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 80%;
+    height: 85%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    display: grid;
+    grid-template: "task-caption" 29% "task-task-content" 17% "task-field" 45%;
+    align-items: center;
+}
+
+.task-caption {
+    grid-area: task-caption;
+    margin-top: 7%;
+}
+
+.task-task-content {
+    grid-area: task-task-content;
+    display: grid;
+    grid-template: "task-task-description" "task-task-text";
+    height: 100%;
+}
+
+.task-field {
+    grid-area: task-field;
+    display: grid;
+    grid-template: "task-field-answer" "task-field-btn";
+    height: 100%;
+}
+
+.task-task-description {
+    grid-area: task-task-description;
+}
+
+.task-task-text {
+    grid-area: task-task-text;
+}
+
+.task-field-answer-container {
+    grid-area: task-field-answer;
+    margin: auto;
+}
+
+.task-field-btn-container {
+    grid-area: task-field-btn;
+}
+
+.sortable {
+    list-style-type: none;
+    text-align: center;
+}
+
+.sortable li {
+    float: left;
+    margin: 0rem 0.6rem;
+    padding: 1rem 0.5rem;
+    font-size: 1.7rem;
+    display: inline-block;
+    cursor: pointer;
+    height: auto !important;
+    width: auto !important;
+}
+
+.default {
+    background: #cedc98;
+    border: 1px solid #DDDDDD;
+    color: #333333;
+}
