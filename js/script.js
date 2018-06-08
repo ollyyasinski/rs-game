@@ -3,8 +3,8 @@ let answerArray = [];
 
 let languages = ['js', 'css', 'html', 'c', 'java', 'php', 'ruby', 'python']; // ЯП для монстров (уровней)
 let form = document.getElementById('form');
-const main = document.querySelector('.wrapper');
-let attackQuestions, shieldQuestions, healQuestions; // массивы вопросов (чтобы исключить повторение вопросов)
+let main = document.querySelector('main');
+let attackQuestions, shieldQuestions, healQuestions, monstersPhrases; // массивы вопросов (чтобы исключить повторение вопросов)
 let answerButtom; // кнопка "отправки" ответа, создается в процессе отображения задачи
 const incantationsPower = { // силы способностей (будем тестировать)
   attack: 40,
@@ -18,6 +18,7 @@ const incantationsPower = { // силы способностей (будем т�
 };
 let player, monster; // объекты игрока и монстра
 let level = 1;
+let levelLanguage;
 
 // выбор аватарки игрока (потом закинум в какой-нибудь класс. или нет)
 const characters = document.getElementById('characters'); 
@@ -46,9 +47,9 @@ class Player { // класс игрока
 
 class Monster { // класс монстра
   constructor(level) {
-    let name = generateRandomName(roleArray, nameArray, secondNameArray);
-    let health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
-    let incantations = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
+    this.name = generateRandomName(roleArray, nameArray, secondNameArray);
+    this.health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
+    this.incantations = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
   }
 } 
 
@@ -56,14 +57,28 @@ class createPage { // класс для создания страниц (ско�
   constructor() { }
   reseption() { // страница ресепшена
     new Helpers().createPlayer();
-    main.innerHTML = ``;
-    // отрисовать, повесть события, написать ф-ю для диалога
+    main.classList.add('wrapper__reception');
+    main.innerHTML = `<div class='dialog' id='dialog'>
+                        <p class='dialog__message' id='message'></p>
+                        <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
+                      </div>`;
+    setTimeout(function() {
+      let dialogText = new Dialogs().instructions();
+      new dialogActions().showDialog(dialogText);
+    }, 2000);
   }
   level() { // страница уровня
-    let levelLanguage = new Helpers().chooseLanguage(languages);
-    main.innerHTML = `<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>
-                      <div>some div for dialog</div>`; //нарисовать страницу
+    levelLanguage = new Helpers().chooseLanguage(languages);
+    main.innerHTML = `<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1> 
+                      <div class='dialog' id = dialog></div>`; //нарисовать страницу
     monster = new Monster(level);
+    if(!monstersPhrases){
+      monstersPhrases = new Dialogs().monstersPhrases();
+    }
+    setTimeout(function() {
+      let dialogText = new Helpers().randomArrayElem(monstersPhrases);
+      new dialogActions().showDialog(Array.from(dialogText));
+    }, 2000);
   }
 }
 
@@ -72,15 +87,47 @@ class Helpers {
   randomNumber(max) { // генератор случайных чисел
     return Math.floor(Math.random() * max);
   }
+  randomArrayElem(arr) { // взять из массива случайный элемент и удалить его из массива
+    let index = new Helpers().randomNumber(arr.length); // слуйный индекс
+    return arr.splice(index, 1)[0]; // удаляем этот элемент из массива и возвращаем его 
+  }
   chooseLanguage(languages) { // выбор языка для уровня
     let index = new Helpers().randomNumber(languages.length);
     let language = languages.splice(index, 1).toString();
     return language;
   }
   createPlayer() { // создание объекта игрока
-    player = new Player(document.getElementById('name').value || 'Anonim', Array.from(document.querySelector('.selected').children)[0].src);
+    let character = document.querySelector('.selected')? Array.from(document.querySelector('.selected').children)[0].src : 
+      document.querySelector('.greeting__profile_character-item').src; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
+    player = new Player(document.getElementById('name').value || 'Anonim', character);
   }
   createMonster() { } // сюда запихнем создание имени, тела, объекта 
+}
+
+class dialogActions { // методы окна диалога
+  constructor() { }
+  showDialog(text) { //показать окно
+    let dialogWrapper = document.getElementById('dialog');
+    dialogWrapper.classList.toggle('dialog-active');
+    let dialogButton = document.getElementById('dialogButton');
+    dialogButton.addEventListener('click', new dialogActions().closeDialog);
+    new dialogActions().writeDialogText('message', text, 50);
+  }
+  writeDialogText(id, text, speed) { // вывод текста
+    let ele = document.getElementById(id),
+    txt = text.join("").split("");
+    let interval = setInterval(function(){
+      if(!txt[0]){
+        return clearInterval(interval);
+      };
+      ele.innerHTML += txt.shift();
+    }, speed != undefined ? speed : 100);
+    return false;
+  }
+  closeDialog(){ // закрыть окно
+    let dialogWrapper = document.getElementById('dialog');
+    dialogWrapper.classList.toggle('dialog-active');
+  }  
 }
 
 class Tasks { // дополнитльные (рандомные) задания
@@ -114,32 +161,29 @@ class Tasks { // дополнитльные (рандомные) задания
 class Incantations { // заклинания
   constructor() { } //в консоли пока отображаются ответы для задач
   attack() {
-    if (!attackQuestions) {
+    if (!attackQuestions){
       attackQuestions = new AttackQuestions()[levelLanguage](); // получаем массив в вопросами для данного уровня
-      let index = new Helpers().randomNumber(attackQuestions.length); // генерируем рандомный индекс
-      let question = attackQuestions[index]; // получаем массив с вопросом и ответом
-      console.log('Answer ', question[1]);
-      attackQuestions.splice(index, 1); // удаляем этот вопрос из массива (вопросы не повторяются)
-      let rules = new AttackQuestions().rules; // правила для этого вида заклинаний
-      new giveTask().showTaskSimple(rules, question[0], question[1]); // выводим вопрос
-    }
+    }  
+    let question = new Helpers().randomArrayElem(attackQuestions);
+    console.log('Answer ', question[1]);
+    let rules = new AttackQuestions().rules; // правила для этого вида заклинаний
+    new giveTask().showTaskSimple(rules, question[0], question[1]); // выводим вопрос
   }
   shield() {
-    //как и атака
-    shieldQuestions = new ShieldQuestions()[levelLanguage]();
-    let index = new Helpers().randomNumber(shieldQuestions.length);
-    let question = shieldQuestions[index];
+    if(!shieldQuestions){
+      shieldQuestions = new ShieldQuestions()[levelLanguage]();
+    }
+    let question = new Helpers().randomArrayElem(shieldQuestions); 
     console.log('Answer ', question[1]);
-    shieldQuestions.splice(index, 1);
     let rules = new ShieldQuestions().rules;
     new giveTask().showTaskSimple(rules, question[0], question[1]);
   }
   heal() {
-    healQuestions = new HealQuestions()[levelLanguage]();
-    let index = new Helpers().randomNumber(healQuestions.length);
-    let question = healQuestions[index];
+    if(!healQuestions){
+      healQuestions = new HealQuestions()[levelLanguage]();
+    }
+    let question = new Helpers().randomArrayElem(healQuestions);
     let rules = new HealQuestions().rules;
-    healQuestions.splice(index, 1);
     new giveTask().showTaskWithOptions(rules, question[0], question[1], question[2]);
     console.log('Answer ', question[2]);
   }

@@ -6,41 +6,47 @@
 
 body{
 	font-family: "Gwent";
-	background: linear-gradient(133deg, #F2C14E, #F78154);
-	width: 100%;
-	height: 100vh;
+	overflow: hidden;
 }
 
 .wrapper{
 	padding: 15px 50px;
+	background: linear-gradient(133deg, #F2C14E, #F78154);
+	width: calc(100% - 100px);
+	height: 100vh;
+}
+
+.wrapper__reception{
+	background: url(../assets/img/office-background/reception.png) no-repeat center;
+	background-size: cover; 
 }
 
 .greeting__caption{
 	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 48px;
-  width: 100%;
-  text-align: center; 
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size: 48px;
+	width: 100%;
+	text-align: center; 
 }
 
 .greeting__text{
 	font-size: 30px;
 	width: 100%;
-  text-align: center;
-  margin: 20px 0;
-  color: white;
+	text-align: center;
+	margin: 20px 0;
+	color: white;
 }
 
 .greeting__profile_caption,
 .greeting__profile_character-caption{
 	font-size: 25px;
 	width: 100%;
-  text-align: center;
-  margin: 15px 0;
+	text-align: center;
+	margin: 15px 0;
 	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;  
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;  
 }
 
 .greeting__profile_name{
@@ -68,17 +74,17 @@ body{
 	grid-template-columns: repeat(4, 1fr);
 	align-items: center;
 	justify-content: center;
-  grid-column-gap: 20px;
-  height: 324px;
-  margin: 20px auto;
+	grid-column-gap: 20px;
+	height: 324px;
+	margin: 20px auto;
 }
 
 .greeting__profile_character-item-wrapper{
 	border: 2px solid #0B2349;
-  height: inherit;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+	height: inherit;
+	border-radius: 10px;
+	cursor: pointer;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 }
 
 .greeting__profile_character-item-wrapper:hover{
@@ -92,19 +98,19 @@ body{
 }
 
 .greeting__profile_button{
-  display: block;
-  padding: 10px 0;
-  width: 220px;
-  font-family: 'Gwent';
-  color: white;
-  border: none;
-  background: #0D61BC;
-  font-size: 30px;
-  border-radius: 5px;
-  margin: 25px auto 0;
-  outline: none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
-  background: linear-gradient(180deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
+	display: block;
+	padding: 10px 0;
+	width: 220px;
+	font-family: 'Gwent';
+	color: white;
+	border: none;
+	background: #0D61BC;
+	font-size: 30px;
+	border-radius: 5px;
+	margin: 25px auto 0;
+	outline: none;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+	background: linear-gradient(180deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
 }
 
 .greeting__profile_button:hover{
@@ -116,9 +122,53 @@ body{
 	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 }
 
+.dialog{
+	border: 5px double #9e12d8;
+	width: calc(100% - 50px);
+	height: 100px;
+	max-height: 150px;
+	position: absolute;
+	right: -100%;
+	bottom: 0px;
+	background: white;
+	transition: right .5s linear;
+	padding: 20px;
+	background: linear-gradient(180deg, #86fdf3 33%, #bdfffa 66%, #f2d2ff);
+}
+
+.dialog__message{
+	font-size: 25px;
+	color: #9e12d8;
+}
+
+.dialog-active{
+	right: 0px;
+}
+
+.dialog__button{
+	display: block;
+	padding: 5px 0;
+	width: 150px;
+	font-family: 'Gwent';
+	color: white;
+	border: none;
+	font-size: 25px;
+	border-radius: 5px;
+	outline: none;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+	background: linear-gradient(180deg, #520971 33%, #9c5cb7 66%, #cc98e2);
+	position: absolute;
+	right: 15px;
+	bottom: 15px;
+}
+
+.dialog__button:hover{
+	background: linear-gradient(180deg, #3b164a 33%, #602479 66%, #9e4bc0);
+}
+
 @font-face {
-  font-family: "Gwent";
-  font-weight: bold;
-  font-style: normal;
-  src: url("../fonts/gwent/GWENT-ExtraBold.eot");
-  src: url("../fonts/gwent/GWENT-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../fonts/GWENT-ExtraBold.ttf") format("truetype"); }
+	font-family: "Gwent";
+	font-weight: bold;
+	font-style: normal;
+	src: url("../fonts/gwent/GWENT-ExtraBold.eot");
+	src: url("../fonts/gwent/GWENT-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../fonts/GWENT-ExtraBold.ttf") format("truetype"); }
