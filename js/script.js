@@ -21,7 +21,7 @@ let player, monster; // объекты игрока и монстра
 let level = 1;
 let levelLanguage;
 let gameBackground,
-  offices = ['reception', 'office-1', 'office-2', 'office-3', 'office-4'],
+  offices = ['reception', 'office-1', 'office-2', 'office-3', 'office-4', "office-5"],
   fullGameBody = `<div class="game-background">
   <div class="door door-left"></div>
   <div class="door door-right"></div>
@@ -31,25 +31,33 @@ let gameBackground,
       <div class="monster-body-container"></div>
       <div class="monster-legs-container"></div>
   </div>
+</div>
+<div class='dialog' id='dialog'>
+<p class='dialog__message' id='message'></p>
+<button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
 </div>`,
   oneDoorGameBody = `<div class="game-background game-background-mirror">
 <div class="door door-right"></div>
 <div class="hero-container"></div>
+</div>
+<div class='dialog' id='dialog'>
+<p class='dialog__message' id='message'></p>
+<button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
 </div>`;
 
 let rightDoor = $(".door-right"),
-    leftDoor = $(".door-left");
+  leftDoor = $(".door-left");
 
 const monsterHeadContainer = $(".monster-head-container"),
-      monsterBodyContainer = $(".monster-body-container"),
-      monsterLegsContainer = $(".monster-legs-container"),
-      monsterHeadArray = ["monster-head-1", "monster-head-2", "monster-head-3", "monster-head-4"],
-      monsterBodyArray = ["monster-body-1", "monster-body-2", "monster-body-3", "monster-body-4", "monster-body-5"],
-      monsterLegsArray = ["monster-legs-1", "monster-legs-2", "monster-legs-3"];
+  monsterBodyContainer = $(".monster-body-container"),
+  monsterLegsContainer = $(".monster-legs-container"),
+  monsterHeadArray = ["monster-head-1", "monster-head-2", "monster-head-3", "monster-head-4"],
+  monsterBodyArray = ["monster-body-1", "monster-body-2", "monster-body-3", "monster-body-4", "monster-body-5"],
+  monsterLegsArray = ["monster-legs-1", "monster-legs-2", "monster-legs-3"];
 
 const roleArray = ["Project Manager", "Product Owner", "Scrum Master", "Team Lead", "Key Developer"],
-      nameArray = ["Jack", "Tom", "Dzmitry", "Abishek", "Alyaxey", "Richard", "John", "Kiran", "Yauheniy"],
-      secondNameArray = ["Jones", "Abhishek", "Smith", "Brown", "Ivanou", "Hill", "Omar", "Clark"];
+  nameArray = ["Jack", "Tom", "Dzmitry", "Abishek", "Alyaxey", "Richard", "John", "Kiran", "Yauheniy"],
+  secondNameArray = ["Jones", "Abhishek", "Smith", "Brown", "Ivanou", "Hill", "Omar", "Clark"];
 
 
 let receptionHTML = `<div class="game-background game-background-mirror">
@@ -61,6 +69,7 @@ let receptionHTML = `<div class="game-background game-background-mirror">
                        <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
                      </div>`
 
+const heroesArray = ["hero-1", "hero-2", "hero-3", "hero-4"];
 
 class Player { // класс игрока
   constructor(name, character) {
@@ -71,73 +80,79 @@ class Player { // класс игрока
   }
 }
 
-class Monster { // класс монстра
-  constructor(level) {
-    this.name = generateRandomName(roleArray, nameArray, secondNameArray);
-    this.health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
-    this.incantations = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
+class Office {
+  constructor(background, doorsAmount) {
+    this.background = background;
+    this.doorsAmount = doorsAmount;
+  }
+  createOffice() {
+    main.classList.add('wrapper__reception');
+    if (this.doorsAmount === 2) {
+      new Door(rightDoor).openDoor();
+      new Door(leftDoor).openDoor();
+      main.innerHTML = fullGameBody;
+      gameBackground = $('.game-background');
+      gameBackground.addClass(this.background);
+    } else {
+      new Door(rightDoor).openDoor();
+      main.innerHTML = oneDoorGameBody;
+      gameBackground = $('.game-background');
+      gameBackground.addClass(this.background);
+    }
   }
 }
 
-class Door {
-  constructor(door) {
-    this.door = door;
-  }
-  openDoor() {
-    this.door.click(
-      function openDoor() {
-        $(this).addClass("doorOpened");
-      }
-    );
-  }
-}
-
-new Door(leftDoor).openDoor();
-new Door(rightDoor).openDoor();
 
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
   greeting() {
-    const characters = document.getElementById('characters'); 
+    const characters = document.getElementById('characters');
     Array.from(characters.children).forEach(div => {
       div.addEventListener('click', e => {
         let current = document.querySelector('.selected');
         let elem = e.target;
-        if(current){
+        if (current) {
           current.classList.remove('selected');
         }
-        if(elem.tagName === 'IMG'){
+        if (elem.tagName === 'IMG') {
           elem = e.target.parentElement;
         };
         elem.classList.add('selected');
       });
     });
     const startButton = document.getElementById('startGame');
-    startButton.addEventListener('click', new createPage().reception);
+    startButton.addEventListener('click', new createPage().level);
   }
   // это же ресепшн, а не уровень, почему goToLevel?
   reception() { // страница ресепшена 
     new Helpers().createPlayer();
-    main.classList.add('wrapper__reception');
-    main.innerHTML = receptionHTML;
-    gameBackground = $('.game-background');
-    gameBackground.addClass(offices[0]);
+    new Office(offices[0], 1).createOffice();
+    $(".hero-container").addClass(player.character).addClass("hero-container-mirror");
+    offices.splice(0, 1); //delete reception from office list, this array will be used for random office generation
 
-    new Door(rightDoor).openDoor();
     let rDoor = document.querySelector('.door-right');
-    rDoor.addEventListener('click', new createPage().level);
+    rDoor.addEventListener('click', function () {
+      new Door(rDoor).openDoor();
+      setTimeout(new createPage().level, 1500);
+    });
     setTimeout(function () {
       let dialogText = new Dialogs().instructions();
       new dialogActions().showDialog(dialogText);
     }, 2000);
   }
   level() { // страница уровня
+    console.log(languages);
+    new Helpers().createPlayer();
     levelLanguage = new Helpers().chooseLanguage(languages);
     main.innerHTML = `<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1> 
                       <div class='dialog' id = dialog></div>`; //нарисовать страницу
-    monster = new Monster(level);
+
+    // monster = new Monster(level);
+    new Office(new Helpers().randomArrayElem(offices), 2).createOffice();
+    $(".hero-container").addClass(player.character);
     new MonsterGenerator(monsterHeadContainer, monsterBodyContainer, monsterLegsContainer).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
-    new NameGenerator(roleArray, nameArray, secondNameArray).generateRandomName();
+
+    // new NameGenerator(roleArray, nameArray, secondNameArray).generateRandomName();
     if (!monstersPhrases) {
       monstersPhrases = new Dialogs().monstersPhrases();
     }
@@ -163,11 +178,11 @@ class Helpers {
     return language;
   }
   addRandomClass(target, sourceArray) {
-    return target.addClass(sourceArray[this.generateRandomArrayIndex(sourceArray)]);
+    return target.addClass(sourceArray[this.randomNumber(sourceArray.length)]);
   }
   createPlayer() { // создание объекта игрока
-    let character = document.querySelector('.selected') ? Array.from(document.querySelector('.selected').children)[0].src :
-      document.querySelector('.greeting__profile_character-item').src; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
+    let character = document.querySelector('.selected') ? document.querySelector('.selected').id :
+      document.querySelector('.greeting__profile_character-item').id; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
     player = new Player(document.getElementById('name').value || 'Anonim', character);
   }
   createMonster() { } // сюда запихнем создание имени, тела, объекта 
@@ -362,7 +377,7 @@ class Dialogs {
     let arr = [
       `Well ${player.name}, let's check your ${levelLanguage} skills.`,
       `Heard you are a big fan of ${levelLanguage}. Will see!`,
-      `Glad to see you, ${player.name}! Let's do ${levelLanguage}`,
+      `Glad to see you, ${player.name}! Let's do ${levelLanguage}.`,
       `You think my level is easy? ${levelLanguage} is not a language, it's a life style!`,
       `Let's see what you got, ${player.name}!.`,
       `Let's see how you cope with ${levelLanguage} level, ${player.name}!`,
@@ -383,6 +398,18 @@ class Dialogs {
   }
 }
 
+class Door {
+  constructor(door) {
+    this.door = door;
+  }
+  openDoor() {
+    this.door.click(
+      function openDoor() {
+        $(this).addClass("doorOpened");
+      }
+    );
+  }
+}
 class MonsterGenerator {
   constructor(head, body, legs) {
     this.head = head;
@@ -404,11 +431,18 @@ class NameGenerator {
   };
   generateRandomName() {
     return console.log(this.nameOptionsArray1[new Helpers().randomNumber(this.nameOptionsArray1.length)] + ' ' +
-                       this.nameOptionsArray2[new Helpers().randomNumber(this.nameOptionsArray2.length)] + ' ' +
-                       this.nameOptionsArray3[new Helpers().randomNumber(this.nameOptionsArray3.length)]);
+      this.nameOptionsArray2[new Helpers().randomNumber(this.nameOptionsArray2.length)] + ' ' +
+      this.nameOptionsArray3[new Helpers().randomNumber(this.nameOptionsArray3.length)]);
   }
 }
 
+class Monster { // класс монстра
+  constructor(level) {
+    this.name = generateRandomName(roleArray, nameArray, secondNameArray);
+    this.health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
+    this.incantations = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
+  }
+}
 new createPage().greeting();
 // rightDoor.addEventListener('click', new createPage().level);
 // leftDoor.addEventListener('click', new createPage().level);
