@@ -121,7 +121,7 @@ class createPage { // класс для создания страниц (ско�
       });
     });
     const startButton = document.getElementById('startGame');
-    startButton.addEventListener('click', new createPage().level);
+    startButton.addEventListener('click', new createPage().reception);
   }
   // это же ресепшн, а не уровень, почему goToLevel?
   reception() { // страница ресепшена 
@@ -142,7 +142,6 @@ class createPage { // класс для создания страниц (ско�
   }
   level() { // страница уровня
     console.log(languages);
-    new Helpers().createPlayer();
     levelLanguage = new Helpers().chooseLanguage(languages);
     main.innerHTML = `<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1> 
                       <div class='dialog' id = dialog></div>`; //нарисовать страницу
