@@ -1,5 +1,4 @@
 .hero-container {
-    background-image: url("../assets/img/heroes/girl-hero.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: auto 100%;
@@ -10,7 +9,6 @@
 }
 
 .hero-container-mirror {
-    background-image: url("../assets/img/heroes/girl-hero.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: auto 100%;
@@ -24,4 +22,20 @@
     filter: FlipH;
     -ms-filter: "FlipH";
     grid-area: hero-mirror;
+}
+
+.hero-1 {
+    background-image: url("../assets/img/heroes/boy-hero.png");
+}
+
+.hero-2 {
+    background-image: url("../assets/img/heroes/girl-hero.png");
+}
+
+.hero-3 {
+    background-image: url("../assets/img/heroes/man-hero.png");
+}
+
+.hero-4 {
+    background-image: url("../assets/img/heroes/woman-hero.png");
 }
