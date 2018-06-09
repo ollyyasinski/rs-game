@@ -1,13 +1,13 @@
 let result;
 let answerArray = [];
 
-let languages = ['js', 'css', 'html', 'c', 'java', 'php', 'ruby', 'python']; // ЯП для монстров (уровней)
-let taskField = document.getElementById('taskFieldAnswer');
+let languages = ['javaScript', 'css', 'html', 'c', 'java', 'php', 'ruby', 'python']; // ЯП для монстров (уровней)
+let taskField;
 let main = document.querySelector('main'),
   body = $('body');
 let attackQuestions, shieldQuestions, healQuestions, monstersPhrases; // массивы вопросов (чтобы исключить повторение вопросов)
 let answerButtom; // кнопка "отправки" ответа, создается в процессе отображения задачи
-const incantationsPower = { // силы способностей (будем тестировать)
+const spellsPower = { // силы способностей (будем тестировать)
   attack: 40,
   shield: 50,
   heal: 30,
@@ -18,8 +18,9 @@ const incantationsPower = { // силы способностей (будем т�
   multipleAttack: 20,
 };
 let player, monster; // объекты игрока и монстра
-let level = 1;
+let level = 4;
 let levelLanguage;
+let spell, modal;
 let gameBackground,
   offices = ['reception', 'office-1', 'office-2', 'office-3', 'office-4', "office-5"],
   fullGameBody = `<div class="game-background">
@@ -75,7 +76,7 @@ class Player { // класс игрока
   constructor(name, character) {
     this.name = name;
     this.health = 100;
-    this.incantations = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
+    this.spells = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
     this.character = character; // ссылка на выбранного персонажа;
   }
 }
@@ -102,7 +103,6 @@ class Office {
   }
 }
 
-
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
   greeting() {
@@ -123,7 +123,6 @@ class createPage { // класс для создания страниц (ско�
     const startButton = document.getElementById('startGame');
     startButton.addEventListener('click', new createPage().reception);
   }
-  // это же ресепшн, а не уровень, почему goToLevel?
   reception() { // страница ресепшена 
     new Helpers().createPlayer();
     new Office(offices[0], 1).createOffice();
@@ -138,17 +137,73 @@ class createPage { // класс для создания страниц (ско�
     setTimeout(function () {
       let dialogText = new Dialogs().instructions();
       new dialogActions().showDialog(dialogText);
-    }, 2000);
+    }, 200); 
   }
   level() { // страница уровня
-    console.log(languages);
+    level++;
     levelLanguage = new Helpers().chooseLanguage(languages);
-    main.innerHTML = `<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1> 
-                      <div class='dialog' id = dialog></div>`; //нарисовать страницу
 
-    // monster = new Monster(level);
-    new Office(new Helpers().randomArrayElem(offices), 2).createOffice();
-    $(".hero-container").addClass(player.character);
+   /* ЧАСТЬ твоего последнего коммита
+   new Office(new Helpers().randomArrayElem(offices), 2).createOffice();
+    $(".hero-container").addClass(player.character);*/
+
+    main.innerHTML = `<div class="game-background">
+                        <h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>
+                        <div class='magic'>
+                          <div class='magic__spell attack'>Attack</div>
+                          <div class='magic__spell shield'>Shield</div>
+                          <div class='magic__spell heal'>Heal</div>
+                          <div class='magic__spell multi-attack'>Multi-attack</div>
+                          <div class='magic__spell helper'>Helper</div>
+                          <div class='magic__spell super'>Super</div>
+                        </div>
+                        <div class="door door-left"></div>
+                        <div class="door door-right"></div>
+                        <div class='hero-container'>
+                          <div class="hero-health__wrapper">
+                            <div class='hero-health-scale'>
+                              <span class='hero-health-scale__number'></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="monster-container">
+                          <div class="monster-health__wrapper">
+                            <div class='monster-health-scale'>
+                              <span class='monster-health-scale__number'></span>
+                            </div>
+                          </div>
+                          <div class="monster-head-container"></div>
+                          <div class="monster-body-container"></div>
+                          <div class="monster-legs-container"></div>
+                        </div>
+                        <div id="taskModal" class="modal">
+                          <div class="task-modal-content">
+                            <h1 class='task-caption'>TASK NAME</h1>
+                            <div class='task-task-content'>
+                              <p class='task-task-description' id='taskDesc'></p>
+                              <p class='task-task-text' id='taskText'></p>
+                            </div>
+                            <div class='task-field' id='taskField'>
+                              <div class='task-field-answer-container' id="taskFieldAnswer"> </div>
+                              <div class='task-field-answer-btn-container' id="taskFieldBtn">
+                                <input type="button" class='btn task-field-btn' value="Answer">
+                              </div>
+                            </div>
+                          </div>
+                        </div>                      
+                        <div class='dialog' id = dialog>
+                          <p class='dialog__message' id='message'></p>
+                          <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
+                        </div>
+                      </div> `; //нарисовать страницу
+    monster = new Monster(level);
+    gameBackground = $('.game-background');
+    taskField = document.getElementById('taskFieldAnswer');
+    document.querySelector('.monster-health__wrapper').style.width = `${200 + 20*level}px`;
+    document.querySelector('.hero-health-scale__number').innerHTML = player.health;
+    document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
+    gameBackground.addClass(new Helpers().randomArrayElem(offices));    
+
     new MonsterGenerator(monsterHeadContainer, monsterBodyContainer, monsterLegsContainer).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
 
     // new NameGenerator(roleArray, nameArray, secondNameArray).generateRandomName();
@@ -159,6 +214,18 @@ class createPage { // класс для создания страниц (ско�
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
       new dialogActions().showDialog(Array.from(dialogText));
     }, 2000);
+
+    let magic = document.querySelector('.magic');
+    Array.from(magic.children).forEach(div => {
+      div.addEventListener('click', e => {
+        document.querySelector('.magic').classList.toggle('showSpells');
+        spell = e.target.classList[1];
+        modal = document.getElementById('taskModal');
+        modal.style.display = 'block';
+        new Spells()[spell]();
+        //console.log(e.target.classList[1]);
+      });
+    });
   }
 }
 
@@ -168,7 +235,7 @@ class Helpers {
     return Math.floor(Math.random() * max);
   }
   randomArrayElem(arr) { // взять из массива случайный элемент и удалить его из массива
-    let index = new Helpers().randomNumber(arr.length); // слуйный индекс
+    let index = new Helpers().randomNumber(arr.length-1); // слуйный индекс
     return arr.splice(index, 1)[0]; // удаляем этот элемент из массива и возвращаем его 
   }
   chooseLanguage(languages) { // выбор языка для уровня
@@ -210,6 +277,9 @@ class dialogActions { // методы окна диалога
   closeDialog() { // закрыть окно
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
+    if (level) {
+      document.querySelector('.magic').classList.toggle('showSpells');
+    }
   }
 }
 
@@ -241,12 +311,15 @@ class Tasks { // дополнитльные (рандомные) задания
   }
 }
 
-class Incantations { // заклинания
+class Spells { // заклинания
   constructor() { } //в консоли пока отображаются ответы для задач
   attack() {
+    console.log('HERE');
+    console.log("LANGUAGE: ",levelLanguage);
+    console.log('ARR: ', attackQuestions);
     if (!attackQuestions) {
       attackQuestions = new AttackQuestions()[levelLanguage](); // получаем массив в вопросами для данного уровня
-    }
+    };
     let question = new Helpers().randomArrayElem(attackQuestions);
     console.log('Answer ', question[1]);
     let rules = new AttackQuestions().rules; // правила для этого вида заклинаний
@@ -275,9 +348,8 @@ class Incantations { // заклинания
 class giveTask { // вывод вопросов на экран
   constructor() { }
   showTaskSimple(rules, task, answer) { // вопросы по схеме правило -> текст 
-    taskField.innerHTML = `<input type="text" class='task__form_answer'>
-                      <input type="button" class='task__form_button' value="Answer">`;
-    answerButtom = document.querySelector('.task__form_button');
+    taskField.innerHTML = `<input type="text" class='task__form_answer'>`;
+    answerButtom = document.querySelector('.btn');
     let description = document.getElementById('taskDesc');
     let text = document.getElementById('taskText');
     description.innerHTML = rules;
@@ -287,11 +359,10 @@ class giveTask { // вывод вопросов на экран
   }
   showTaskWithOptions(rules, task, options, answer) { //вопросы по схеме правило -> варианты ответов 
     taskField.innerHTML = `<label><input type='radio' class='task__form_options' name='answer' value='${options[0]}'>${options[0]}</label>
-                      <label><input type='radio' class='task__form_options' name='answer' value='${options[1]}'>${options[1]}</label>
-                      <label><input type='radio' class='task__form_options' name='answer' value='${options[2]}'>${options[2]}</label>
-                      <label><input type='radio' class='task__form_options' name='answer' value='${options[3]}'>${options[3]}</label>
-                      <input type="button" class='task__form_button' value="Answer">`;
-    answerButtom = document.querySelector('.task__form_button');
+                           <label><input type='radio' class='task__form_options' name='answer' value='${options[1]}'>${options[1]}</label>
+                           <label><input type='radio' class='task__form_options' name='answer' value='${options[2]}'>${options[2]}</label>
+                           <label><input type='radio' class='task__form_options' name='answer' value='${options[3]}'>${options[3]}</label>`;
+    answerButtom = document.querySelector('.btn');
     let description = document.getElementById('taskDesc');
     let text = document.getElementById('taskText');
     description.innerHTML = rules;
@@ -331,7 +402,7 @@ class checkAnswer { // класс проверки ответов
     let answer = document.querySelector('.task__form_answer').value.replace(/(^\s*)|(\s*)$/g, '').toLowerCase();
     if (answer === result.result) {
       console.log(true);
-      // correct, do action
+      new doSpell()[spell]();
     } else {
       console.log(false);
       //wrong, just close the frame 
@@ -342,10 +413,12 @@ class checkAnswer { // класс проверки ответов
     let answer = taskField.querySelector(':checked').value;
     if (answer === result.result) {
       console.log(true);
-      // correct, do action
+      new doSpell()[spell]();
+
     } else {
       console.log(false);
       //wrong, just close the frame 
+      // передать ход монстру
     }
   }
   checkDroppedAnswer() {
@@ -365,6 +438,56 @@ class checkAnswer { // класс проверки ответов
   }
 }
 
+
+class doSpell{
+  constructor(){}
+  attack(){
+    modal.style.display = 'none';
+    let monsterHealth = monster.health;
+    if (monster.shield) {
+      monster.health += monster.shield;
+    }
+    console.log('HEALTH ',monster.health);
+    monster.health -= 40;
+    console.log('HEALTH 2',monster.health);
+    if (monster.health > (100 + 20 * level)) {
+      monster.shield = monster.health - 100 + 20 * level;
+      monster.health = 100 + 20 * level;
+    }
+    if(monster.health <= 0) {
+      monster.health = 0;
+      console.log('win');
+      document.querySelector('.monster-health-scale').style.width = `${monster.health}%`;
+      document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
+      // написать ф-ю победы на уровне и перейти в нее
+    }
+      document.querySelector('.monster-health-scale').style.width = `${monster.health*100/(100 + 20 * level)}%`;
+      document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health*100/(100 + 20 * level)}%`;
+      document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
+      // передать ход монстру 
+  }
+  shield(){
+    console.log(player.shield);
+    if (!player.shield){
+      player.shield = 50;
+      // придумать внешнее отображение щита
+    }
+  }
+  heal(){
+    console.log('DO SPELL');
+    modal.style.display = 'none';
+    if (player.health < 100) {
+      player.health += 30;
+      if (player.health > 100) {
+        player.health = 100;
+      }
+    }
+    document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
+    document.querySelector('.hero-health-scale__number').innerHTML = player.health;
+    // передать ход монстру 
+  }
+}
+
 class Dialogs {
   constructor() { }
   instructions() {
@@ -378,7 +501,7 @@ class Dialogs {
       `Heard you are a big fan of ${levelLanguage}. Will see!`,
       `Glad to see you, ${player.name}! Let's do ${levelLanguage}.`,
       `You think my level is easy? ${levelLanguage} is not a language, it's a life style!`,
-      `Let's see what you got, ${player.name}!.`,
+      `Let's see what you got, ${player.name}!`,
       `Let's see how you cope with ${levelLanguage} level, ${player.name}!`,
       `I can't wait to start, ${player.name}!`,
       `Don't be afraid, ${player.name}, ${levelLanguage} - it's easy. Let's start!`,
@@ -402,11 +525,7 @@ class Door {
     this.door = door;
   }
   openDoor() {
-    this.door.click(
-      function openDoor() {
-        $(this).addClass("doorOpened");
-      }
-    );
+    this.door.classList.add("doorOpened");
   }
 }
 class MonsterGenerator {
@@ -439,7 +558,7 @@ class Monster { // класс монстра
   constructor(level) {
     this.name = generateRandomName(roleArray, nameArray, secondNameArray);
     this.health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
-    this.incantations = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
+    this.spells = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
   }
 }
 new createPage().greeting();
@@ -447,9 +566,9 @@ new createPage().greeting();
 // leftDoor.addEventListener('click', new createPage().level);
 //тест разных способностей
 
-//new Incantations().heal();
-//new Incantations().attack();
-//new Incantations().shield();
+//new Spells().heal();
+//new Spells().attack();
+//new Spells().shield();
 //new Tasks().calculator();
 
 // $("#myBtn").click(new Tasks().putInRightOrder());
