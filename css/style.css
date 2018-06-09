@@ -13,12 +13,14 @@
 body{
 	font-family: "Gwent";
 	overflow: hidden;
+	font-size: 100%;
 }
 
 .wrapper{
 	padding: 15px 50px;
 	background: linear-gradient(133deg, #F2C14E, #F78154);
-	width: calc(100% - 100px);
+	/*width: calc(100% - 100px);*/
+	width: 100%;
 	height: 100vh;
 }
 
@@ -27,7 +29,8 @@ body{
 	width: 100%;
 }
 
-.greeting__caption{
+.greeting__caption,
+.level__caption{
 	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -130,9 +133,9 @@ body{
 
 .dialog{
 	border: 5px double #9e12d8;
-	width: calc(100% - 50px);
-	height: 100px;
-	max-height: 150px;
+	/*width: calc(100% - 50px);*/
+	width: 100%;
+	max-height: 27%;
 	position: absolute;
 	right: -100%;
 	bottom: 0px;
@@ -143,7 +146,7 @@ body{
 }
 
 .dialog__message{
-	font-size: 25px;
+	font-size: 150%;
 	color: #9e12d8;
 }
 
@@ -163,9 +166,7 @@ body{
 	outline: none;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 	background: linear-gradient(180deg, #520971 33%, #9c5cb7 66%, #cc98e2);
-	position: absolute;
-	right: 15px;
-	bottom: 15px;
+	float: right;
 }
 
 .dialog__button:hover{
