@@ -82,9 +82,12 @@ class Player { // класс игрока
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*new Door(leftDoor).openDoor();
 new Door(rightDoor).openDoor();*/
 =======
+=======
+>>>>>>> 39e81f86a5d40729d0e1664f068bed219eadc73a
 class Office {
   constructor(background, doorsAmount) {
     this.background = background;
@@ -107,8 +110,11 @@ class Office {
   }
 }
 
+<<<<<<< HEAD
 >>>>>>> ce3d1a1d94d61905c615db6b683e9ca74bb0f630
 
+=======
+>>>>>>> 39e81f86a5d40729d0e1664f068bed219eadc73a
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
   greeting() {
@@ -149,6 +155,14 @@ class createPage { // класс для создания страниц (ско�
     level++;
     levelLanguage = new Helpers().chooseLanguage(languages);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+   /* ЧАСТЬ твоего последнего коммита
+   new Office(new Helpers().randomArrayElem(offices), 2).createOffice();
+    $(".hero-container").addClass(player.character);*/
+
+>>>>>>> 39e81f86a5d40729d0e1664f068bed219eadc73a
     main.innerHTML = `<div class="game-background">
                         <h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>
                         <div class='magic'>
@@ -205,6 +219,7 @@ class createPage { // класс для создания страниц (ско�
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
     document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
     gameBackground.addClass(new Helpers().randomArrayElem(offices));    
+<<<<<<< HEAD
 =======
     main.innerHTML = `<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1> 
                       <div class='dialog' id = dialog></div>`; //нарисовать страницу
@@ -213,6 +228,9 @@ class createPage { // класс для создания страниц (ско�
     new Office(new Helpers().randomArrayElem(offices), 2).createOffice();
     $(".hero-container").addClass(player.character);
 >>>>>>> ce3d1a1d94d61905c615db6b683e9ca74bb0f630
+=======
+
+>>>>>>> 39e81f86a5d40729d0e1664f068bed219eadc73a
     new MonsterGenerator(monsterHeadContainer, monsterBodyContainer, monsterLegsContainer).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
 
     // new NameGenerator(roleArray, nameArray, secondNameArray).generateRandomName();
@@ -534,15 +552,7 @@ class Door {
     this.door = door;
   }
   openDoor() {
-<<<<<<< HEAD
     this.door.classList.add("doorOpened");
-=======
-    this.door.click(
-      function openDoor() {
-        $(this).addClass("doorOpened");
-      }
-    );
->>>>>>> ce3d1a1d94d61905c615db6b683e9ca74bb0f630
   }
 }
 class MonsterGenerator {
