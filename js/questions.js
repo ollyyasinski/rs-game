@@ -128,7 +128,7 @@ class ShieldQuestions{
 	constructor(){
 		this.rules = `Write the name of the function/keyword/other.\nDon't use () for functions!\nUse the following characters:\n  1. <>\n  2. :\n  3. -`;
 	}
-	js(){
+	javaScript(){
 		let arr = [
 			[`The method used to remove the last element from an array and return that element.`, 'pop'],
 			[`The static method used to define a new property directly on an object, or modifie an existing property on an object, and return the object.`, 'defineproperty'],
@@ -254,7 +254,7 @@ class HealQuestions{
 	constructor(){
 		this.rules = `Choose one of the options.`;
 	}
-	js(){
+	javaScript(){
 		let arr = [
 			[`Which event allows you to execute the code after clicking the mouse?`, ['mouseout', 'mouseclick', 'onmouseclick', 'onclick'], 'onclick'],
 			[`Which constructions for cycles existe javascript?`, ['for, while', 'if, while, loop', 'for, while, do...while', 'do...while, for, while, if'], 'for, while, do...while'],

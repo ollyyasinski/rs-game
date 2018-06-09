@@ -85,13 +85,14 @@ let modal = document.getElementById('taskModal'),
     btn = document.getElementById("myBtn"),
     span = document.getElementsByClassName("close")[0];
 
-// btn.onclick = function () {
-//     modal.style.display = "block";
-// }
-
-/* перебивает событие кнопки  
+btn.onclick = function () {
+    modal.style.display = "block";
+ }
 window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
+}
+/* перебивает событие кнопки  
+
 }*/
