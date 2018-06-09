@@ -1,3 +1,9 @@
+@import "../css/reset.css";
+@import "../css/monsters/monsters-main.css";
+@import "../css/heroes.css";
+@import "../css/task-modal.css";
+@import "../css/office-backgrounds.css";
+
 * 
 {
 	margin: 0;
@@ -17,8 +23,8 @@ body{
 }
 
 .wrapper__reception{
-	background: url(../assets/img/office-background/reception.png) no-repeat center;
-	background-size: cover; 
+	padding: 0;
+	width: 100%;
 }
 
 .greeting__caption{
@@ -164,6 +170,51 @@ body{
 
 .dialog__button:hover{
 	background: linear-gradient(180deg, #3b164a 33%, #602479 66%, #9e4bc0);
+}
+
+.game-background {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% auto;
+    height: 100%;
+    background-color: #030000;
+    position: relative;
+    display: grid;
+    grid-template: ". . . . . ." ". hero . . monster ." ". . . . . .";
+    align-items: end;
+}
+
+.game-background-mirror{
+    grid-template: ". . . . . ." ". . . . hero-mirror ." ". . . . . .";
+}
+.door {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% auto;
+    position: absolute;
+    height: 100%;
+    top: 2.6%;
+    transition: 1s transform linear;
+    cursor: pointer;
+}
+
+.door-left {
+    background-image: url("../assets/img/office-background/door-left.png");
+    transform-origin: left;
+    left: 4%;
+    width: 6.35%;
+}
+
+.door-right {
+    background-image: url("../assets/img/office-background/door-right.png");
+    transform-origin: right;
+    right: 3.8%;
+    width: 6.59%;
+}
+
+.doorOpened {
+    transform: rotateY(90deg);
+    transition: .5s linear;
 }
 
 @font-face {
