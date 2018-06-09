@@ -21,7 +21,7 @@ let player, monster; // объекты игрока и монстра
 let level = 1;
 let levelLanguage;
 let gameBackground,
-  offices = ['reception', 'office-1', 'office-2', 'office-3', 'office-4'],
+  offices = ['office-1', 'office-2', 'office-3', 'office-4'],
   fullGameBody = `<div class="game-background">
   <div class="door door-left"></div>
   <div class="door door-right"></div>
@@ -71,29 +71,12 @@ class Player { // класс игрока
   }
 }
 
-class Monster { // класс монстра
-  constructor(level) {
-    this.name = generateRandomName(roleArray, nameArray, secondNameArray);
-    this.health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
-    this.incantations = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
-  }
-}
 
-class Door {
-  constructor(door) {
-    this.door = door;
-  }
-  openDoor() {
-    this.door.click(
-      function openDoor() {
-        $(this).addClass("doorOpened");
-      }
-    );
-  }
-}
 
-new Door(leftDoor).openDoor();
-new Door(rightDoor).openDoor();
+
+
+/*new Door(leftDoor).openDoor();
+new Door(rightDoor).openDoor();*/
 
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
@@ -121,23 +104,42 @@ class createPage { // класс для создания страниц (ско�
     main.classList.add('wrapper__reception');
     main.innerHTML = receptionHTML;
     gameBackground = $('.game-background');
-    gameBackground.addClass(offices[0]);
+    gameBackground.addClass('reception');
 
-    new Door(rightDoor).openDoor();
     let rDoor = document.querySelector('.door-right');
-    rDoor.addEventListener('click', new createPage().level);
+    rDoor.addEventListener('click', function() {
+      new Door(rDoor).openDoor();
+      setTimeout(new createPage().level, 1500);
+    });
+
     setTimeout(function () {
       let dialogText = new Dialogs().instructions();
       new dialogActions().showDialog(dialogText);
     }, 2000);
   }
   level() { // страница уровня
+    console.log(languages);
     levelLanguage = new Helpers().chooseLanguage(languages);
-    main.innerHTML = `<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1> 
-                      <div class='dialog' id = dialog></div>`; //нарисовать страницу
+    console.log(languages);
+    main.innerHTML = `<div class="game-background">
+                        <h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>
+                        <div class="door door-left"></div>
+                        <div class="door door-right"></div>
+                        <div class="hero-container"></div>
+                        <div class="monster-container">
+                            <div class="monster-head-container"></div>
+                            <div class="monster-body-container"></div>
+                            <div class="monster-legs-container"></div>
+                        </div>                      
+                        <div class='dialog' id = dialog>
+                          <p class='dialog__message' id='message'></p>
+                          <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
+                        </div>
+                      </div> `; //нарисовать страницу
+    gameBackground = $('.game-background');
+    gameBackground.addClass(`${new Helpers().randomArrayElem(offices)}`);
     monster = new Monster(level);
     new MonsterGenerator(monsterHeadContainer, monsterBodyContainer, monsterLegsContainer).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
-    new NameGenerator(roleArray, nameArray, secondNameArray).generateRandomName();
     if (!monstersPhrases) {
       monstersPhrases = new Dialogs().monstersPhrases();
     }
@@ -163,7 +165,7 @@ class Helpers {
     return language;
   }
   addRandomClass(target, sourceArray) {
-    return target.addClass(sourceArray[this.generateRandomArrayIndex(sourceArray)]);
+    return target.addClass(sourceArray[this.randomNumber(sourceArray.length)]);
   }
   createPlayer() { // создание объекта игрока
     let character = document.querySelector('.selected') ? Array.from(document.querySelector('.selected').children)[0].src :
@@ -362,7 +364,7 @@ class Dialogs {
     let arr = [
       `Well ${player.name}, let's check your ${levelLanguage} skills.`,
       `Heard you are a big fan of ${levelLanguage}. Will see!`,
-      `Glad to see you, ${player.name}! Let's do ${levelLanguage}`,
+      `Glad to see you, ${player.name}! Let's do ${levelLanguage}.`,
       `You think my level is easy? ${levelLanguage} is not a language, it's a life style!`,
       `Let's see what you got, ${player.name}!.`,
       `Let's see how you cope with ${levelLanguage} level, ${player.name}!`,
@@ -383,6 +385,15 @@ class Dialogs {
   }
 }
 
+class Door {
+  constructor(door) {
+    this.door = door;
+  }
+  openDoor() {
+        this.door.classList.add("doorOpened");
+  }
+}
+
 class MonsterGenerator {
   constructor(head, body, legs) {
     this.head = head;
@@ -398,14 +409,22 @@ class MonsterGenerator {
 
 class NameGenerator {
   constructor(nameOptionsArray1, nameOptionsArray2, nameOptionsArray3) {
-    this.nameOptionsArray1 = nameOptionsArray1;
-    this.nameOptionsArray2 = nameOptionsArray2;
-    this.nameOptionsArray3 = nameOptionsArray3;
+    this.position = nameOptionsArray1;
+    this.name = nameOptionsArray2;
+    this.surname = nameOptionsArray3;
   };
   generateRandomName() {
-    return console.log(this.nameOptionsArray1[new Helpers().randomNumber(this.nameOptionsArray1.length)] + ' ' +
-                       this.nameOptionsArray2[new Helpers().randomNumber(this.nameOptionsArray2.length)] + ' ' +
-                       this.nameOptionsArray3[new Helpers().randomNumber(this.nameOptionsArray3.length)]);
+    return console.log(this.position[new Helpers().randomNumber(this.position.length)] + ' ' +
+                       this.name[new Helpers().randomNumber(this.name.length)] + ' ' +
+                       this.surname[new Helpers().randomNumber(this.surname.length)]);
+  }
+}
+
+class Monster { // класс монстра
+  constructor(level) {
+    this.name = new NameGenerator(roleArray, nameArray, secondNameArray).generateRandomName();
+    this.health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
+    this.incantations = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
   }
 }
 
