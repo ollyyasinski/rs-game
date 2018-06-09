@@ -37,21 +37,30 @@ let gameBackground,
 <div class="hero-container"></div>
 </div>`;
 
-// выбор аватарки игрока (потом закинум в какой-нибудь класс. или нет)
-// const characters = document.getElementById('characters'); 
-// Array.from(characters.children).forEach(div => {
-//   div.addEventListener('click', e => {
-//     let current = document.querySelector('.selected');
-//     let elem = e.target;
-//     if(current){
-//       current.classList.remove('selected');
-//     }
-//     if(elem.tagName === 'IMG'){
-//       elem = e.target.parentElement;
-//     };
-//     elem.classList.add('selected');
-//   });
-// });
+let rightDoor = $(".door-right"),
+    leftDoor = $(".door-left");
+
+const monsterHeadContainer = $(".monster-head-container"),
+      monsterBodyContainer = $(".monster-body-container"),
+      monsterLegsContainer = $(".monster-legs-container"),
+      monsterHeadArray = ["monster-head-1", "monster-head-2", "monster-head-3", "monster-head-4"],
+      monsterBodyArray = ["monster-body-1", "monster-body-2", "monster-body-3", "monster-body-4", "monster-body-5"],
+      monsterLegsArray = ["monster-legs-1", "monster-legs-2", "monster-legs-3"];
+
+const roleArray = ["Project Manager", "Product Owner", "Scrum Master", "Team Lead", "Key Developer"],
+      nameArray = ["Jack", "Tom", "Dzmitry", "Abishek", "Alyaxey", "Richard", "John", "Kiran", "Yauheniy"],
+      secondNameArray = ["Jones", "Abhishek", "Smith", "Brown", "Ivanou", "Hill", "Omar", "Clark"];
+
+
+let receptionHTML = `<div class="game-background game-background-mirror">
+                       <div class="door door-right"></div>
+                       <div class="hero-container"></div>
+                     </div>
+                     <div class='dialog' id='dialog'>
+                       <p class='dialog__message' id='message'></p>
+                       <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
+                     </div>`
+
 
 class Player { // класс игрока
   constructor(name, character) {
@@ -70,18 +79,53 @@ class Monster { // класс монстра
   }
 }
 
+class Door {
+  constructor(door) {
+    this.door = door;
+  }
+  openDoor() {
+    this.door.click(
+      function openDoor() {
+        $(this).addClass("doorOpened");
+      }
+    );
+  }
+}
+
+new Door(leftDoor).openDoor();
+new Door(rightDoor).openDoor();
 
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
-  goToLevel() { // страница ресепшена
+  greeting() {
+    const characters = document.getElementById('characters'); 
+    Array.from(characters.children).forEach(div => {
+      div.addEventListener('click', e => {
+        let current = document.querySelector('.selected');
+        let elem = e.target;
+        if(current){
+          current.classList.remove('selected');
+        }
+        if(elem.tagName === 'IMG'){
+          elem = e.target.parentElement;
+        };
+        elem.classList.add('selected');
+      });
+    });
+    const startButton = document.getElementById('startGame');
+    startButton.addEventListener('click', new createPage().reception);
+  }
+  // это же ресепшн, а не уровень, почему goToLevel?
+  reception() { // страница ресепшена 
     new Helpers().createPlayer();
-
-    main.innerHTML = oneDoorGameBody;
+    main.classList.add('wrapper__reception');
+    main.innerHTML = receptionHTML;
     gameBackground = $('.game-background');
     gameBackground.addClass(offices[0]);
 
     new Door(rightDoor).openDoor();
-
+    let rDoor = document.querySelector('.door-right');
+    rDoor.addEventListener('click', new createPage().level);
     setTimeout(function () {
       let dialogText = new Dialogs().instructions();
       new dialogActions().showDialog(dialogText);
@@ -92,6 +136,8 @@ class createPage { // класс для создания страниц (ско�
     main.innerHTML = `<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1> 
                       <div class='dialog' id = dialog></div>`; //нарисовать страницу
     monster = new Monster(level);
+    new MonsterGenerator(monsterHeadContainer, monsterBodyContainer, monsterLegsContainer).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
+    new NameGenerator(roleArray, nameArray, secondNameArray).generateRandomName();
     if (!monstersPhrases) {
       monstersPhrases = new Dialogs().monstersPhrases();
     }
@@ -115,6 +161,9 @@ class Helpers {
     let index = new Helpers().randomNumber(languages.length);
     let language = languages.splice(index, 1).toString();
     return language;
+  }
+  addRandomClass(target, sourceArray) {
+    return target.addClass(sourceArray[this.generateRandomArrayIndex(sourceArray)]);
   }
   createPlayer() { // создание объекта игрока
     let character = document.querySelector('.selected') ? Array.from(document.querySelector('.selected').children)[0].src :
@@ -334,8 +383,33 @@ class Dialogs {
   }
 }
 
-const startButton = document.getElementById('startGame');
-startButton.addEventListener('click', new createPage().goToLevel);
+class MonsterGenerator {
+  constructor(head, body, legs) {
+    this.head = head;
+    this.body = body;
+    this.legs = legs;
+  }
+  generateMonster(headArray, bodyArray, legsArray) {
+    new Helpers().addRandomClass(this.head, headArray);
+    new Helpers().addRandomClass(this.body, bodyArray);
+    new Helpers().addRandomClass(this.legs, legsArray);
+  }
+}
+
+class NameGenerator {
+  constructor(nameOptionsArray1, nameOptionsArray2, nameOptionsArray3) {
+    this.nameOptionsArray1 = nameOptionsArray1;
+    this.nameOptionsArray2 = nameOptionsArray2;
+    this.nameOptionsArray3 = nameOptionsArray3;
+  };
+  generateRandomName() {
+    return console.log(this.nameOptionsArray1[new Helpers().randomNumber(this.nameOptionsArray1.length)] + ' ' +
+                       this.nameOptionsArray2[new Helpers().randomNumber(this.nameOptionsArray2.length)] + ' ' +
+                       this.nameOptionsArray3[new Helpers().randomNumber(this.nameOptionsArray3.length)]);
+  }
+}
+
+new createPage().greeting();
 // rightDoor.addEventListener('click', new createPage().level);
 // leftDoor.addEventListener('click', new createPage().level);
 //тест разных способностей
