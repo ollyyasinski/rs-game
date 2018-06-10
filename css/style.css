@@ -3,40 +3,43 @@
 @import "../css/heroes.css";
 @import "../css/task-modal.css";
 @import "../css/office-backgrounds.css";
-* {
+
+* 
+{
 	margin: 0;
 	padding: 0;
 }
 
-body {
+body{
 	font-family: "Gwent";
 	overflow: hidden;
 	font-size: 100%;
 }
 
-.wrapper {
+.wrapper{
 	padding: 15px 50px;
 	background: linear-gradient(133deg, #F2C14E, #F78154);
-	/* width: calc(100% - 100px); */
+	/*width: calc(100% - 100px);*/
 	width: 100%;
 	height: 100vh;
 }
 
-.wrapper__reception {
+.wrapper__reception{
 	padding: 0;
 	width: 100%;
 }
 
-.greeting__caption, .level__caption {
+.greeting__caption,
+.level__caption{
 	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	font-size: 48px;
 	width: 100%;
-	text-align: center;
+	text-align: center; 
 }
 
-.greeting__text {
+.greeting__text{
 	font-size: 30px;
 	width: 100%;
 	text-align: center;
@@ -44,17 +47,18 @@ body {
 	color: white;
 }
 
-.greeting__profile_caption, .greeting__profile_character-caption {
+.greeting__profile_caption,
+.greeting__profile_character-caption{
 	font-size: 25px;
 	width: 100%;
 	text-align: center;
 	margin: 15px 0;
 	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
 	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
+	-webkit-text-fill-color: transparent;  
 }
 
-.greeting__profile_name {
+.greeting__profile_name{
 	font-family: "Gwent";
 	font-size: 25px;
 	vertical-align: middle;
@@ -69,11 +73,11 @@ body {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 }
 
-.greeting__profile_name:focus {
+.greeting__profile_name:focus{
 	border: 2px solid #76fbed;
 }
 
-.greeting__profile_character-items {
+.greeting__profile_character-items{
 	display: grid;
 	max-width: 1000px;
 	grid-template-columns: repeat(4, 1fr);
@@ -84,7 +88,7 @@ body {
 	margin: 20px auto;
 }
 
-.greeting__profile_character-item-wrapper {
+.greeting__profile_character-item-wrapper{
 	border: 2px solid #0B2349;
 	height: inherit;
 	border-radius: 10px;
@@ -92,17 +96,17 @@ body {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 }
 
-.greeting__profile_character-item-wrapper:hover {
+.greeting__profile_character-item-wrapper:hover{
 	box-shadow: 0 0 15px rgba(118, 251, 237, 1);
 }
 
-.greeting__profile_character-item {
+.greeting__profile_character-item{
 	display: block;
 	height: 100%;
 	margin: 0 auto;
 }
 
-.greeting__profile_button {
+.greeting__profile_button{
 	display: block;
 	padding: 10px 0;
 	width: 220px;
@@ -118,22 +122,20 @@ body {
 	background: linear-gradient(180deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
 }
 
-.greeting__profile_button:hover {
+.greeting__profile_button:hover{
 	background: linear-gradient(180deg, #091b37 33%, #0B2349 66%, #0D61BC);
 }
 
-.selected {
+.selected{
 	border: 2px solid #76fbed;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 }
 
-.dialog {
+.dialog{
 	border: 5px double #9e12d8;
-	/* width: calc(100% - 50px); */
+	/*width: calc(100% - 50px);*/
 	width: 100%;
 	max-height: 27%;
-	height: 100px;
-	max-height: 150px;
 	position: absolute;
 	right: -100%;
 	bottom: 0px;
@@ -143,16 +145,16 @@ body {
 	background: linear-gradient(180deg, #86fdf3 33%, #bdfffa 66%, #f2d2ff);
 }
 
-.dialog__message {
+.dialog__message{
 	font-size: 150%;
 	color: #9e12d8;
 }
 
-.dialog-active {
+.dialog-active{
 	right: 0px;
 }
 
-.dialog__button {
+.dialog__button{
 	display: block;
 	padding: 5px 0;
 	width: 150px;
@@ -167,54 +169,53 @@ body {
 	float: right;
 }
 
-.dialog__button:hover {
+.dialog__button:hover{
 	background: linear-gradient(180deg, #3b164a 33%, #602479 66%, #9e4bc0);
 }
 
 .game-background {
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: 100% auto;
-	height: 100%;
-	background-color: #030000;
-	position: relative;
-	display: grid;
-	grid-template: ". . . . . ." ". hero . . monster ." ". . . . . .";
-	align-items: end;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% auto;
+    height: 100%;
+    background-color: #030000;
+    position: relative;
+    display: grid;
+    grid-template: ". . . . . ." ". hero . . monster ." ". . . . . .";
+    align-items: end;
 }
 
-.game-background-mirror {
-	grid-template: ". . . . . ." ". . . . hero-mirror ." ". . . . . .";
+.game-background-mirror{
+    grid-template: ". . . . . ." ". . . . hero-mirror ." ". . . . . .";
 }
-
 .door {
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: 100% auto;
-	position: absolute;
-	height: 100%;
-	top: 2.6%;
-	transition: 1s transform linear;
-	cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% auto;
+    position: absolute;
+    height: 100%;
+    top: 2.6%;
+    transition: 1s transform linear;
+    cursor: pointer;
 }
 
 .door-left {
-	background-image: url("../assets/img/office-background/door-left.png");
-	transform-origin: left;
-	left: 4%;
-	width: 6.35%;
+    background-image: url("../assets/img/office-background/door-left.png");
+    transform-origin: left;
+    left: 4%;
+    width: 6.35%;
 }
 
 .door-right {
-	background-image: url("../assets/img/office-background/door-right.png");
-	transform-origin: right;
-	right: 3.8%;
-	width: 6.59%;
+    background-image: url("../assets/img/office-background/door-right.png");
+    transform-origin: right;
+    right: 3.8%;
+    width: 6.59%;
 }
 
 .doorOpened {
-	transform: rotateY(90deg);
-	transition: .5s linear;
+    transform: rotateY(90deg);
+    transition: .5s linear;
 }
 
 .hero-health__wrapper,
@@ -264,5 +265,5 @@ body {
 	font-weight: bold;
 	font-style: normal;
 	src: url("../fonts/gwent/GWENT-ExtraBold.eot");
-	src: url("../fonts/gwent/GWENT-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../fonts/GWENT-ExtraBold.ttf") format("truetype");
+	src: url("../fonts/gwent/GWENT-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../fonts/GWENT-ExtraBold.ttf") format("truetype"); 
 }

@@ -22,7 +22,7 @@ let level = 4;
 let levelLanguage;
 let spell, modal;
 let gameBackground,
-  offices = ['reception', 'office-1', 'office-2', 'office-3', 'office-4', "office-5"],
+  offices = ['office-1', 'office-2', 'office-3', 'office-4'],
   fullGameBody = `<div class="game-background">
   <div class="door door-left"></div>
   <div class="door door-right"></div>
@@ -32,33 +32,25 @@ let gameBackground,
       <div class="monster-body-container"></div>
       <div class="monster-legs-container"></div>
   </div>
-</div>
-<div class='dialog' id='dialog'>
-<p class='dialog__message' id='message'></p>
-<button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
 </div>`,
   oneDoorGameBody = `<div class="game-background game-background-mirror">
 <div class="door door-right"></div>
 <div class="hero-container"></div>
-</div>
-<div class='dialog' id='dialog'>
-<p class='dialog__message' id='message'></p>
-<button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
 </div>`;
 
-let rightDoor = $(".door-right"),
-  leftDoor = $(".door-left");
+/*let rightDoor = $(".door-right"),
+    leftDoor = $(".door-left");*/
 
 const monsterHeadContainer = $(".monster-head-container"),
-  monsterBodyContainer = $(".monster-body-container"),
-  monsterLegsContainer = $(".monster-legs-container"),
-  monsterHeadArray = ["monster-head-1", "monster-head-2", "monster-head-3", "monster-head-4"],
-  monsterBodyArray = ["monster-body-1", "monster-body-2", "monster-body-3", "monster-body-4", "monster-body-5"],
-  monsterLegsArray = ["monster-legs-1", "monster-legs-2", "monster-legs-3"];
+      monsterBodyContainer = $(".monster-body-container"),
+      monsterLegsContainer = $(".monster-legs-container"),
+      monsterHeadArray = ["monster-head-1", "monster-head-2", "monster-head-3", "monster-head-4"],
+      monsterBodyArray = ["monster-body-1", "monster-body-2", "monster-body-3", "monster-body-4", "monster-body-5"],
+      monsterLegsArray = ["monster-legs-1", "monster-legs-2", "monster-legs-3"];
 
 const roleArray = ["Project Manager", "Product Owner", "Scrum Master", "Team Lead", "Key Developer"],
-  nameArray = ["Jack", "Tom", "Dzmitry", "Abishek", "Alyaxey", "Richard", "John", "Kiran", "Yauheniy"],
-  secondNameArray = ["Jones", "Abhishek", "Smith", "Brown", "Ivanou", "Hill", "Omar", "Clark"];
+      nameArray = ["Jack", "Tom", "Dzmitry", "Abishek", "Alyaxey", "Richard", "John", "Kiran", "Yauheniy"],
+      secondNameArray = ["Jones", "Abhishek", "Smith", "Brown", "Ivanou", "Hill", "Omar", "Clark"];
 
 
 let receptionHTML = `<div class="game-background game-background-mirror">
@@ -70,7 +62,6 @@ let receptionHTML = `<div class="game-background game-background-mirror">
                        <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
                      </div>`
 
-const heroesArray = ["hero-1", "hero-2", "hero-3", "hero-4"];
 
 class Player { // класс игрока
   constructor(name, character) {
@@ -81,40 +72,21 @@ class Player { // класс игрока
   }
 }
 
-class Office {
-  constructor(background, doorsAmount) {
-    this.background = background;
-    this.doorsAmount = doorsAmount;
-  }
-  createOffice() {
-    main.classList.add('wrapper__reception');
-    if (this.doorsAmount === 2) {
-      new Door(rightDoor).openDoor();
-      new Door(leftDoor).openDoor();
-      main.innerHTML = fullGameBody;
-      gameBackground = $('.game-background');
-      gameBackground.addClass(this.background);
-    } else {
-      new Door(rightDoor).openDoor();
-      main.innerHTML = oneDoorGameBody;
-      gameBackground = $('.game-background');
-      gameBackground.addClass(this.background);
-    }
-  }
-}
+/*new Door(leftDoor).openDoor();
+new Door(rightDoor).openDoor();*/
 
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
   greeting() {
-    const characters = document.getElementById('characters');
+    const characters = document.getElementById('characters'); 
     Array.from(characters.children).forEach(div => {
       div.addEventListener('click', e => {
         let current = document.querySelector('.selected');
         let elem = e.target;
-        if (current) {
+        if(current){
           current.classList.remove('selected');
         }
-        if (elem.tagName === 'IMG') {
+        if(elem.tagName === 'IMG'){
           elem = e.target.parentElement;
         };
         elem.classList.add('selected');
@@ -125,15 +97,17 @@ class createPage { // класс для создания страниц (ско�
   }
   reception() { // страница ресепшена 
     new Helpers().createPlayer();
-    new Office(offices[0], 1).createOffice();
-    $(".hero-container").addClass(player.character).addClass("hero-container-mirror");
-    offices.splice(0, 1); //delete reception from office list, this array will be used for random office generation
+    main.classList.add('wrapper__reception');
+    main.innerHTML = receptionHTML;
+    gameBackground = $('.game-background');
+    gameBackground.addClass('reception');
 
     let rDoor = document.querySelector('.door-right');
-    rDoor.addEventListener('click', function () {
+    rDoor.addEventListener('click', function() {
       new Door(rDoor).openDoor();
       setTimeout(new createPage().level, 1500);
     });
+
     setTimeout(function () {
       let dialogText = new Dialogs().instructions();
       new dialogActions().showDialog(dialogText);
@@ -142,11 +116,6 @@ class createPage { // класс для создания страниц (ско�
   level() { // страница уровня
     level++;
     levelLanguage = new Helpers().chooseLanguage(languages);
-
-   /* ЧАСТЬ твоего последнего коммита
-   new Office(new Helpers().randomArrayElem(offices), 2).createOffice();
-    $(".hero-container").addClass(player.character);*/
-
     main.innerHTML = `<div class="game-background">
                         <h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>
                         <div class='magic'>
@@ -203,10 +172,7 @@ class createPage { // класс для создания страниц (ско�
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
     document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
     gameBackground.addClass(new Helpers().randomArrayElem(offices));    
-
     new MonsterGenerator(monsterHeadContainer, monsterBodyContainer, monsterLegsContainer).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
-
-    // new NameGenerator(roleArray, nameArray, secondNameArray).generateRandomName();
     if (!monstersPhrases) {
       monstersPhrases = new Dialogs().monstersPhrases();
     }
@@ -247,8 +213,8 @@ class Helpers {
     return target.addClass(sourceArray[this.randomNumber(sourceArray.length)]);
   }
   createPlayer() { // создание объекта игрока
-    let character = document.querySelector('.selected') ? document.querySelector('.selected').id :
-      document.querySelector('.greeting__profile_character-item').id; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
+    let character = document.querySelector('.selected') ? Array.from(document.querySelector('.selected').children)[0].src :
+      document.querySelector('.greeting__profile_character-item').src; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
     player = new Player(document.getElementById('name').value || 'Anonim', character);
   }
   createMonster() { } // сюда запихнем создание имени, тела, объекта 
@@ -446,42 +412,39 @@ class doSpell{
     let monsterHealth = monster.health;
     if (monster.shield) {
       monster.health += monster.shield;
-    }
-    console.log('HEALTH ',monster.health);
+    };
     monster.health -= 40;
-    console.log('HEALTH 2',monster.health);
     if (monster.health > (100 + 20 * level)) {
       monster.shield = monster.health - 100 + 20 * level;
       monster.health = 100 + 20 * level;
-    }
+    };
     if(monster.health <= 0) {
       monster.health = 0;
       console.log('win');
       document.querySelector('.monster-health-scale').style.width = `${monster.health}%`;
       document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
       // написать ф-ю победы на уровне и перейти в нее
-    }
+    };
       document.querySelector('.monster-health-scale').style.width = `${monster.health*100/(100 + 20 * level)}%`;
       document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health*100/(100 + 20 * level)}%`;
       document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
       // передать ход монстру 
   }
   shield(){
-    console.log(player.shield);
+    modal.style.display = 'none';
     if (!player.shield){
       player.shield = 50;
       // придумать внешнее отображение щита
-    }
+    };
   }
   heal(){
-    console.log('DO SPELL');
     modal.style.display = 'none';
     if (player.health < 100) {
       player.health += 30;
       if (player.health > 100) {
         player.health = 100;
-      }
-    }
+      };
+    };
     document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
     // передать ход монстру 
@@ -528,6 +491,7 @@ class Door {
     this.door.classList.add("doorOpened");
   }
 }
+
 class MonsterGenerator {
   constructor(head, body, legs) {
     this.head = head;
@@ -543,24 +507,25 @@ class MonsterGenerator {
 
 class NameGenerator {
   constructor(nameOptionsArray1, nameOptionsArray2, nameOptionsArray3) {
-    this.nameOptionsArray1 = nameOptionsArray1;
-    this.nameOptionsArray2 = nameOptionsArray2;
-    this.nameOptionsArray3 = nameOptionsArray3;
+    this.position = nameOptionsArray1;
+    this.name = nameOptionsArray2;
+    this.surname = nameOptionsArray3;
   };
   generateRandomName() {
-    return console.log(this.nameOptionsArray1[new Helpers().randomNumber(this.nameOptionsArray1.length)] + ' ' +
-      this.nameOptionsArray2[new Helpers().randomNumber(this.nameOptionsArray2.length)] + ' ' +
-      this.nameOptionsArray3[new Helpers().randomNumber(this.nameOptionsArray3.length)]);
+    return console.log(this.position[new Helpers().randomNumber(this.position.length)] + ' ' +
+                       this.name[new Helpers().randomNumber(this.name.length)] + ' ' +
+                       this.surname[new Helpers().randomNumber(this.surname.length)]);
   }
 }
 
 class Monster { // класс монстра
   constructor(level) {
-    this.name = generateRandomName(roleArray, nameArray, secondNameArray);
+    this.name = new NameGenerator(roleArray, nameArray, secondNameArray).generateRandomName();
     this.health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
     this.spells = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
   }
 }
+
 new createPage().greeting();
 // rightDoor.addEventListener('click', new createPage().level);
 // leftDoor.addEventListener('click', new createPage().level);
