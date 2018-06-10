@@ -18,7 +18,7 @@ const spellsPower = { // силы способностей (будем тест�
   multipleAttack: 20,
 };
 let player, monster; // объекты игрока и монстра
-let level = 4;
+let level = 0;
 let levelLanguage;
 let spell, modal;
 let gameBackground,
@@ -85,11 +85,12 @@ class Player { // класс игрока
     this.health = 100;
     this.spells = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
     this.character = character; // ссылка на выбранного персонажа;
+    this.helper;
+    this.shield = 0;
+    this.levelPass = 0;
   }
 }
 
-/*new Door(leftDoor).openDoor();
-new Door(rightDoor).openDoor();*/
 class Office {
   constructor(background, doorsAmount) {
     this.background = background;
@@ -100,8 +101,8 @@ class Office {
       // main.innerHTML = fullGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
-      new Door($(".door-right")).openDoor();
-      new Door($(".door-left")).openDoor();
+      //new Door($(".door-right")).openDoor(); // должны открываться только после успешного прохождения уровня
+      //new Door($(".door-left")).openDoor();  // перенесла в функцию победы на уровне
     } else {
       main.classList.add('wrapper__reception');
       main.innerHTML = oneDoorGameBody;
@@ -140,7 +141,7 @@ class createPage { // класс для создания страниц (ско�
 
     let rDoor = document.querySelector('.door-right');
     rDoor.addEventListener('click', function () {
-      new Door(rDoor).openDoor();
+      //new Door(rDoor).openDoor();
       setTimeout(new createPage().level, 1500);
     });
 
@@ -158,7 +159,7 @@ class createPage { // класс для создания страниц (ско�
                           <div class='magic__spell attack'>Attack</div>
                           <div class='magic__spell shield'>Shield</div>
                           <div class='magic__spell heal'>Heal</div>
-                          <div class='magic__spell multi-attack'>Multi-attack</div>
+                          <div class='magic__spell multiAttack'>Multi-attack</div>
                           <div class='magic__spell helper'>Helper</div>
                           <div class='magic__spell super'>Super</div>
                         </div>
@@ -166,18 +167,25 @@ class createPage { // класс для создания страниц (ско�
                         <div class="door door-right"></div>
                         <div class='hero-container'>
                           <div class="hero-health__wrapper">
+                           <div class='hero-shield'>
+                             <span>Shield: <span class='hero-shield__number'></span></span>
+                           </div>
                             <div class='hero-health-scale'>
                               <span class='hero-health-scale__number'></span>
                             </div>
                           </div>
                         </div>
                         <div class="monster-container">
-                          <div class="monster-health__wrapper">
-                            <div class='monster-health-scale'>
-                              <span class='monster-health-scale__number'></span>
+                          <div class="monster-head-container">
+                            <div class="monster-health__wrapper">
+                              <div class='monster-shield'>
+                                <span>Shield: <span class='monster-shield__number'></span></span>
+                              </div>                          
+                              <div class='monster-health-scale'>
+                                <span class='monster-health-scale__number'></span>
+                              </div>
                             </div>
                           </div>
-                          <div class="monster-head-container"></div>
                           <div class="monster-body-container"></div>
                           <div class="monster-legs-container"></div>
                         </div>
@@ -189,10 +197,8 @@ class createPage { // класс для создания страниц (ско�
                               <p class='task-task-text' id='taskText'></p>
                             </div>
                             <div class='task-field' id='taskField'>
-                              <div class='task-field-answer-container' id="taskFieldAnswer"> </div>
-                              <div class='task-field-answer-btn-container' id="taskFieldBtn">
-                                <input type="button" class='btn task-field-btn' value="Answer">
-                              </div>
+                              <div class='task-field-answer-container' id="taskFieldAnswer"></div>
+                              <div class='answer'><span id='answer__correct' class='correct'></span><span id='answer__wrong' class='wrong'></span></div>
                             </div>
                           </div>
                         </div>                      
@@ -207,17 +213,18 @@ class createPage { // класс для создания страниц (ско�
 
     monster = new Monster(level);
     taskField = document.getElementById('taskFieldAnswer');
-    document.querySelector('.monster-health__wrapper').style.width = `${200 + 20 * level}px`;
+    document.querySelector('.monster-health__wrapper').style.width = `${200 + 20*level}px`;
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
     document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
-    gameBackground.addClass(new Helpers().randomArrayElem(offices));
-    if (!monstersPhrases) {
-      monstersPhrases = new Dialogs().monstersPhrases();
-    }
+    document.querySelector('.hero-shield__number').innerHTML = player.shield;
+    document.querySelector('.monster-shield__number').innerHTML = monster.shield;
+    gameBackground.addClass(new Helpers().randomArrayElem(offices)); //
+    
+    monstersPhrases = new Dialogs().monstersPhrases();
     setTimeout(function () {
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
       new dialogActions().showDialog(Array.from(dialogText));
-    }, 2000);
+    }, 1000);
 
     let magic = document.querySelector('.magic');
     Array.from(magic.children).forEach(div => {
@@ -227,7 +234,6 @@ class createPage { // класс для создания страниц (ско�
         modal = document.getElementById('taskModal');
         modal.style.display = 'block';
         new Spells()[spell]();
-        //console.log(e.target.classList[1]);
       });
     });
   }
@@ -254,11 +260,26 @@ class Helpers {
     return target.addClass(sourceArray[this.generateRandomArrayIndex(sourceArray)]);
   }
   createPlayer() { // создание объекта игрока
-    let character = document.querySelector('.selected') ? document.querySelector('.selected').id :
-      document.querySelector('.greeting__profile_character-item').id; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
+    let character = document.querySelector('.selected') ? document.querySelector('.selected').id : 'hero-2'; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
     player = new Player(document.getElementById('name').value || 'Anonim', character);
   }
   createMonster() { } // сюда запихнем создание имени, тела, объекта 
+  showIfAnswerCorrect() { // показывает Correct, если введенные ответ правильный
+    new dialogActions().writeDialogText('answer__correct', ['Correct'], 100);
+    setTimeout ( function() {
+      modal.style.display = 'none';
+      document.getElementById('answer__correct').innerHTML = '';
+      new doSpell()[spell]();
+    }, 1500);
+  }
+  showIfAnswerWrong() { // показывает Wrong, если введенные ответ не правильный
+    new dialogActions().writeDialogText('answer__wrong', ['Wrong'], 100);
+    setTimeout (function(){
+      modal.style.display = 'none';
+      document.getElementById('answer__wrong').innerHTML = '';
+      new monsterAttack();
+    }, 1500);
+  }
 }
 
 class dialogActions { // методы окна диалога
@@ -321,9 +342,6 @@ class Tasks { // дополнитльные (рандомные) задания
 class Spells { // заклинания
   constructor() { } //в консоли пока отображаются ответы для задач
   attack() {
-    console.log('HERE');
-    console.log("LANGUAGE: ", levelLanguage);
-    console.log('ARR: ', attackQuestions);
     if (!attackQuestions) {
       attackQuestions = new AttackQuestions()[levelLanguage](); // получаем массив в вопросами для данного уровня
     };
@@ -355,7 +373,8 @@ class Spells { // заклинания
 class giveTask { // вывод вопросов на экран
   constructor() { }
   showTaskSimple(rules, task, answer) { // вопросы по схеме правило -> текст 
-    taskField.innerHTML = `<input type="text" class='task__form_answer'>`;
+    taskField.innerHTML = `<input type="text" class='task__form_answer'>
+    <input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.btn');
     let description = document.getElementById('taskDesc');
     let text = document.getElementById('taskText');
@@ -368,7 +387,8 @@ class giveTask { // вывод вопросов на экран
     taskField.innerHTML = `<label><input type='radio' class='task__form_options' name='answer' value='${options[0]}'>${options[0]}</label>
                            <label><input type='radio' class='task__form_options' name='answer' value='${options[1]}'>${options[1]}</label>
                            <label><input type='radio' class='task__form_options' name='answer' value='${options[2]}'>${options[2]}</label>
-                           <label><input type='radio' class='task__form_options' name='answer' value='${options[3]}'>${options[3]}</label>`;
+                           <label><input type='radio' class='task__form_options' name='answer' value='${options[3]}'>${options[3]}</label>
+                           <input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.btn');
     let description = document.getElementById('taskDesc');
     let text = document.getElementById('taskText');
@@ -408,24 +428,18 @@ class checkAnswer { // класс проверки ответов
   checkSimpleAnswer() { // проверка для обычного текстового ответа
     let answer = document.querySelector('.task__form_answer').value.replace(/(^\s*)|(\s*)$/g, '').toLowerCase();
     if (answer === result.result) {
-      console.log(true);
-      new doSpell()[spell]();
+      new Helpers().showIfAnswerCorrect();
     } else {
-      console.log(false);
-      //wrong, just close the frame 
+      new Helpers().showIfAnswerWrong();
     }
   }
   checkSelectedAnswer() { // проверка для вопросов с вариантами ответов
     console.log(taskField.querySelector(':checked').value);
     let answer = taskField.querySelector(':checked').value;
     if (answer === result.result) {
-      console.log(true);
-      new doSpell()[spell]();
-
+      new Helpers().showIfAnswerCorrect();
     } else {
-      console.log(false);
-      //wrong, just close the frame 
-      // передать ход монстру
+      new Helpers().showIfAnswerWrong();
     }
   }
   checkDroppedAnswer() {
@@ -434,52 +448,55 @@ class checkAnswer { // класс проверки ответов
       answerArray.push($(this).text().trim());
     });
     if (_.isEqual(answerArray, result.result)) {
-      console.log(true);
       answerArray = [];
-      // correct, do action
+      new Helpers().showIfAnswerCorrect();      
     } else {
-      console.log(false);
       answerArray = [];
-      //wrong, just close the frame 
+      new Helpers().showIfAnswerCorrect();
     }
   }
 }
 
 
-class doSpell {
+class doSpell { // игрок применяет заклинание
   constructor() { }
   attack() {
-    modal.style.display = 'none';
-    let monsterHealth = monster.health;
+    if (!monster.shield) {
+      monster.health -= 40;
+    };
     if (monster.shield) {
-      monster.health += monster.shield;
-    };
-    monster.health -= 40;
-    if (monster.health > (100 + 20 * level)) {
-      monster.shield = monster.health - 100 + 20 * level;
-      monster.health = 100 + 20 * level;
-    };
-    if (monster.health <= 0) {
+      if (monster.shield < 40) {
+        monster.health += monster.shield;
+        monster.shield = 0;
+        monster.health -= 40;
+      };
+      if(monster.shield > 40) {
+        monster.shield -= 40;
+      };
+    };  
+    if(monster.health <= 0) {
       monster.health = 0;
-      console.log('win');
       document.querySelector('.monster-health-scale').style.width = `${monster.health}%`;
       document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
+      console.log('win');
+      new levelResults().win();
+      //break;
       // написать ф-ю победы на уровне и перейти в нее
     };
-    document.querySelector('.monster-health-scale').style.width = `${monster.health * 100 / (100 + 20 * level)}%`;
-    document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health * 100 / (100 + 20 * level)}%`;
-    document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
-    // передать ход монстру 
-  }
-  shield() {
-    modal.style.display = 'none';
-    if (!player.shield) {
-      player.shield = 50;
-      // придумать внешнее отображение щита
+    if(monster.health > 0) {
+      document.querySelector('.monster-health-scale').style.width = `${monster.health*100/(100 + 20 * level)}%`;
+      document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health*100/(100 + 20 * level)}%`;
+      document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
+      document.querySelector('.monster-shield__number').innerHTML = monster.shield;    
+      new monsterAttack(); // передать ход монстру
     };
   }
+  shield() {
+    player.shield += 50;
+    document.querySelector('.hero-shield__number').innerHTML = player.shield;
+    new monsterAttack();
+  }
   heal() {
-    modal.style.display = 'none';
     if (player.health < 100) {
       player.health += 30;
       if (player.health > 100) {
@@ -488,14 +505,97 @@ class doSpell {
     };
     document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
-    // передать ход монстру 
+    new monsterAttack(); 
   }
+}
+
+class monsterAttack { // монстр выбирает рандомную способность и применяет
+  constructor(){
+    this.spells = ['attack'];
+    if (monster.shield === 0) {
+      this.spells.push('shield');
+    }
+    /*if (!monster.helper) { еще рано
+      this.spells.push('helper');
+    };*/ 
+    if (monster.health < (100 + 20 * level)) {
+      this.spells.push('heal');
+    };
+    /*if (player.helper) { еще рано
+      this.spells.push('multiAttack');
+    };*/
+    //console.log(this.spells);
+    let spell = this.spells[new Helpers().randomNumber(this.spells.length)];
+    console.log('Monster do', spell);
+    setTimeout(this[spell], 1000);
+  }
+  attack(){
+    if (!player.shield) {
+      player.health -= 40;
+    };
+    if (player.shield) {
+      if (player.shield < 40) {
+        player.health += monster.shield;
+        player.shield = 0;
+        player.health -= 40;
+      };
+      if(player.shield > 40) {
+        player.shield -= 40;
+      };
+    };
+    if(player.health <= 0) {
+      player.health = 0;
+      console.log('loser');
+      // запустить страницу проигрыша с таблицей рекордов
+      document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
+      document.querySelector('.hero-health-scale__number').innerHTML = player.health;
+      document.querySelector('.hero-shield__number').innerHTML = player.shield;
+      // написать ф-ю проигрыша и перейти в нее
+    };
+    document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
+    document.querySelector('.hero-health-scale__number').innerHTML = player.health;
+    document.querySelector('.hero-shield__number').innerHTML = player.shield;
+    document.querySelector('.magic').classList.toggle('showSpells');
+    
+    //console.log(monster);
+  }
+  shield() {
+    monster.shield +=50;
+    document.querySelector('.monster-shield__number').innerHTML = monster.shield;
+    document.querySelector('.magic').classList.toggle('showSpells');
+  }
+  heal() { 
+    monster.health += 30;
+    if (monster.health > (100 + 20 * level)) {
+      monster.health = 100 + 20 * level;
+    };
+    document.querySelector('.monster-health-scale').style.width = `${monster.health*100/(100 + 20 * level)}%`;
+    document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health*100/(100 + 20 * level)}%`;
+    document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
+    document.querySelector('.magic').classList.toggle('showSpells');
+  }
+  helper(){ console.log('HElper');}
+  multiAttack(){ console.log('multi-attack');}
+}
+
+class levelResults { // уровень закончен
+  constructor() {}
+  win() { //победой
+    player.levelPass++;
+    player.health = 100;
+    player.shield = 0;
+    attackQuestions = 0, shieldQuestions = 0, healQuestions = 0;
+    new Door($(".door-right")).openDoor();
+    document.querySelector('.door-right').addEventListener('click', function() { setTimeout(new createPage().level, 1500); });
+    new Door($(".door-left")).openDoor();
+    document.querySelector('.door-left').addEventListener('click', function() { setTimeout(new createPage().level, 1500); });
+  }
+  lose() {} // поражением
 }
 
 class Dialogs {
   constructor() { }
   instructions() {
-    // потом разобъем строку на части, чтобы красиво отображать
     let arr = [`Hello, ${player.name}, we were waiting for you! Welcome to 'Company name' - one of the best companies in the world. To get a job you have to go through 5 interviews. Each interview will check your knowledge in some programming language. Your "monsters" are waiting for you, if you are ready - go through that door. Good luck!`];
     return arr;
   }
@@ -569,6 +669,7 @@ class Monster { // класс монстра
     this.name = new NameGenerator(roleArray, nameArray, secondNameArray).generateRandomName();
     this.health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
     this.spells = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
+    this.shield = 0;
   }
 }
 

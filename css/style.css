@@ -260,6 +260,50 @@ body{
 	display: block;
 }
 
+.btn{
+  display: block;
+  margin: 40px auto 0;
+}
+
+.hero-shield,
+.monster-shield{
+  position: absolute;
+  margin-top: -20px;
+  width: 100px;
+  height: 18px;
+  background-color: green;
+  color: white;
+  padding-top: 2px;
+  padding: 3px 3px;
+}
+
+.hero-shield{
+  left: -2px;
+}
+
+.monster-shield{
+  right: -2px;    
+}
+
+.answer{
+  font-size: 50px;
+  text-align: center;
+  min-height: 100px;
+  align-self: center;
+}
+
+.correct{
+  background: linear-gradient(360deg, #09b91a 33%, #1dea31 66%, #48ff59);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.wrong{
+  background: linear-gradient(360deg, #be0d0d 33%, #e32121 66%, #fa4242);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 @font-face {
 	font-family: "Gwent";
 	font-weight: bold;
