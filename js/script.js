@@ -78,6 +78,9 @@ let receptionHTML = `<div class="game-background game-background-mirror">
                        <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
                      </div>`
 
+let synth = window.speechSynthesis;
+let englishVocab,
+  audioVocab;
 
 class Player { // класс игрока
   constructor(name, character) {
@@ -142,6 +145,7 @@ class createPage { // класс для создания страниц (ско�
     let rDoor = document.querySelector('.door-right');
     rDoor.addEventListener('click', function () {
       //new Door(rDoor).openDoor();
+      synth.cancel(); //stops reading
       setTimeout(new createPage().level, 1500);
     });
 
@@ -209,17 +213,17 @@ class createPage { // класс для создания страниц (ско�
                       </div> `; //нарисовать страницу
     new Office(new Helpers().randomArrayElem(offices), 2).createOffice(); //создает рандомный офис, пока закомментила, чтобы не мешать твоему innerHTML
     $(".hero-container").addClass(player.character);
-    new MonsterGenerator( $(".monster-head-container"), $(".monster-body-container"), $(".monster-legs-container"),).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
+    new MonsterGenerator($(".monster-head-container"), $(".monster-body-container"), $(".monster-legs-container"), ).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
 
     monster = new Monster(level);
     taskField = document.getElementById('taskFieldAnswer');
-    document.querySelector('.monster-health__wrapper').style.width = `${200 + 20*level}px`;
+    document.querySelector('.monster-health__wrapper').style.width = `${200 + 20 * level}px`;
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
     document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
     document.querySelector('.hero-shield__number').innerHTML = player.shield;
     document.querySelector('.monster-shield__number').innerHTML = monster.shield;
     gameBackground.addClass(new Helpers().randomArrayElem(offices)); //
-    
+
     monstersPhrases = new Dialogs().monstersPhrases();
     setTimeout(function () {
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
@@ -259,6 +263,14 @@ class Helpers {
   addRandomClass(target, sourceArray) {
     return target.addClass(sourceArray[this.generateRandomArrayIndex(sourceArray)]);
   }
+  generateRandomObjProperty(obj) {
+    let result,
+      count = 0;
+    for (let prop in obj)
+      if (Math.random() < 1 / ++count)
+        result = prop;
+    return result;
+  }
   createPlayer() { // создание объекта игрока
     let character = document.querySelector('.selected') ? document.querySelector('.selected').id : 'hero-2'; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
     player = new Player(document.getElementById('name').value || 'Anonim', character);
@@ -266,7 +278,7 @@ class Helpers {
   createMonster() { } // сюда запихнем создание имени, тела, объекта 
   showIfAnswerCorrect() { // показывает Correct, если введенные ответ правильный
     new dialogActions().writeDialogText('answer__correct', ['Correct'], 100);
-    setTimeout ( function() {
+    setTimeout(function () {
       modal.style.display = 'none';
       document.getElementById('answer__correct').innerHTML = '';
       new doSpell()[spell]();
@@ -274,7 +286,7 @@ class Helpers {
   }
   showIfAnswerWrong() { // показывает Wrong, если введенные ответ не правильный
     new dialogActions().writeDialogText('answer__wrong', ['Wrong'], 100);
-    setTimeout (function(){
+    setTimeout(function () {
       modal.style.display = 'none';
       document.getElementById('answer__wrong').innerHTML = '';
       new monsterAttack();
@@ -291,7 +303,9 @@ class dialogActions { // методы окна диалога
     dialogButton.addEventListener('click', new dialogActions().closeDialog);
     new dialogActions().writeDialogText('message', text, 50);
   }
-  writeDialogText(id, text, speed) { // вывод текста
+  writeDialogText(id, text, speed) { // вывод текста 
+    let readDialogText = new SpeechSynthesisUtterance(text);
+    synth.speak(readDialogText); //read dialog    
     let ele = document.getElementById(id),
       txt = text.join("").split("");
     let interval = setInterval(function () {
@@ -303,6 +317,7 @@ class dialogActions { // методы окна диалога
     return false;
   }
   closeDialog() { // закрыть окно
+    synth.cancel(); //stop reading
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
     if (level) {
@@ -336,6 +351,30 @@ class Tasks { // дополнитльные (рандомные) задания
     let task = _.shuffle(res[index]);
     res.splice(index, 1); // удаляем этот вопрос из массива (вопросы не повторяются)
     new giveTask().showTaskOrder(rules, task, answer); // выводим на экран
+  }
+  translate() {
+    let rules = ``;
+
+    fetch('../assets/vocabularies/vocabulary.json').then(function (response) {
+      return response.json();
+    }).then(function (vocabulary) {
+      englishVocab = vocabulary.english; //get vocabulary
+      let task = new Helpers().generateRandomObjProperty(englishVocab),
+        answer = englishVocab[task];
+      new giveTask().showTaskVocab(rules, task, answer);
+    })
+  }
+  audioTask() {
+    let rules = `Write what you hear`;
+
+    fetch('../assets/vocabularies/audioVocabulary.json').then(function (response) {
+      return response.json();
+    }).then(function (vocabulary) {
+      audioVocab = vocabulary; //get vocabulary
+      let task = new Helpers().generateRandomObjProperty(audioVocab),
+        answer = audioVocab[task];
+      new giveTask().showTaskAudio(rules, task, answer);
+    })
   }
 }
 
@@ -383,6 +422,39 @@ class giveTask { // вывод вопросов на экран
     result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
     answerButtom.addEventListener('click', result.checkSimpleAnswer); // по клику - проверять результат
   }
+  showTaskVocab(rules, task, answer) {
+    taskField.innerHTML = `<input type="text" class='task__form_answer'>
+    <input type="button" class='btn task-field-btn' value="Answer">`;
+    answerButtom = document.querySelector('.btn');
+    let description = document.getElementById('taskDesc');
+    let text = document.getElementById('taskText');
+    description.innerHTML = rules;
+    text.innerHTML = task;
+    result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
+    answerButtom.addEventListener('click', result.checkVocabAnswer); // по клику - проверять результат
+    delete englishVocab[task]; //delete alredy used question
+  };
+  showTaskAudio(rules, task, answer) {
+    taskField.innerHTML = `<input type="text" class='task__form_answer'>
+    <input type="button" class='btn task-field-btn' value="Answer">`;
+    text.innerHTML = `<input type="button" class='btn' id="audioBtn" value= "Click to listen">`;
+
+    let description = $('#taskDesc'),
+      text = $('#taskText'),
+      audioBtn = $('#audioBtn');
+
+    answerButtom = document.querySelector('.btn');
+    description.innerHTML = rules;
+
+    audioBtn.click(() => {
+      let readTaskText = new SpeechSynthesisUtterance(task);
+      synth.speak(readTaskText)
+    });
+
+    result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
+    answerButtom.addEventListener('click', result.checkVocabAnswer); // по клику - проверять результат
+    delete audioVocab[task]; //delete alredy used question
+  };
   showTaskWithOptions(rules, task, options, answer) { //вопросы по схеме правило -> варианты ответов 
     taskField.innerHTML = `<label><input type='radio' class='task__form_options' name='answer' value='${options[0]}'>${options[0]}</label>
                            <label><input type='radio' class='task__form_options' name='answer' value='${options[1]}'>${options[1]}</label>
@@ -449,11 +521,22 @@ class checkAnswer { // класс проверки ответов
     });
     if (_.isEqual(answerArray, result.result)) {
       answerArray = [];
-      new Helpers().showIfAnswerCorrect();      
+      new Helpers().showIfAnswerCorrect();
     } else {
       answerArray = [];
-      new Helpers().showIfAnswerCorrect();
+      new Helpers().showIfAnswerWrong();
     }
+  }
+  checkVocabAnswer() {
+    let answer = _.lowerCase($('.task__form_answer').val());
+    // if (englishVocab[task]) {
+    for (let i in result.result) {
+      if (_.lowerCase(result.result[i]) === answer) {
+        return new Helpers().showIfAnswerCorrect();
+      }
+    }
+    return new Helpers().showIfAnswerWrong();
+    // }
   }
 }
 
@@ -470,11 +553,11 @@ class doSpell { // игрок применяет заклинание
         monster.shield = 0;
         monster.health -= 40;
       };
-      if(monster.shield > 40) {
+      if (monster.shield > 40) {
         monster.shield -= 40;
       };
-    };  
-    if(monster.health <= 0) {
+    };
+    if (monster.health <= 0) {
       monster.health = 0;
       document.querySelector('.monster-health-scale').style.width = `${monster.health}%`;
       document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
@@ -483,11 +566,11 @@ class doSpell { // игрок применяет заклинание
       //break;
       // написать ф-ю победы на уровне и перейти в нее
     };
-    if(monster.health > 0) {
-      document.querySelector('.monster-health-scale').style.width = `${monster.health*100/(100 + 20 * level)}%`;
-      document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health*100/(100 + 20 * level)}%`;
+    if (monster.health > 0) {
+      document.querySelector('.monster-health-scale').style.width = `${monster.health * 100 / (100 + 20 * level)}%`;
+      document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health * 100 / (100 + 20 * level)}%`;
       document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
-      document.querySelector('.monster-shield__number').innerHTML = monster.shield;    
+      document.querySelector('.monster-shield__number').innerHTML = monster.shield;
       new monsterAttack(); // передать ход монстру
     };
   }
@@ -505,19 +588,19 @@ class doSpell { // игрок применяет заклинание
     };
     document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
-    new monsterAttack(); 
+    new monsterAttack();
   }
 }
 
 class monsterAttack { // монстр выбирает рандомную способность и применяет
-  constructor(){
+  constructor() {
     this.spells = ['attack'];
     if (monster.shield === 0) {
       this.spells.push('shield');
     }
     /*if (!monster.helper) { еще рано
       this.spells.push('helper');
-    };*/ 
+    };*/
     if (monster.health < (100 + 20 * level)) {
       this.spells.push('heal');
     };
@@ -529,7 +612,7 @@ class monsterAttack { // монстр выбирает рандомную спо
     console.log('Monster do', spell);
     setTimeout(this[spell], 1000);
   }
-  attack(){
+  attack() {
     if (!player.shield) {
       player.health -= 40;
     };
@@ -539,11 +622,11 @@ class monsterAttack { // монстр выбирает рандомную спо
         player.shield = 0;
         player.health -= 40;
       };
-      if(player.shield > 40) {
+      if (player.shield > 40) {
         player.shield -= 40;
       };
     };
-    if(player.health <= 0) {
+    if (player.health <= 0) {
       player.health = 0;
       console.log('loser');
       // запустить страницу проигрыша с таблицей рекордов
@@ -556,41 +639,42 @@ class monsterAttack { // монстр выбирает рандомную спо
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
     document.querySelector('.hero-shield__number').innerHTML = player.shield;
     document.querySelector('.magic').classList.toggle('showSpells');
-    
+
     //console.log(monster);
   }
   shield() {
-    monster.shield +=50;
+    monster.shield += 50;
     document.querySelector('.monster-shield__number').innerHTML = monster.shield;
     document.querySelector('.magic').classList.toggle('showSpells');
   }
-  heal() { 
+  heal() {
     monster.health += 30;
     if (monster.health > (100 + 20 * level)) {
       monster.health = 100 + 20 * level;
     };
-    document.querySelector('.monster-health-scale').style.width = `${monster.health*100/(100 + 20 * level)}%`;
-    document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health*100/(100 + 20 * level)}%`;
+    document.querySelector('.monster-health-scale').style.width = `${monster.health * 100 / (100 + 20 * level)}%`;
+    document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health * 100 / (100 + 20 * level)}%`;
     document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
     document.querySelector('.magic').classList.toggle('showSpells');
   }
-  helper(){ console.log('HElper');}
-  multiAttack(){ console.log('multi-attack');}
+  helper() { console.log('HElper'); }
+  multiAttack() { console.log('multi-attack'); }
 }
 
 class levelResults { // уровень закончен
-  constructor() {}
+  constructor() { }
   win() { //победой
     player.levelPass++;
     player.health = 100;
     player.shield = 0;
     attackQuestions = 0, shieldQuestions = 0, healQuestions = 0;
     new Door($(".door-right")).openDoor();
-    document.querySelector('.door-right').addEventListener('click', function() { setTimeout(new createPage().level, 1500); });
+    synth.cancel(); //stop reading
+    document.querySelector('.door-right').addEventListener('click', function () { setTimeout(new createPage().level, 1500); });
     new Door($(".door-left")).openDoor();
-    document.querySelector('.door-left').addEventListener('click', function() { setTimeout(new createPage().level, 1500); });
+    document.querySelector('.door-left').addEventListener('click', function () { setTimeout(new createPage().level, 1500); });
   }
-  lose() {} // поражением
+  lose() { } // поражением
 }
 
 class Dialogs {
@@ -672,6 +756,7 @@ class Monster { // класс монстра
     this.shield = 0;
   }
 }
+
 
 new createPage().greeting();
 // rightDoor.addEventListener('click', new createPage().level);
