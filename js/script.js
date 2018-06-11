@@ -274,6 +274,7 @@ class Helpers {
   createPlayer() { // создание объекта игрока
     let character = document.querySelector('.selected') ? document.querySelector('.selected').id : 'hero-2'; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
     player = new Player(document.getElementById('name').value || 'Anonim', character);
+    localStorage.setItem(player.name, 25); //save player name to local storage
   }
   createMonster() { } // сюда запихнем создание имени, тела, объекта 
   showIfAnswerCorrect() { // показывает Correct, если введенные ответ правильный
@@ -754,6 +755,87 @@ class Monster { // класс монстра
     this.health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
     this.spells = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
     this.shield = 0;
+  }
+}
+
+
+let resultsTableHTML = `<div id="resultsModal" class="result-modal">
+<div class="result-modal-content">
+<table>
+<caption>Best Results</caption>
+    <thead>
+        <tr class="table-header">
+            <th>#</th>
+            <th>User Name</th>
+            <th>Result</th>
+        </tr>
+    </thead>
+    <tbody id="resultsTable">
+    </tbody>
+</table>
+</div>
+</div>`,
+  resultsTable;
+
+class ResultsTable {
+  constructor() {
+    this.bestResults = Object.keys(localStorage).reduce(function (obj, str) {
+      obj[str] = localStorage.getItem(str);
+      return obj
+    }, {});
+    this.bestResultsSortedArray = [];
+  };
+  createSortedResults() {
+    for (result in this.bestResults) {
+      if (this.bestResults[result] !== "no result") {
+        this.bestResultsSortedArray.push([result, this.bestResults[result]]);
+      }
+    }
+    this.bestResultsSortedArray.sort(function (a, b) {
+      return b[1].localeCompare(a[1]);
+    });
+    this.bestResultsSortedArray = this.bestResultsSortedArray.slice(0, 10);
+  };
+  createResultsTable(bestResultsSortedArray) {
+    $(".game-background").append(resultsTableHTML);
+    resultsTable = document.getElementById("resultsTable");
+    if (bestResultsSortedArray.length !== 0) {
+      while (resultsTable.firstChild) {
+        resultsTable.removeChild(resultsTable.firstChild);
+      }
+      for (let i in bestResultsSortedArray) {
+        let resultRow = document.createElement("tr"),
+          position = document.createElement("td"),
+          userName = document.createElement("td");
+
+        position.innerHTML = parseInt(i) + 1;
+        userName.innerHTML = bestResultsSortedArray[i][0];
+        let userResult = document.createElement("td");
+        userResult.innerHTML = bestResultsSortedArray[i][1];
+
+        resultRow.appendChild(position);
+        resultRow.appendChild(userName);
+        resultRow.appendChild(userResult);
+        resultsTable.appendChild(resultRow);
+      }
+    } else {
+      let resultRow = document.createElement("tr"),
+        noResults = document.createElement("td");
+
+      resultRow.appendChild(noResults);
+      noResults.innerHTML = "No Results Yet";
+
+      for (let i = 0; i < 2; i++) {
+        let emptyCell = document.createElement("td");
+        resultRow.appendChild(emptyCell);
+      }
+
+      resultsTable.appendChild(resultRow);
+    }
+  };
+  showResults() {
+    this.createSortedResults();
+    this.createResultsTable(this.bestResultsSortedArray);
   }
 }
 
