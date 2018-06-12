@@ -198,17 +198,21 @@ body {
 }
 
 .door-left {
-	background-image: url("../assets/img/office-background/door-left.png");
+	background-image: url("../assets/img/office-background/doors/door-left.png");
 	transform-origin: left;
-	left: 4%;
+	left: 4.2%;
 	width: 6.35%;
 }
 
 .door-right {
-	background-image: url("../assets/img/office-background/door-right.png");
+	background-image: url("../assets/img/office-background/doors/door-right.png");
 	transform-origin: right;
-	right: 3.8%;
+	right: 3.6%;
 	width: 6.59%;
+}
+
+.door-right-reception {
+	right: 3.8%;
 }
 
 .doorOpened {
