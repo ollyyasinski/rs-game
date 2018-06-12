@@ -45,7 +45,7 @@ let gameBackground,
   </div>
 </div>`,
   oneDoorGameBody = `<div class="game-background game-background-mirror">
-<div class="door door-right"></div>
+<div class="door door-right door-right-reception"></div>
 <div class="hero-container"></div>
 </div>
 <div class='dialog' id='dialog'>
@@ -81,6 +81,7 @@ let receptionHTML = `<div class="game-background game-background-mirror">
 let synth = window.speechSynthesis;
 let englishVocab,
   audioVocab;
+let officeColors = ["white", "blue", "green", "red", "pink", "mint"];
 
 class Player { // класс игрока
   constructor(name, character) {
@@ -95,15 +96,17 @@ class Player { // класс игрока
 }
 
 class Office {
-  constructor(background, doorsAmount) {
+  constructor(background, doorsAmount, color) {
     this.background = background;
     this.doorsAmount = doorsAmount;
-  }
+    this.color = color;
+  };
   createOffice() {
     if (this.doorsAmount === 2) {
       // main.innerHTML = fullGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
+      gameBackground.css('background-image', `url("../assets/img/office-background/${color}-offices/${this.background}.png")`)
       //new Door($(".door-right")).openDoor(); // должны открываться только после успешного прохождения уровня
       //new Door($(".door-left")).openDoor();  // перенесла в функцию победы на уровне
     } else {
@@ -111,9 +114,10 @@ class Office {
       main.innerHTML = oneDoorGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
+      gameBackground.css('background-image', `url("../assets/img/office-background/${this.color}-offices/${this.background}.png")`)
       new Door($(".door-right")).openDoor();
     }
-  }
+  };
 }
 
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
@@ -138,7 +142,7 @@ class createPage { // класс для создания страниц (ско�
   }
   reception() { // страница ресепшена 
     new Helpers().createPlayer();
-    new Office(offices[0], 1).createOffice();
+    new Office(offices[0], 1, officeColors[0]).createOffice();
     $(".hero-container").addClass(player.character).addClass("hero-container-mirror");
     offices.splice(0, 1); //delete reception from office list, this array will be used for random office generation
 
