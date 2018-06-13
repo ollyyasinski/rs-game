@@ -20,7 +20,7 @@ body {
 	background: linear-gradient(133deg, #F2C14E, #F78154);
 	/*width: calc(100% - 100px);*/
 	width: 100%;
-	height: 100vh;
+	min-height: 100vh;
 }
 
 .wrapper__reception {
@@ -174,7 +174,7 @@ body {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: 100% auto;
-	height: 100%;
+	min-height: 100vh;
 	background-color: #030000;
 	position: relative;
 	display: grid;
