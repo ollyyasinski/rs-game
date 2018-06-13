@@ -54,8 +54,6 @@ let gameBackground,
 </div>`;
 
 const heroesArray = ["hero-1", "hero-2", "hero-3", "hero-4"];
-/*let rightDoor = $(".door-right"),
-    leftDoor = $(".door-left");*/
 
 const monsterHeadContainer = $(".monster-head-container"),
   monsterBodyContainer = $(".monster-body-container"),
@@ -106,7 +104,8 @@ class Office {
       // main.innerHTML = fullGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
-      gameBackground.css('background-image', `url("../assets/img/office-background/${color}-offices/${this.background}.png")`)
+      this.color = officeColors[0];
+      gameBackground.css('background-image', `url("../assets/img/office-background/${this.color}-offices/${this.background}.png")`)
       //new Door($(".door-right")).openDoor(); // должны открываться только после успешного прохождения уровня
       //new Door($(".door-left")).openDoor();  // перенесла в функцию победы на уровне
     } else {
@@ -114,6 +113,7 @@ class Office {
       main.innerHTML = oneDoorGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
+      this.color = officeColors[0];
       gameBackground.css('background-image', `url("../assets/img/office-background/${this.color}-offices/${this.background}.png")`)
       new Door($(".door-right")).openDoor();
     }
@@ -142,7 +142,7 @@ class createPage { // класс для создания страниц (ско�
   }
   reception() { // страница ресепшена 
     new Helpers().createPlayer();
-    new Office(offices[0], 1, officeColors[0]).createOffice();
+    new Office(offices[0], 1).createOffice();
     $(".hero-container").addClass(player.character).addClass("hero-container-mirror");
     offices.splice(0, 1); //delete reception from office list, this array will be used for random office generation
 
@@ -309,10 +309,11 @@ class dialogActions { // методы окна диалога
     new dialogActions().writeDialogText('message', text, 50);
   }
   writeDialogText(id, text, speed) { // вывод текста 
-    let readDialogText = new SpeechSynthesisUtterance(text);
-    synth.speak(readDialogText); //read dialog    
     let ele = document.getElementById(id),
       txt = text.join("").split("");
+    console.log(text);
+    let readDialogText = new SpeechSynthesisUtterance(text);
+    synth.speak(readDialogText); //read dialog  
     let interval = setInterval(function () {
       if (!txt[0]) {
         return clearInterval(interval);
@@ -442,11 +443,12 @@ class giveTask { // вывод вопросов на экран
   showTaskAudio(rules, task, answer) {
     taskField.innerHTML = `<input type="text" class='task__form_answer'>
     <input type="button" class='btn task-field-btn' value="Answer">`;
-    text.innerHTML = `<input type="button" class='btn' id="audioBtn" value= "Click to listen">`;
 
     let description = $('#taskDesc'),
       text = $('#taskText'),
       audioBtn = $('#audioBtn');
+
+    text.innerHTML = `<input type="button" class='btn' id="audioBtn" value= "Click to listen">`;
 
     answerButtom = document.querySelector('.btn');
     description.innerHTML = rules;
@@ -485,7 +487,8 @@ class giveTask { // вывод вопросов на экран
                         <li class="default" id="id_7">${task[6]}</li>
                         <li class="default" id="id_7">${task[7]}</li>
                         <li class="default" id="id_7">${task[8]}</li>
-                      </ul>`;
+                      </ul>
+                      <input type="button" class='btn task-field-btn' value="Answer">`;
     // <input type="button" class='btn task-filed-btn' value="Answer">`;
     answerButtom = document.querySelector('.task-field-btn');
     let description = document.getElementById('taskDesc');
