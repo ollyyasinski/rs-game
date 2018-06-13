@@ -79,7 +79,9 @@ let receptionHTML = `<div class="game-background game-background-mirror">
 let synth = window.speechSynthesis;
 let englishVocab,
   audioVocab;
-let officeColors = ["white", "blue", "green", "red", "pink", "mint"];
+let officeColors = ["white", "blue", "green", "red", "pink", "mint"],
+  gameColor = officeColors[0];
+let voices, utterance;
 
 class Player { // класс игрока
   constructor(name, character) {
@@ -94,31 +96,35 @@ class Player { // класс игрока
 }
 
 class Office {
-  constructor(background, doorsAmount, color) {
+  constructor(background, doorsAmount) {
     this.background = background;
     this.doorsAmount = doorsAmount;
-    this.color = color;
   };
   createOffice() {
     if (this.doorsAmount === 2) {
       // main.innerHTML = fullGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
-      this.color = officeColors[0];
-      gameBackground.css('background-image', `url("../assets/img/office-background/${this.color}-offices/${this.background}.png")`)
-      //new Door($(".door-right")).openDoor(); // должны открываться только после успешного прохождения уровня
-      //new Door($(".door-left")).openDoor();  // перенесла в функцию победы на уровне
+      gameBackground.css('background-image', `url("../assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
     } else {
       main.classList.add('wrapper__reception');
       main.innerHTML = oneDoorGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
-      this.color = officeColors[0];
-      gameBackground.css('background-image', `url("../assets/img/office-background/${this.color}-offices/${this.background}.png")`)
+      gameBackground.css('background-image', `url("../assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
       new Door($(".door-right")).openDoor();
     }
   };
 }
+
+class GameSettings {
+  constructor() { };
+  setGameColor(selectedColor) {
+    gameColor = selectedColor;
+  };
+
+}
+
 
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
@@ -155,7 +161,7 @@ class createPage { // класс для создания страниц (ско�
 
     setTimeout(function () {
       let dialogText = new Dialogs().instructions();
-      new dialogActions().showDialog(dialogText);
+      new dialogActions().showDialog(dialogText, 'female');
     }, 200);
   }
   level() { // страница уровня
@@ -297,22 +303,28 @@ class Helpers {
       new monsterAttack();
     }, 1500);
   }
+  setVoiceGender(reading, gender) {
+    voices = synth.getVoices();
+    (gender === 'female') ? reading.voice = voices[4] : reading.voice = voices[0];
+  }
 }
 
 class dialogActions { // методы окна диалога
   constructor() { }
-  showDialog(text) { //показать окно
+  showDialog(text, gender) { //показать окно
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
     let dialogButton = document.getElementById('dialogButton');
     dialogButton.addEventListener('click', new dialogActions().closeDialog);
-    new dialogActions().writeDialogText('message', text, 50);
+    new dialogActions().writeDialogText('message', text, 50, gender);
   }
-  writeDialogText(id, text, speed) { // вывод текста 
+  writeDialogText(id, text, speed, gender) { // вывод текста 
     let ele = document.getElementById(id),
       txt = text.join("").split("");
     console.log(text);
     let readDialogText = new SpeechSynthesisUtterance(text);
+    new Helpers().setVoiceGender(readDialogText, gender);
+
     synth.speak(readDialogText); //read dialog  
     let interval = setInterval(function () {
       if (!txt[0]) {
