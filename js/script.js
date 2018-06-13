@@ -81,7 +81,9 @@ let englishVocab,
   audioVocab;
 let officeColors = ["white", "blue", "green", "red", "pink", "mint"],
   gameColor = officeColors[0];
-let voices, utterance;
+let voices,
+  volume = synth.volume;
+  synth.volume = 0.5;
 
 class Player { // класс игрока
   constructor(name, character) {
@@ -105,13 +107,13 @@ class Office {
       // main.innerHTML = fullGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
-      gameBackground.css('background-image', `url("../assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
+      gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
     } else {
       main.classList.add('wrapper__reception');
       main.innerHTML = oneDoorGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
-      gameBackground.css('background-image', `url("../assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
+      gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
       new Door($(".door-right")).openDoor();
     }
   };
@@ -122,7 +124,12 @@ class GameSettings {
   setGameColor(selectedColor) {
     gameColor = selectedColor;
   };
-
+  disableSound() {
+    volume = 0;
+  }
+  enableSound() {
+    volume = 1;
+  }
 }
 
 
