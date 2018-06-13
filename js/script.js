@@ -45,7 +45,7 @@ let gameBackground,
   </div>
 </div>`,
   oneDoorGameBody = `<div class="game-background game-background-mirror">
-<div class="door door-right"></div>
+<div class="door door-right door-right-reception"></div>
 <div class="hero-container"></div>
 </div>
 <div class='dialog' id='dialog'>
@@ -54,8 +54,6 @@ let gameBackground,
 </div>`;
 
 const heroesArray = ["hero-1", "hero-2", "hero-3", "hero-4"];
-/*let rightDoor = $(".door-right"),
-    leftDoor = $(".door-left");*/
 
 const monsterHeadContainer = $(".monster-head-container"),
   monsterBodyContainer = $(".monster-body-container"),
@@ -78,6 +76,12 @@ let receptionHTML = `<div class="game-background game-background-mirror">
                        <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
                      </div>`
 
+let synth = window.speechSynthesis;
+let englishVocab,
+  audioVocab;
+let officeColors = ["white", "blue", "green", "red", "pink", "mint"],
+  gameColor = officeColors[0];
+let voices, utterance;
 
 class Player { // класс игрока
   constructor(name, character) {
@@ -95,23 +99,32 @@ class Office {
   constructor(background, doorsAmount) {
     this.background = background;
     this.doorsAmount = doorsAmount;
-  }
+  };
   createOffice() {
     if (this.doorsAmount === 2) {
       // main.innerHTML = fullGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
-      //new Door($(".door-right")).openDoor(); // должны открываться только после успешного прохождения уровня
-      //new Door($(".door-left")).openDoor();  // перенесла в функцию победы на уровне
+      gameBackground.css('background-image', `url("../assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
     } else {
       main.classList.add('wrapper__reception');
       main.innerHTML = oneDoorGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
+      gameBackground.css('background-image', `url("../assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
       new Door($(".door-right")).openDoor();
     }
-  }
+  };
 }
+
+class GameSettings {
+  constructor() { };
+  setGameColor(selectedColor) {
+    gameColor = selectedColor;
+  };
+
+}
+
 
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
@@ -142,12 +155,13 @@ class createPage { // класс для создания страниц (ско�
     let rDoor = document.querySelector('.door-right');
     rDoor.addEventListener('click', function () {
       //new Door(rDoor).openDoor();
+      synth.cancel(); //stops reading
       setTimeout(new createPage().level, 1500);
     });
 
     setTimeout(function () {
       let dialogText = new Dialogs().instructions();
-      new dialogActions().showDialog(dialogText);
+      new dialogActions().showDialog(dialogText, 'female');
     }, 200);
   }
   level() { // страница уровня
@@ -209,17 +223,17 @@ class createPage { // класс для создания страниц (ско�
                       </div> `; //нарисовать страницу
     new Office(new Helpers().randomArrayElem(offices), 2).createOffice(); //создает рандомный офис, пока закомментила, чтобы не мешать твоему innerHTML
     $(".hero-container").addClass(player.character);
-    new MonsterGenerator( $(".monster-head-container"), $(".monster-body-container"), $(".monster-legs-container"),).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
+    new MonsterGenerator($(".monster-head-container"), $(".monster-body-container"), $(".monster-legs-container"), ).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
 
     monster = new Monster(level);
     taskField = document.getElementById('taskFieldAnswer');
-    document.querySelector('.monster-health__wrapper').style.width = `${200 + 20*level}px`;
+    document.querySelector('.monster-health__wrapper').style.width = `${200 + 20 * level}px`;
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
     document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
     document.querySelector('.hero-shield__number').innerHTML = player.shield;
     document.querySelector('.monster-shield__number').innerHTML = monster.shield;
     gameBackground.addClass(new Helpers().randomArrayElem(offices)); //
-    
+
     monstersPhrases = new Dialogs().monstersPhrases();
     setTimeout(function () {
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
@@ -259,14 +273,23 @@ class Helpers {
   addRandomClass(target, sourceArray) {
     return target.addClass(sourceArray[this.generateRandomArrayIndex(sourceArray)]);
   }
+  generateRandomObjProperty(obj) {
+    let result,
+      count = 0;
+    for (let prop in obj)
+      if (Math.random() < 1 / ++count)
+        result = prop;
+    return result;
+  }
   createPlayer() { // создание объекта игрока
     let character = document.querySelector('.selected') ? document.querySelector('.selected').id : 'hero-2'; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
     player = new Player(document.getElementById('name').value || 'Anonim', character);
+    localStorage.setItem(player.name, 25); //save player name to local storage
   }
   createMonster() { } // сюда запихнем создание имени, тела, объекта 
   showIfAnswerCorrect() { // показывает Correct, если введенные ответ правильный
     new dialogActions().writeDialogText('answer__correct', ['Correct'], 100);
-    setTimeout ( function() {
+    setTimeout(function () {
       modal.style.display = 'none';
       document.getElementById('answer__correct').innerHTML = '';
       new doSpell()[spell]();
@@ -274,26 +297,35 @@ class Helpers {
   }
   showIfAnswerWrong() { // показывает Wrong, если введенные ответ не правильный
     new dialogActions().writeDialogText('answer__wrong', ['Wrong'], 100);
-    setTimeout (function(){
+    setTimeout(function () {
       modal.style.display = 'none';
       document.getElementById('answer__wrong').innerHTML = '';
       new monsterAttack();
     }, 1500);
   }
+  setVoiceGender(reading, gender) {
+    voices = synth.getVoices();
+    (gender === 'female') ? reading.voice = voices[4] : reading.voice = voices[0];
+  }
 }
 
 class dialogActions { // методы окна диалога
   constructor() { }
-  showDialog(text) { //показать окно
+  showDialog(text, gender) { //показать окно
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
     let dialogButton = document.getElementById('dialogButton');
     dialogButton.addEventListener('click', new dialogActions().closeDialog);
-    new dialogActions().writeDialogText('message', text, 50);
+    new dialogActions().writeDialogText('message', text, 50, gender);
   }
-  writeDialogText(id, text, speed) { // вывод текста
+  writeDialogText(id, text, speed, gender) { // вывод текста 
     let ele = document.getElementById(id),
       txt = text.join("").split("");
+    console.log(text);
+    let readDialogText = new SpeechSynthesisUtterance(text);
+    new Helpers().setVoiceGender(readDialogText, gender);
+
+    synth.speak(readDialogText); //read dialog  
     let interval = setInterval(function () {
       if (!txt[0]) {
         return clearInterval(interval);
@@ -303,6 +335,7 @@ class dialogActions { // методы окна диалога
     return false;
   }
   closeDialog() { // закрыть окно
+    synth.cancel(); //stop reading
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
     if (level) {
@@ -336,6 +369,30 @@ class Tasks { // дополнитльные (рандомные) задания
     let task = _.shuffle(res[index]);
     res.splice(index, 1); // удаляем этот вопрос из массива (вопросы не повторяются)
     new giveTask().showTaskOrder(rules, task, answer); // выводим на экран
+  }
+  translate() {
+    let rules = ``;
+
+    fetch('../assets/vocabularies/vocabulary.json').then(function (response) {
+      return response.json();
+    }).then(function (vocabulary) {
+      englishVocab = vocabulary.english; //get vocabulary
+      let task = new Helpers().generateRandomObjProperty(englishVocab),
+        answer = englishVocab[task];
+      new giveTask().showTaskVocab(rules, task, answer);
+    })
+  }
+  audioTask() {
+    let rules = `Write what you hear`;
+
+    fetch('../assets/vocabularies/audioVocabulary.json').then(function (response) {
+      return response.json();
+    }).then(function (vocabulary) {
+      audioVocab = vocabulary; //get vocabulary
+      let task = new Helpers().generateRandomObjProperty(audioVocab),
+        answer = audioVocab[task];
+      new giveTask().showTaskAudio(rules, task, answer);
+    })
   }
 }
 
@@ -383,6 +440,40 @@ class giveTask { // вывод вопросов на экран
     result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
     answerButtom.addEventListener('click', result.checkSimpleAnswer); // по клику - проверять результат
   }
+  showTaskVocab(rules, task, answer) {
+    taskField.innerHTML = `<input type="text" class='task__form_answer'>
+    <input type="button" class='btn task-field-btn' value="Answer">`;
+    answerButtom = document.querySelector('.btn');
+    let description = document.getElementById('taskDesc');
+    let text = document.getElementById('taskText');
+    description.innerHTML = rules;
+    text.innerHTML = task;
+    result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
+    answerButtom.addEventListener('click', result.checkVocabAnswer); // по клику - проверять результат
+    delete englishVocab[task]; //delete alredy used question
+  };
+  showTaskAudio(rules, task, answer) {
+    taskField.innerHTML = `<input type="text" class='task__form_answer'>
+    <input type="button" class='btn task-field-btn' value="Answer">`;
+
+    let description = $('#taskDesc'),
+      text = $('#taskText'),
+      audioBtn = $('#audioBtn');
+
+    text.innerHTML = `<input type="button" class='btn' id="audioBtn" value= "Click to listen">`;
+
+    answerButtom = document.querySelector('.btn');
+    description.innerHTML = rules;
+
+    audioBtn.click(() => {
+      let readTaskText = new SpeechSynthesisUtterance(task);
+      synth.speak(readTaskText)
+    });
+
+    result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
+    answerButtom.addEventListener('click', result.checkVocabAnswer); // по клику - проверять результат
+    delete audioVocab[task]; //delete alredy used question
+  };
   showTaskWithOptions(rules, task, options, answer) { //вопросы по схеме правило -> варианты ответов 
     taskField.innerHTML = `<label><input type='radio' class='task__form_options' name='answer' value='${options[0]}'>${options[0]}</label>
                            <label><input type='radio' class='task__form_options' name='answer' value='${options[1]}'>${options[1]}</label>
@@ -408,7 +499,8 @@ class giveTask { // вывод вопросов на экран
                         <li class="default" id="id_7">${task[6]}</li>
                         <li class="default" id="id_7">${task[7]}</li>
                         <li class="default" id="id_7">${task[8]}</li>
-                      </ul>`;
+                      </ul>
+                      <input type="button" class='btn task-field-btn' value="Answer">`;
     // <input type="button" class='btn task-filed-btn' value="Answer">`;
     answerButtom = document.querySelector('.task-field-btn');
     let description = document.getElementById('taskDesc');
@@ -449,11 +541,22 @@ class checkAnswer { // класс проверки ответов
     });
     if (_.isEqual(answerArray, result.result)) {
       answerArray = [];
-      new Helpers().showIfAnswerCorrect();      
+      new Helpers().showIfAnswerCorrect();
     } else {
       answerArray = [];
-      new Helpers().showIfAnswerCorrect();
+      new Helpers().showIfAnswerWrong();
     }
+  }
+  checkVocabAnswer() {
+    let answer = _.lowerCase($('.task__form_answer').val());
+    // if (englishVocab[task]) {
+    for (let i in result.result) {
+      if (_.lowerCase(result.result[i]) === answer) {
+        return new Helpers().showIfAnswerCorrect();
+      }
+    }
+    return new Helpers().showIfAnswerWrong();
+    // }
   }
 }
 
@@ -470,11 +573,11 @@ class doSpell { // игрок применяет заклинание
         monster.shield = 0;
         monster.health -= 40;
       };
-      if(monster.shield > 40) {
+      if (monster.shield > 40) {
         monster.shield -= 40;
       };
-    };  
-    if(monster.health <= 0) {
+    };
+    if (monster.health <= 0) {
       monster.health = 0;
       document.querySelector('.monster-health-scale').style.width = `${monster.health}%`;
       document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
@@ -483,11 +586,11 @@ class doSpell { // игрок применяет заклинание
       //break;
       // написать ф-ю победы на уровне и перейти в нее
     };
-    if(monster.health > 0) {
-      document.querySelector('.monster-health-scale').style.width = `${monster.health*100/(100 + 20 * level)}%`;
-      document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health*100/(100 + 20 * level)}%`;
+    if (monster.health > 0) {
+      document.querySelector('.monster-health-scale').style.width = `${monster.health * 100 / (100 + 20 * level)}%`;
+      document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health * 100 / (100 + 20 * level)}%`;
       document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
-      document.querySelector('.monster-shield__number').innerHTML = monster.shield;    
+      document.querySelector('.monster-shield__number').innerHTML = monster.shield;
       new monsterAttack(); // передать ход монстру
     };
   }
@@ -505,19 +608,19 @@ class doSpell { // игрок применяет заклинание
     };
     document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
-    new monsterAttack(); 
+    new monsterAttack();
   }
 }
 
 class monsterAttack { // монстр выбирает рандомную способность и применяет
-  constructor(){
+  constructor() {
     this.spells = ['attack'];
     if (monster.shield === 0) {
       this.spells.push('shield');
     }
     /*if (!monster.helper) { еще рано
       this.spells.push('helper');
-    };*/ 
+    };*/
     if (monster.health < (100 + 20 * level)) {
       this.spells.push('heal');
     };
@@ -529,7 +632,7 @@ class monsterAttack { // монстр выбирает рандомную спо
     console.log('Monster do', spell);
     setTimeout(this[spell], 1000);
   }
-  attack(){
+  attack() {
     if (!player.shield) {
       player.health -= 40;
     };
@@ -539,11 +642,11 @@ class monsterAttack { // монстр выбирает рандомную спо
         player.shield = 0;
         player.health -= 40;
       };
-      if(player.shield > 40) {
+      if (player.shield > 40) {
         player.shield -= 40;
       };
     };
-    if(player.health <= 0) {
+    if (player.health <= 0) {
       player.health = 0;
       console.log('loser');
       // запустить страницу проигрыша с таблицей рекордов
@@ -556,41 +659,42 @@ class monsterAttack { // монстр выбирает рандомную спо
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
     document.querySelector('.hero-shield__number').innerHTML = player.shield;
     document.querySelector('.magic').classList.toggle('showSpells');
-    
+
     //console.log(monster);
   }
   shield() {
-    monster.shield +=50;
+    monster.shield += 50;
     document.querySelector('.monster-shield__number').innerHTML = monster.shield;
     document.querySelector('.magic').classList.toggle('showSpells');
   }
-  heal() { 
+  heal() {
     monster.health += 30;
     if (monster.health > (100 + 20 * level)) {
       monster.health = 100 + 20 * level;
     };
-    document.querySelector('.monster-health-scale').style.width = `${monster.health*100/(100 + 20 * level)}%`;
-    document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health*100/(100 + 20 * level)}%`;
+    document.querySelector('.monster-health-scale').style.width = `${monster.health * 100 / (100 + 20 * level)}%`;
+    document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health * 100 / (100 + 20 * level)}%`;
     document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
     document.querySelector('.magic').classList.toggle('showSpells');
   }
-  helper(){ console.log('HElper');}
-  multiAttack(){ console.log('multi-attack');}
+  helper() { console.log('HElper'); }
+  multiAttack() { console.log('multi-attack'); }
 }
 
 class levelResults { // уровень закончен
-  constructor() {}
+  constructor() { }
   win() { //победой
     player.levelPass++;
     player.health = 100;
     player.shield = 0;
     attackQuestions = 0, shieldQuestions = 0, healQuestions = 0;
     new Door($(".door-right")).openDoor();
-    document.querySelector('.door-right').addEventListener('click', function() { setTimeout(new createPage().level, 1500); });
+    synth.cancel(); //stop reading
+    document.querySelector('.door-right').addEventListener('click', function () { setTimeout(new createPage().level, 1500); });
     new Door($(".door-left")).openDoor();
-    document.querySelector('.door-left').addEventListener('click', function() { setTimeout(new createPage().level, 1500); });
+    document.querySelector('.door-left').addEventListener('click', function () { setTimeout(new createPage().level, 1500); });
   }
-  lose() {} // поражением
+  lose() { } // поражением
 }
 
 class Dialogs {
@@ -672,6 +776,88 @@ class Monster { // класс монстра
     this.shield = 0;
   }
 }
+
+
+let resultsTableHTML = `<div id="resultsModal" class="result-modal">
+<div class="result-modal-content">
+<table>
+<caption>Best Results</caption>
+    <thead>
+        <tr class="table-header">
+            <th>#</th>
+            <th>User Name</th>
+            <th>Result</th>
+        </tr>
+    </thead>
+    <tbody id="resultsTable">
+    </tbody>
+</table>
+</div>
+</div>`,
+  resultsTable;
+
+class ResultsTable {
+  constructor() {
+    this.bestResults = Object.keys(localStorage).reduce(function (obj, str) {
+      obj[str] = localStorage.getItem(str);
+      return obj
+    }, {});
+    this.bestResultsSortedArray = [];
+  };
+  createSortedResults() {
+    for (result in this.bestResults) {
+      if (this.bestResults[result] !== "no result") {
+        this.bestResultsSortedArray.push([result, this.bestResults[result]]);
+      }
+    }
+    this.bestResultsSortedArray.sort(function (a, b) {
+      return b[1].localeCompare(a[1]);
+    });
+    this.bestResultsSortedArray = this.bestResultsSortedArray.slice(0, 10);
+  };
+  createResultsTable(bestResultsSortedArray) {
+    $(".game-background").append(resultsTableHTML);
+    resultsTable = document.getElementById("resultsTable");
+    if (bestResultsSortedArray.length !== 0) {
+      while (resultsTable.firstChild) {
+        resultsTable.removeChild(resultsTable.firstChild);
+      }
+      for (let i in bestResultsSortedArray) {
+        let resultRow = document.createElement("tr"),
+          position = document.createElement("td"),
+          userName = document.createElement("td");
+
+        position.innerHTML = parseInt(i) + 1;
+        userName.innerHTML = bestResultsSortedArray[i][0];
+        let userResult = document.createElement("td");
+        userResult.innerHTML = bestResultsSortedArray[i][1];
+
+        resultRow.appendChild(position);
+        resultRow.appendChild(userName);
+        resultRow.appendChild(userResult);
+        resultsTable.appendChild(resultRow);
+      }
+    } else {
+      let resultRow = document.createElement("tr"),
+        noResults = document.createElement("td");
+
+      resultRow.appendChild(noResults);
+      noResults.innerHTML = "No Results Yet";
+
+      for (let i = 0; i < 2; i++) {
+        let emptyCell = document.createElement("td");
+        resultRow.appendChild(emptyCell);
+      }
+
+      resultsTable.appendChild(resultRow);
+    }
+  };
+  showResults() {
+    this.createSortedResults();
+    this.createResultsTable(this.bestResultsSortedArray);
+  }
+}
+
 
 new createPage().greeting();
 // rightDoor.addEventListener('click', new createPage().level);

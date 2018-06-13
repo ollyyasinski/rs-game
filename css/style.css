@@ -3,20 +3,19 @@
 @import "../css/heroes.css";
 @import "../css/task-modal.css";
 @import "../css/office-backgrounds.css";
-
-* 
-{
+@import "../css/results-modal.css";
+* {
 	margin: 0;
 	padding: 0;
 }
 
-body{
+body {
 	font-family: "Gwent";
 	overflow: hidden;
 	font-size: 100%;
 }
 
-.wrapper{
+.wrapper {
 	padding: 15px 50px;
 	background: linear-gradient(133deg, #F2C14E, #F78154);
 	/*width: calc(100% - 100px);*/
@@ -24,22 +23,21 @@ body{
 	height: 100vh;
 }
 
-.wrapper__reception{
+.wrapper__reception {
 	padding: 0;
 	width: 100%;
 }
 
-.greeting__caption,
-.level__caption{
+.greeting__caption, .level__caption {
 	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	font-size: 48px;
 	width: 100%;
-	text-align: center; 
+	text-align: center;
 }
 
-.greeting__text{
+.greeting__text {
 	font-size: 30px;
 	width: 100%;
 	text-align: center;
@@ -47,18 +45,17 @@ body{
 	color: white;
 }
 
-.greeting__profile_caption,
-.greeting__profile_character-caption{
+.greeting__profile_caption, .greeting__profile_character-caption {
 	font-size: 25px;
 	width: 100%;
 	text-align: center;
 	margin: 15px 0;
 	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
 	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;  
+	-webkit-text-fill-color: transparent;
 }
 
-.greeting__profile_name{
+.greeting__profile_name {
 	font-family: "Gwent";
 	font-size: 25px;
 	vertical-align: middle;
@@ -73,11 +70,11 @@ body{
 	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 }
 
-.greeting__profile_name:focus{
+.greeting__profile_name:focus {
 	border: 2px solid #76fbed;
 }
 
-.greeting__profile_character-items{
+.greeting__profile_character-items {
 	display: grid;
 	max-width: 1000px;
 	grid-template-columns: repeat(4, 1fr);
@@ -88,7 +85,7 @@ body{
 	margin: 20px auto;
 }
 
-.greeting__profile_character-item-wrapper{
+.greeting__profile_character-item-wrapper {
 	border: 2px solid #0B2349;
 	height: inherit;
 	border-radius: 10px;
@@ -96,17 +93,17 @@ body{
 	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 }
 
-.greeting__profile_character-item-wrapper:hover{
+.greeting__profile_character-item-wrapper:hover {
 	box-shadow: 0 0 15px rgba(118, 251, 237, 1);
 }
 
-.greeting__profile_character-item{
+.greeting__profile_character-item {
 	display: block;
 	height: 100%;
 	margin: 0 auto;
 }
 
-.greeting__profile_button{
+.greeting__profile_button {
 	display: block;
 	padding: 10px 0;
 	width: 220px;
@@ -122,16 +119,16 @@ body{
 	background: linear-gradient(180deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
 }
 
-.greeting__profile_button:hover{
+.greeting__profile_button:hover {
 	background: linear-gradient(180deg, #091b37 33%, #0B2349 66%, #0D61BC);
 }
 
-.selected{
+.selected {
 	border: 2px solid #76fbed;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 }
 
-.dialog{
+.dialog {
 	border: 5px double #9e12d8;
 	/*width: calc(100% - 50px);*/
 	width: 100%;
@@ -145,16 +142,16 @@ body{
 	background: linear-gradient(180deg, #86fdf3 33%, #bdfffa 66%, #f2d2ff);
 }
 
-.dialog__message{
+.dialog__message {
 	font-size: 150%;
 	color: #9e12d8;
 }
 
-.dialog-active{
+.dialog-active {
 	right: 0px;
 }
 
-.dialog__button{
+.dialog__button {
 	display: block;
 	padding: 5px 0;
 	width: 150px;
@@ -169,57 +166,61 @@ body{
 	float: right;
 }
 
-.dialog__button:hover{
+.dialog__button:hover {
 	background: linear-gradient(180deg, #3b164a 33%, #602479 66%, #9e4bc0);
 }
 
 .game-background {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 100% auto;
-    height: 100%;
-    background-color: #030000;
-    position: relative;
-    display: grid;
-    grid-template: ". . . . . ." ". hero . . monster ." ". . . . . .";
-    align-items: end;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 100% auto;
+	height: 100%;
+	background-color: #030000;
+	position: relative;
+	display: grid;
+	grid-template: ". . . . . ." ". hero . . monster ." ". . . . . .";
+	align-items: end;
 }
 
-.game-background-mirror{
-    grid-template: ". . . . . ." ". . . . hero-mirror ." ". . . . . .";
+.game-background-mirror {
+	grid-template: ". . . . . ." ". . . . hero-mirror ." ". . . . . .";
 }
+
 .door {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 100% auto;
-    position: absolute;
-    height: 100%;
-    top: 2.6%;
-    transition: 1s transform linear;
-    cursor: pointer;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 100% auto;
+	position: absolute;
+	height: 100%;
+	top: 2.6%;
+	transition: 1s transform linear;
+	cursor: pointer;
 }
 
 .door-left {
-    background-image: url("../assets/img/office-background/door-left.png");
-    transform-origin: left;
-    left: 4%;
-    width: 6.35%;
+	background-image: url("../assets/img/office-background/doors/door-left.png");
+	transform-origin: left;
+	left: 4.2%;
+	width: 6.35%;
 }
 
 .door-right {
-    background-image: url("../assets/img/office-background/door-right.png");
-    transform-origin: right;
-    right: 3.8%;
-    width: 6.59%;
+	background-image: url("../assets/img/office-background/doors/door-right.png");
+	transform-origin: right;
+	right: 3.6%;
+	width: 6.59%;
+}
+
+.door-right-reception {
+	right: 3.5%;
 }
 
 .doorOpened {
-    transform: rotateY(90deg);
-    transition: .5s linear;
+	transform: rotateY(90deg);
+	transition: .5s linear;
 }
 
-.hero-health__wrapper,
-.monster-health__wrapper{
+.hero-health__wrapper, .monster-health__wrapper {
 	position: relative;
 	width: 200px;
 	border: 2px solid blue;
@@ -227,87 +228,86 @@ body{
 	margin: -30px auto 0;
 }
 
-.hero-health-scale,
-.monster-health-scale{
+.hero-health-scale, .monster-health-scale {
 	background: red;
 	text-align: center;
 	height: 100%;
 	position: absolute;
-	width:100%;
+	width: 100%;
 	color: white;
 }
 
-.magic{
-  width: 165px;
-  height: 110px;
-  background: yellow;
-  font-size: 0;
-  margin:0;
-  display: none;
+.magic {
+	width: 165px;
+	height: 110px;
+	background: yellow;
+	font-size: 0;
+	margin: 0;
+	display: none;
 }
 
-.magic__spell{
-  border: 2px solid green;
-  width: 50px;
-  height: 50px;
-  display: inline-block;
-  font-size: 10px;
-  margin:0;
-  cursor: pointer;
+.magic__spell {
+	border: 2px solid green;
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	font-size: 10px;
+	margin: 0;
+	cursor: pointer;
 }
 
-.showSpells{
+.showSpells {
 	display: block;
 }
 
-.btn{
-  display: block;
-  margin: 40px auto 0;
+.btn {
+	display: block;
+	margin: 40px auto 0;
 }
 
-.hero-shield,
-.monster-shield{
-  position: absolute;
-  margin-top: -20px;
-  width: 100px;
-  height: 18px;
-  background-color: green;
-  color: white;
-  padding-top: 2px;
-  padding: 3px 3px;
+.hero-shield, .monster-shield {
+	position: absolute;
+	margin-top: -20px;
+	width: 100px;
+	height: 18px;
+	background-color: green;
+	color: white;
+	padding-top: 2px;
+	padding: 3px 3px;
 }
 
-.hero-shield{
-  left: -2px;
+.hero-shield {
+	left: -2px;
 }
 
-.monster-shield{
-  right: -2px;    
+.monster-shield {
+	right: -2px;
 }
 
-.answer{
-  font-size: 50px;
-  text-align: center;
-  min-height: 100px;
-  align-self: center;
+.answer {
+	font-size: 50px;
+	text-align: center;
+	min-height: 100px;
+	align-self: center;
 }
 
-.correct{
-  background: linear-gradient(360deg, #09b91a 33%, #1dea31 66%, #48ff59);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.correct {
+	background: linear-gradient(360deg, #09b91a 33%, #1dea31 66%, #48ff59);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
-.wrong{
-  background: linear-gradient(360deg, #be0d0d 33%, #e32121 66%, #fa4242);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.wrong {
+	background: linear-gradient(360deg, #be0d0d 33%, #e32121 66%, #fa4242);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
+
 
 @font-face {
 	font-family: "Gwent";
 	font-weight: bold;
 	font-style: normal;
 	src: url("../fonts/gwent/GWENT-ExtraBold.eot");
-	src: url("../fonts/gwent/GWENT-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../fonts/GWENT-ExtraBold.ttf") format("truetype"); 
+	src: url("../fonts/gwent/GWENT-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../fonts/GWENT-ExtraBold.ttf") format("truetype");
 }
