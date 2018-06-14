@@ -83,7 +83,7 @@ let officeColors = ["white", "blue", "green", "red", "pink", "mint"],
   gameColor = officeColors[0];
 let voices,
   volume = synth.volume;
-synth.volume = 0.5;
+  synth.volume = 0.5;
 let blitzCount = false;
 let blitzPower = 0;
 let text;
@@ -246,7 +246,7 @@ class createPage { // класс для создания страниц (ско�
     document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
     document.querySelector('.hero-shield__number').innerHTML = player.shield;
     document.querySelector('.monster-shield__number').innerHTML = monster.shield;
-    gameBackground.addClass(new Helpers().randomArrayElem(offices));
+    gameBackground.addClass(new Helpers().randomArrayElem(offices)); 
     text = document.getElementById('taskText');
 
     monstersPhrases = new Dialogs().monstersPhrases();
@@ -315,7 +315,7 @@ class Helpers {
       blitzPower += 20;
     }
 
-    if (blitzCount === 0 || blitzCount === false) {
+    if (blitzCount === 0 || blitzCount === false){
       setTimeout(function () {
         modal.style.display = 'none';
         text.innerHTML = '';
@@ -323,14 +323,14 @@ class Helpers {
         new doSpell()[spell]();
       }, 1500);
     } else {
-      setTimeout(function () {
+      setTimeout(function () { 
         modal.style.display = 'none';
         text.innerHTML = '';
         document.getElementById('answer__correct').innerHTML = '';
       }, 1000);
-
-      setTimeout(function () {
-        new Spells().blitzAttack();
+            
+      setTimeout(function () { 
+        new Spells().blitzAttack(); 
       }, 1500);
     }
   }
@@ -339,15 +339,15 @@ class Helpers {
     if (blitzCount > 0) {
       blitzCount--;
     }
-    if (blitzCount === false) {
+    if (blitzCount === false){
       setTimeout(function () {
         modal.style.display = 'none';
         text.innerHTML = '';
         document.getElementById('answer__wrong').innerHTML = '';
         new monsterAttack();
       }, 1500);
-    }
-    if (blitzCount === 0) {
+    } 
+    if (blitzCount === 0){
       setTimeout(function () {
         modal.style.display = 'none';
         text.innerHTML = '';
@@ -355,14 +355,14 @@ class Helpers {
         new doSpell()[spell]();
       }, 1500);
     } else if (blitzCount > 0) {
-      setTimeout(function () {
+      setTimeout(function () { 
         modal.style.display = 'none';
-        text.innerHTML = '';
+        text.innerHTML = ''; 
         document.getElementById('answer__wrong').innerHTML = '';
       }, 1000);
-
-      setTimeout(function () {
-        new Spells().blitzAttack();
+      
+      setTimeout(function () { 
+        new Spells().blitzAttack(); 
       }, 1500);
     }
   }
@@ -448,7 +448,6 @@ class Tasks { // дополнитльные (рандомные) задания
       audioVocab = vocabulary; //get vocabulary
       let task = new Helpers().generateRandomObjProperty(audioVocab),
         answer = audioVocab[task];
-
       new giveTask().showTaskAudio(rules, task, answer);
     })
   }
@@ -487,10 +486,10 @@ class Spells { // заклинания
     modal.style.display = 'block';
     let tasks = ['calculator', 'putInRightOrder', 'translate', 'audioTask'];
     let task = new Helpers().randomArrayElem(tasks);
-    if (!blitzCount) {
+    if ( !blitzCount ) {
       blitzCount = 3;
     };
-    new Tasks()[task]();
+    new Tasks()[task]();        
   }
 }
 
@@ -511,13 +510,13 @@ class giveTask { // вывод вопросов на экран
     <input type="button" class='btn task-field-btn' value="Answer">`;
 
     let description = $('#taskDesc'),
-      text = $('#taskText');
+      text = $('#taskText'),
+      audioBtn = $('#audioBtn');
+
+    text.innerHTML = `<input type="button" class='btn' id="audioBtn" value= "Click to listen">`;
 
     answerButtom = document.querySelector('.btn');
     description.innerHTML = rules;
-
-    text.append(`<input type="button" class='btn' id="audioBtn" value= "Click to listen">`);
-    let audioBtn = $('#audioBtn');
 
     audioBtn.click(() => {
       let readTaskText = new SpeechSynthesisUtterance(task);
