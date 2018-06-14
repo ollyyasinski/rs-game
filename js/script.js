@@ -510,13 +510,13 @@ class giveTask { // вывод вопросов на экран
     taskField.innerHTML = `<input type="text" class='task__form_answer'>
     <input type="button" class='btn task-field-btn' value="Answer">`;
 
-    let description = $('#taskDesc'),
-      text = $('#taskText');
+    let description = document.querySelector('#taskDesc'),
+      text = document.querySelector('#taskText');
 
     answerButtom = document.querySelector('.btn');
-    description.append(rules);
+    description.innerHTML = rules;
 
-    text.append(`<input type="button" class='btn' id="audioBtn" value= "Click to listen">`);
+    text.innerHTML = `<input type="button" class='btn' id="audioBtn" value= "Click to listen">`;
     let audioBtn = $('#audioBtn');
 
     audioBtn.click(() => {
