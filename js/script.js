@@ -516,15 +516,17 @@ class giveTask { // вывод вопросов на экран
     text.innerHTML = `<input type="button" class='btn' id="audioBtn" value= "Click to listen">`;
 
     answerButtom = document.querySelector('.btn');
-    description.innerHTML = rules;
+    description.append(rules);
 
     audioBtn.click(() => {
       let readTaskText = new SpeechSynthesisUtterance(task);
       synth.speak(readTaskText)
     });
 
+    console.log(answer);
     result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
-    answerButtom.addEventListener('click', result.checkVocabAnswer); // по клику - проверять результат
+    console.log(result)
+    answerButtom.addEventListener('click', result.checkSimpleAnswer); // по клику - проверять результат
     delete audioVocab[task]; //delete alredy used question
   };
   showTaskWithOptions(rules, task, options, answer) { //вопросы по схеме правило -> варианты ответов 
