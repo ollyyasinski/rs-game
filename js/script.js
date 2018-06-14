@@ -509,15 +509,26 @@ class giveTask { // вывод вопросов на экран
     taskField.innerHTML = `<input type="text" class='task__form_answer'>
     <input type="button" class='btn task-field-btn' value="Answer">`;
 
+<<<<<<< HEAD
     let description = $('#taskDesc'),
       text = $('#taskText'),
       audioBtn = $('#audioBtn');
 
     text.innerHTML = `<input type="button" class='btn' id="audioBtn" value= "Click to listen">`;
+=======
+    let description = document.querySelector('#taskDesc'),
+      text = document.querySelector('#taskText');
+>>>>>>> 30178aa7d4f54721a5230afda849739a7b36f65c
 
     answerButtom = document.querySelector('.btn');
-    description.append(rules);
+    description.innerHTML = rules;
 
+<<<<<<< HEAD
+=======
+    text.innerHTML = `<input type="button" class='btn' id="audioBtn" value= "Click to listen">`;
+    let audioBtn = $('#audioBtn');
+
+>>>>>>> 30178aa7d4f54721a5230afda849739a7b36f65c
     audioBtn.click(() => {
       let readTaskText = new SpeechSynthesisUtterance(task);
       synth.speak(readTaskText)
