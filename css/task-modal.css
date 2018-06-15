@@ -27,13 +27,21 @@
     left: 0;
     right: 0;
     display: grid;
-    grid-template: "task-caption" 29% "task-task-content" 17% "task-field" 45%;
+    grid-template: "task-task-content" 60% "task-field" 40%;
     align-items: center;
 }
 
-.task-caption {
+.options {
+    grid-template: "task-task-content" 40% "task-field" 60%;
+}
+/*.task-caption {
     grid-area: task-caption;
     margin-top: 7%;
+}*/
+
+.rules-list{
+    display: inline-block;
+    margin-left: 15px;
 }
 
 .task-task-content {
@@ -41,6 +49,7 @@
     display: grid;
     grid-template: "task-task-description" "task-task-text";
     height: 100%;
+    margin-top: 7%;
 }
 
 .task-field {
@@ -52,10 +61,19 @@
 
 .task-task-description {
     grid-area: task-task-description;
+    align-self: center;
+    color: teal;
+}
+
+.task-task-text-wrapper{
+    width: 80%;
+    justify-self: center;
 }
 
 .task-task-text {
     grid-area: task-task-text;
+    text-align: left;
+    display: inline-block;
 }
 
 .task-field-answer-container {
