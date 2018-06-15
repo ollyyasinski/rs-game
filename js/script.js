@@ -18,7 +18,7 @@ console.log(PLAYER_MAX_HEALTH);
 let result;
 let answerArray = [];
 const englishVocab = vocabulary.english; //get english vocabulary
-
+const SUPER_ATTACK_POWER = 60;
 let languages = ['javaScript', 'css', 'html', 'c', 'java', 'php', 'ruby', 'python']; // ЯП для монстров (уровней)
 let taskField;
 let main = document.querySelector('main'),
@@ -103,6 +103,7 @@ let blitzCount = false;
 let blitzPower = 0;
 let text;
 let doSuper;
+let levelFinished;
 /*const ATTACK_POWER = 40;
 const SHIELD_POWER = 50;
 const HEAL_POWER = 30;
@@ -197,6 +198,7 @@ class createPage { // класс для создания страниц (ско�
   }
   level() { // страница уровня
     level++;
+    levelFinished = false;
     levelLanguage = new Helpers().chooseLanguage(languages);
     main.innerHTML = `<div class="game-background">
                         <h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>
@@ -252,7 +254,7 @@ class createPage { // класс для создания страниц (ско�
                         </div>                      
                         <div class='dialog' id = dialog>
                           <p class='dialog__message' id='message'></p>
-                          <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
+                          <button type="button" class="dialog__button" id = 'dialogButton'>Close</button>
                         </div>
                       </div> `; //нарисовать страницу
     new Office(new Helpers().randomArrayElem(offices), 2).createOffice(); //создает рандомный офис, пока закомментила, чтобы не мешать твоему innerHTML
@@ -269,7 +271,10 @@ class createPage { // класс для создания страниц (ско�
     gameBackground.addClass(new Helpers().randomArrayElem(offices));
     text = document.getElementById('taskText');
 
-    monstersPhrases = new Dialogs().monstersPhrases();
+    monstersPhrases = new Dialogs().monstersPhrasesLevelStart();
+    if (level === 5) {
+      monstersPhrases = new Dialogs().monstersPhrasesFinal();
+    }
     setTimeout(function () {
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
       new dialogActions().showDialog([dialogText]);
@@ -426,6 +431,7 @@ class dialogActions { // методы окна диалога
     new dialogActions().writeDialogText('message', text, 50, gender);
   }
   writeDialogText(id, text, speed, gender) { // вывод текста 
+    document.getElementById('message').innerHTML = '';
     let ele = document.getElementById(id),
       txt = text.join("").split("");
     let readDialogText = new Helpers().createReadableText(text);
@@ -445,7 +451,8 @@ class dialogActions { // методы окна диалога
     synth.cancel(); //stop reading
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
-    if (level) {
+    console.log('LEVEL FINISHED',levelFinished);
+    if (level && levelFinished === false) {
       document.querySelector('.spells').classList.toggle('showSpells');
     }
   }
@@ -467,7 +474,7 @@ class Tasks { // дополнитльные (рандомные) задания
         ["let max", "=", "(a, b)", "=>", "{", "a > b", ";", "}", ";"],
         ["setTimeout(", "()", "=>", "{", "return 'result'", ";", "},", "1)", ";"],
         ["for(", "var i = 0;", ";", "i++", ")", "{", "if (i > 3)", "break;", "}"],
-        ["el", ".addEventListener(", '"click"', ",", "()", "=>", '{ alert("hello!"); }', ",", ");"],
+        ["el", ".addEventListener(", '"click"', ",", "()", "=>", '{ alert("hello!"); }', ");"],
         ["class", "Rectangle", "{", "constructor", "(height){", "this.height", "=", "height;", "} }"]
       ];
 
@@ -661,7 +668,7 @@ class checkAnswer { // класс проверки ответов
   }
 }
 
-const SUPER_ATTACK_POWER = 60;
+
 class doSpell { // игрок применяет заклинание
   constructor() { }
   attack(power) {
@@ -775,12 +782,15 @@ class monsterAttack { // монстр выбирает рандомную спо
       document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
       document.querySelector('.hero-health-scale__number').innerHTML = player.health;
       document.querySelector('.hero-shield__number').innerHTML = player.shield;
+      new levelResults().lose();
       // написать ф-ю проигрыша и перейти в нее
     };
-    document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
-    document.querySelector('.hero-health-scale__number').innerHTML = player.health;
-    document.querySelector('.hero-shield__number').innerHTML = player.shield;
-    document.querySelector('.spells').classList.toggle('showSpells');
+    if (player.health > 0) {
+      document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
+      document.querySelector('.hero-health-scale__number').innerHTML = player.health;
+      document.querySelector('.hero-shield__number').innerHTML = player.shield;
+      document.querySelector('.spells').classList.toggle('showSpells');
+    }
   }
   shield() {
     monster.shield += SHIELD_POWER;
@@ -797,8 +807,6 @@ class monsterAttack { // монстр выбирает рандомную спо
     document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
     document.querySelector('.spells').classList.toggle('showSpells');
   }
-  /*helper() { console.log('HElper'); }
-  multiAttack() { console.log('multi-attack'); }*/
 }
 
 class levelResults { // уровень закончен
@@ -807,14 +815,28 @@ class levelResults { // уровень закончен
     player.levelPass++;
     player.health = 100;
     player.shield = 0;
+    player.super = 0;
     attackQuestions = 0, shieldQuestions = 0, healQuestions = 0;
+    levelFinished = true;
+    monstersPhrases = new Dialogs().monstersPhrasesLevelWin();
+    setTimeout(function () {
+      let dialogText = new Helpers().randomArrayElem(monstersPhrases);
+      new dialogActions().showDialog([dialogText]);
+    }, 500);
     new Door($(".door-right")).openDoor();
     synth.cancel(); //stop reading
     document.querySelector('.door-right').addEventListener('click', function () { setTimeout(new createPage().level, 1500); });
     new Door($(".door-left")).openDoor();
     document.querySelector('.door-left').addEventListener('click', function () { setTimeout(new createPage().level, 1500); });
   }
-  lose() { } // поражением
+  lose() {
+    levelFinished = true;
+    monstersPhrases = new Dialogs().monstersPhrasesLevelLose();
+    setTimeout(function () {
+      let dialogText = new Helpers().randomArrayElem(monstersPhrases);
+      new dialogActions().showDialog([dialogText]);
+    }, 500);
+  } // поражением
 }
 
 class Dialogs {
@@ -823,7 +845,7 @@ class Dialogs {
     let arr = [`Hello, ${player.name}, we were waiting for you! Welcome to 'Company name' - one of the best companies in the world. To get a job you have to go through 5 interviews. Each interview will check your knowledge in some programming language. Your "monsters" are waiting for you, if you are ready - go through that door. Good luck!`];
     return arr;
   }
-  monstersPhrases() {
+  monstersPhrasesLevelStart() {
     let arr = [
       `Well ${player.name}, let's check your ${levelLanguage} skills.`,
       `Heard you are a big fan of ${levelLanguage}. Will see!`,
@@ -835,6 +857,36 @@ class Dialogs {
       `Don't be afraid, ${player.name}, ${levelLanguage} - it's easy. Let's start!`,
       `You shall not pass, ${player.name}!!!`,
       `Only one candidate have passed this level. Are you ready, ${player.name}?`
+    ];
+    return arr;
+  }
+  monstersPhrasesLevelWin(){
+    let arr = [
+      `Excellent work, ${player.name}! Choose your way and good luck.`,
+      `You're really good in ${levelLanguage}. You can go through any door for the next interview.`,
+      `I'm impressed, ${player.name}! Good luck on the next interview, choose any door.`,
+      `Your knowledge of ${levelLanguage} is very good! You can go to any door for next level.`,
+      `Good interview, I wish good luck to the next. Choose any door, ${player.name}`,
+      `Amazing skills, ${player.name}! Go through one of this doors to continue.`,
+      `You really are good at ${levelLanguage}. Choose the door and good luck.`,
+      `Good job, ${player.name}. You can go to any door for next level.`,
+      `I see, ${levelLanguage} is to easy for you, isn't it? Go through one of this doors to continue.`,
+      `I see, you're really big fan of ${levelLanguage}! Good luck on the next interview, ${player.name}, choose any door.`
+    ];
+    return arr;
+  }
+  monstersPhrasesLevelLose(){
+    let arr = [
+      `Better luck next time, ${player.name}.`,
+      `I'm sorry, ${player.name}, but as long as your knowledge is not enough.`,
+      `You need to pay more attention to ${levelLanguage}. Come again when you are ready.`,
+      `You should seriously study ${levelLanguage}. Your knowledge is not enough yet.`,
+      `I think in half a year you will succeed. Good luck, ${player.name}!`,
+      `Your skills are not enough yet. Good buy, ${player.name}.`,
+      `Not bad, ${player.name}, but you still need to learn  a lot. See you!`,
+      `We will call you, ${player.name}`,
+      `Sorry, ${player.name}, but we can't offer you job now.`,
+      `You have serious problems with ${levelLanguage}. Keep learning, ${player.name}`
     ];
     return arr;
   }
