@@ -1,6 +1,15 @@
-import {ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH} from './const'
-import {AttackQuestions, ShieldQuestions, HealQuestions} from './questions'
-//import '../css/style.css';
+import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './const'
+import { AttackQuestions, ShieldQuestions, HealQuestions } from './questions'
+import '../css/style.css';
+import $ from 'jquery';
+require('jquery-ui');
+require('jquery-ui/ui/widgets/sortable');
+require('jquery-ui/ui/disable-selection');
+import _ from 'lodash';
+import vocabulary from '../assets/vocabularies/vocabulary.json';
+import audioVocabulary from '../assets/vocabularies/audioVocabulary.json';
+
+console.log(audioVocabulary);
 console.log(ATTACK_POWER);
 console.log(SHIELD_POWER);
 console.log(HEAL_POWER);
@@ -8,6 +17,7 @@ console.log(PLAYER_MAX_HEALTH);
 
 let result;
 let answerArray = [];
+const englishVocab = vocabulary.english; //get english vocabulary
 
 let languages = ['javaScript', 'css', 'html', 'c', 'java', 'php', 'ruby', 'python']; // ЯП для монстров (уровней)
 let taskField;
@@ -85,12 +95,10 @@ let receptionHTML = `<div class="game-background game-background-mirror">
                      </div>`
 
 let synth = window.speechSynthesis;
-let englishVocab,
-  audioVocab;
 let officeColors = ["white", "blue", "green", "red", "pink", "mint"],
   gameColor = officeColors[0];
 let voices,
-volume = 0.5;
+  volume = 0.5;
 let blitzCount = false;
 let blitzPower = 0;
 let text;
@@ -261,12 +269,6 @@ class createPage { // класс для создания страниц (ско�
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
       new dialogActions().showDialog([dialogText]);
     }, 1000);
-
-    fetch('../assets/vocabularies/vocabulary.json').then(function (response) { // перенесла получение словаря один раз на уровень
-      return response.json();
-    }).then(function (vocabulary) {
-      englishVocab = vocabulary.english; //get vocabulary
-    });
 
     let magic = document.querySelector('.magic');
     Array.from(magic.children).forEach(div => {
@@ -455,14 +457,10 @@ class Tasks { // дополнитльные (рандомные) задания
   audioTask() {
     let rules = `Write what you hear`;
 
-    fetch('../assets/vocabularies/audioVocabulary.json').then(function (response) {
-      return response.json();
-    }).then(function (vocabulary) {
-      audioVocab = vocabulary; //get vocabulary
-      let task = new Helpers().generateRandomObjProperty(audioVocab),
-        answer = audioVocab[task];
-      new giveTask().showTaskAudio(rules, task, answer);
-    })
+    let task = new Helpers().generateRandomObjProperty(audioVocabulary),
+      answer = audioVocabulary[task];
+    new giveTask().showTaskAudio(rules, task, answer);
+
   }
 }
 
@@ -540,7 +538,7 @@ class giveTask { // вывод вопросов на экран
     result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
     console.log(result)
     answerButtom.addEventListener('click', result.checkSimpleAnswer); // по клику - проверять результат
-    delete audioVocab[task]; //delete alredy used question
+    delete audioVocabulary[task]; //delete alredy used question
   };
   showTaskWithOptions(rules, task, options, answer) { //вопросы по схеме правило -> варианты ответов 
     taskField.innerHTML = `<label><input type='radio' class='task__form_options' name='answer' value='${options[0]}'>${options[0]}</label>
