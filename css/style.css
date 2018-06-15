@@ -4,6 +4,7 @@
 @import "../css/task-modal.css";
 @import "../css/office-backgrounds.css";
 @import "../css/results-modal.css";
+@import "../css/spells.css";
 
 * {
 	margin: 0;
@@ -179,8 +180,13 @@ body {
 	background-color: #030000;
 	position: relative;
 	display: grid;
-	grid-template: ". . . . . ." ". hero . . monster ." ". . . . . .";
+	grid-template: "level level level level level level" ". hero spells spells monster ." ". . . . . .";
 	align-items: end;
+}
+
+.level__caption {
+	grid-area: level;
+	align-self: center;
 }
 
 .game-background-mirror {
@@ -226,7 +232,7 @@ body {
 	width: 200px;
 	border: 2px solid blue;
 	height: 20px;
-	margin: -30px auto 0;
+	margin: -40px auto 0;
 }
 
 .hero-health-scale, .monster-health-scale {
@@ -236,25 +242,6 @@ body {
 	position: absolute;
 	width: 100%;
 	color: white;
-}
-
-.magic {
-	width: 165px;
-	height: 110px;
-	background: yellow;
-	font-size: 0;
-	margin: 0;
-	display: none;
-}
-
-.magic__spell {
-	border: 2px solid green;
-	width: 50px;
-	height: 50px;
-	display: inline-block;
-	font-size: 10px;
-	margin: 0;
-	cursor: pointer;
 }
 
 .showSpells {
@@ -304,6 +291,23 @@ body {
 	-webkit-text-fill-color: transparent;
 }
 
+.hero-super{
+    text-align: center;
+    height: 60%;
+    position: relative;
+    width: calc(100% + 4px);
+    margin-top: 18px;
+    margin-left: -2px;
+    color: white;
+    border: 1px solid orange;
+    border-top: none;
+}
+
+.hero-super_scale{
+  background: yellow;
+  position: absolute;
+  height: 100%;
+}
 
 @font-face {
 	font-family: "Gwent";
