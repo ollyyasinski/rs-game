@@ -1,5 +1,5 @@
 import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './const'
-import { AttackQuestions, ShieldQuestions, HealQuestions } from './questions'
+//import { AttackQuestions, ShieldQuestions, HealQuestions } from './questions'
 import '../css/style.css';
 import $ from 'jquery';
 require('jquery-ui');
@@ -8,18 +8,15 @@ require('jquery-ui/ui/disable-selection');
 import _ from 'lodash';
 import vocabulary from '../assets/vocabularies/vocabulary.json';
 import audioVocabulary from '../assets/vocabularies/audioVocabulary.json';
-
-console.log(audioVocabulary);
-console.log(ATTACK_POWER);
-console.log(SHIELD_POWER);
-console.log(HEAL_POWER);
-console.log(PLAYER_MAX_HEALTH);
+import aQ from '../assets/questions/attackQuestions.json'
+import sQ from '../assets/questions/shieldQuestions.json'
+import hQ from '../assets/questions/healQuestions.json'
 
 let result;
 let answerArray = [];
 const englishVocab = vocabulary.english; //get english vocabulary
 const SUPER_ATTACK_POWER = 60;
-let languages = ['javaScript', 'css', 'html', 'c', 'java', 'php', 'ruby', 'python']; // ЯП для монстров (уровней)
+let languages = ['javaScript', 'css', 'html', 'c++', 'java', 'php', 'ruby', 'python3']; // ЯП для монстров (уровней)
 let taskField;
 let main = document.querySelector('main'),
   body = $('body');
@@ -241,10 +238,9 @@ class createPage { // класс для создания страниц (ско�
                         </div>
                         <div id="taskModal" class="modal">
                           <div class="task-modal-content">
-                            <h1 class='task-caption'>TASK NAME</h1>
                             <div class='task-task-content'>
                               <p class='task-task-description' id='taskDesc'></p>
-                              <p class='task-task-text' id='taskText'></p>
+                              <div class='task-task-text-wrapper'><p class='task-task-text' id='taskText'></p></div>
                             </div>
                             <div class='task-field' id='taskField'>
                               <div class='task-field-answer-container' id="taskFieldAnswer"></div>
@@ -284,7 +280,6 @@ class createPage { // класс для создания страниц (ско�
     Array.from(magic.children).forEach(div => {
       div.addEventListener('click', e => {        
         spell = e.target.classList[1];
-        console.log(spell);
         if (spell !== 'super'){
           document.querySelector('.spells').classList.toggle('showSpells');
           modal = document.getElementById('taskModal');
@@ -342,6 +337,7 @@ class Helpers {
         modal.style.display = 'none';
         text.innerHTML = '';
         document.getElementById('answer__correct').innerHTML = '';
+        document.querySelector(".task-modal-content").classList.remove('options');
         new doSpell()[spell]();
       }, 1500);
     } else {
@@ -361,11 +357,12 @@ class Helpers {
     if (blitzCount > 0) {
       blitzCount--;
     }
-    if (blitzCount === false || doSuper === true) {
+    if (blitzCount === false) {
       setTimeout(function () {
         modal.style.display = 'none';
         text.innerHTML = '';
         document.getElementById('answer__wrong').innerHTML = '';
+        document.querySelector(".task-modal-content").classList.remove('options');
         new monsterAttack();
       }, 1500);
     }
@@ -405,10 +402,12 @@ class Helpers {
   }
   unblockSuperAttack(){
     document.querySelector('.super').classList.toggle('blockSuper');
+    document.querySelector('.hero-super').classList.toggle('super__full');
     document.querySelector('.super').addEventListener('click', new Helpers().superClick);
   }
   blockSuperAttack(){
     document.querySelector('.super').classList.toggle('blockSuper');
+    document.querySelector('.hero-super').classList.toggle('super__full');
     document.querySelector('.super').removeEventListener('click', new Helpers().superClick);
   }
   superClick(){
@@ -435,7 +434,6 @@ class dialogActions { // методы окна диалога
     let ele = document.getElementById(id),
       txt = text.join("").split("");
     let readDialogText = new Helpers().createReadableText(text);
-    console.log(readDialogText);
     new Helpers().setVoiceGender(readDialogText, gender);
 
     synth.speak(readDialogText); //read dialog  
@@ -451,7 +449,6 @@ class dialogActions { // методы окна диалога
     synth.cancel(); //stop reading
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
-    console.log('LEVEL FINISHED',levelFinished);
     if (level && levelFinished === false) {
       document.querySelector('.spells').classList.toggle('showSpells');
     }
@@ -474,7 +471,7 @@ class Tasks { // дополнитльные (рандомные) задания
         ["let max", "=", "(a, b)", "=>", "{", "a > b", ";", "}", ";"],
         ["setTimeout(", "()", "=>", "{", "return 'result'", ";", "},", "1)", ";"],
         ["for(", "var i = 0;", ";", "i++", ")", "{", "if (i > 3)", "break;", "}"],
-        ["el", ".addEventListener(", '"click"', ",", "()", "=>", '{ alert("hello!"); }', ");"],
+        ["el", ".addEventListener(", '"click"', ",", "()", "=>", '{ alert("hello!"); }', ",", ");"],
         ["class", "Rectangle", "{", "constructor", "(height){", "this.height", "=", "height;", "} }"]
       ];
 
@@ -505,28 +502,28 @@ class Spells { // заклинания
   constructor() { } //в консоли пока отображаются ответы для задач
   attack() {
     if (!attackQuestions) {
-      attackQuestions = new AttackQuestions()[levelLanguage](); // получаем массив в вопросами для данного уровня
+      attackQuestions = aQ[levelLanguage]; // получаем массив в вопросами для данного уровня
     };
     let question = new Helpers().randomArrayElem(attackQuestions);
     console.log('Answer ', question[1]);
-    let rules = new AttackQuestions().rules; // правила для этого вида заклинаний
+    let rules = aQ.rules; // правила для этого вида заклинаний
     new giveTask().showTaskSimple(rules, question[0], question[1]); // выводим вопрос
   }
   shield() {
     if (!shieldQuestions) {
-      shieldQuestions = new ShieldQuestions()[levelLanguage]();
+      shieldQuestions = sQ[levelLanguage];
     }
     let question = new Helpers().randomArrayElem(shieldQuestions);
     console.log('Answer ', question[1]);
-    let rules = new ShieldQuestions().rules;
+    let rules = sQ.rules;
     new giveTask().showTaskSimple(rules, question[0], question[1]);
   }
   heal() {
     if (!healQuestions) {
-      healQuestions = new HealQuestions()[levelLanguage]();
+      healQuestions = hQ[levelLanguage];
     }
     let question = new Helpers().randomArrayElem(healQuestions);
-    let rules = new HealQuestions().rules;
+    let rules = hQ.rules;
     new giveTask().showTaskWithOptions(rules, question[0], question[1], question[2]);
     console.log('Answer ', question[2]);
   }
@@ -540,7 +537,6 @@ class Spells { // заклинания
     new Tasks()[task]();
   }
   superAttack(){
-    console.log('we are super');
     modal.style.display = 'block';
     let tasks = ['calculator', 'putInRightOrder', 'translate', 'audioTask'];
     let task = new Helpers().randomArrayElem(tasks);
@@ -580,17 +576,18 @@ class giveTask { // вывод вопросов на экран
 
     console.log(answer);
     result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
-    console.log(result)
+    console.log(result);
     answerButtom.addEventListener('click', result.checkSimpleAnswer); // по клику - проверять результат
     delete audioVocabulary[task]; //delete alredy used question
   };
   showTaskWithOptions(rules, task, options, answer) { //вопросы по схеме правило -> варианты ответов 
-    taskField.innerHTML = `<label><input type='radio' class='task__form_options' name='answer' value='${options[0]}'>${options[0]}</label>
-                           <label><input type='radio' class='task__form_options' name='answer' value='${options[1]}'>${options[1]}</label>
-                           <label><input type='radio' class='task__form_options' name='answer' value='${options[2]}'>${options[2]}</label>
-                           <label><input type='radio' class='task__form_options' name='answer' value='${options[3]}'>${options[3]}</label>
+    taskField.innerHTML = `<label class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[0]}'>${options[0]}</label>
+                           <label class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[1]}'>${options[1]}</label>
+                           <label class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[2]}'>${options[2]}</label>
+                           <label class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[3]}'>${options[3]}</label>
                            <input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.btn');
+    document.querySelector(".task-modal-content").classList.add('options');
     let description = document.getElementById('taskDesc');
     description.innerHTML = rules;
     text.innerHTML = task;
@@ -645,9 +642,8 @@ class checkAnswer { // класс проверки ответов
     }
   }
   checkSelectedAnswer() { // проверка для вопросов с вариантами ответов
-    console.log(taskField.querySelector(':checked').value);
-    let answer = taskField.querySelector(':checked').value;
-    if (answer === result.result) {
+    let answer = taskField.querySelector(':checked') || '';
+    if (answer.value === result.result) {
       new Helpers().showIfAnswerCorrect();
     } else {
       new Helpers().showIfAnswerWrong();
@@ -698,10 +694,7 @@ class doSpell { // игрок применяет заклинание
       monster.health = 0;
       document.querySelector('.monster-health-scale').style.width = `${monster.health}%`;
       document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
-      console.log('win');
       new levelResults().win();
-      //break;
-      // написать ф-ю победы на уровне и перейти в нее
     };
     if (monster.health > 0) {
       document.querySelector('.monster-health-scale').style.width = `${monster.health * 100 / (100 + 20 * level)}%`;
@@ -747,16 +740,9 @@ class monsterAttack { // монстр выбирает рандомную спо
     if (monster.shield === 0) {
       this.spells.push('shield');
     }
-    /*if (!monster.helper) { еще рано
-      this.spells.push('helper');
-    };*/
     if (monster.health < (100 + 20 * level)) {
       this.spells.push('heal');
     };
-    /*if (player.helper) { еще рано
-      this.spells.push('multiAttack');
-    };*/
-    //console.log(this.spells);
     let spell = this.spells[new Helpers().randomNumber(this.spells.length)];
     console.log('Monster do', spell);
     setTimeout(this[spell], 1000);
@@ -777,13 +763,11 @@ class monsterAttack { // монстр выбирает рандомную спо
     }
     if (player.health <= 0) {
       player.health = 0;
-      console.log('loser');
       // запустить страницу проигрыша с таблицей рекордов
       document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
       document.querySelector('.hero-health-scale__number').innerHTML = player.health;
       document.querySelector('.hero-shield__number').innerHTML = player.shield;
       new levelResults().lose();
-      // написать ф-ю проигрыша и перейти в нее
     };
     if (player.health > 0) {
       document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
@@ -818,6 +802,7 @@ class levelResults { // уровень закончен
     player.super = 0;
     attackQuestions = 0, shieldQuestions = 0, healQuestions = 0;
     levelFinished = true;
+    document.querySelector('.level__caption').innerHTML = "Congratulations!";
     monstersPhrases = new Dialogs().monstersPhrasesLevelWin();
     setTimeout(function () {
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
@@ -836,7 +821,7 @@ class levelResults { // уровень закончен
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
       new dialogActions().showDialog([dialogText]);
     }, 500);
-  } // поражением
+  } 
 }
 
 class Dialogs {

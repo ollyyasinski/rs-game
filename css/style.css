@@ -30,7 +30,8 @@ body {
 	width: 100%;
 }
 
-.greeting__caption, .level__caption {
+.greeting__caption, 
+.level__caption {
 	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -180,13 +181,17 @@ body {
 	background-color: #030000;
 	position: relative;
 	display: grid;
-	grid-template: "level level level level level level" ". hero spells spells monster ." ". . . . . .";
+	grid-template: "level level level level level level" ". hero spells spells monster ." ". . . . . ."/auto auto 150px 150px auto auto;
 	align-items: end;
 }
 
 .level__caption {
 	grid-area: level;
-	align-self: center;
+	align-self: baseline;
+	background: linear-gradient(360deg, #f63d04 33%, #f45d2e 66%, #fc784f);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	padding-top: 5px;
 }
 
 .game-background-mirror {
@@ -250,7 +255,7 @@ body {
 
 .btn {
 	display: block;
-	margin: 40px auto 0;
+	margin: 40px auto 20px;
 }
 
 .hero-shield, .monster-shield {
@@ -307,6 +312,15 @@ body {
   background: yellow;
   position: absolute;
   height: 100%;
+}
+
+.options-label{
+	display: block;
+	margin-bottom: 10px;
+}
+
+.super__full{
+	box-shadow: 0 0 15px rgba(250, 230, 11, 1);
 }
 
 @font-face {
