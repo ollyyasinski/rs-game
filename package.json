@@ -27,6 +27,7 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "lodash-loader": "^2.0.0"
   }
 }

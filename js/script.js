@@ -102,6 +102,7 @@ let voices,
 let blitzCount = false;
 let blitzPower = 0;
 let text;
+let doSuper;
 /*const ATTACK_POWER = 40;
 const SHIELD_POWER = 50;
 const HEAL_POWER = 30;
@@ -116,6 +117,7 @@ class Player { // класс игрока
     this.helper;
     this.shield = 0;
     this.levelPass = 0;
+    this.super = 0;
   }
 }
 
@@ -198,14 +200,13 @@ class createPage { // класс для создания страниц (ско�
     levelLanguage = new Helpers().chooseLanguage(languages);
     main.innerHTML = `<div class="game-background">
                         <h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>
-                        <div class='magic'>
-                          <div class='magic__spell attack'>Attack</div>
-                          <div class='magic__spell shield'>Shield</div>
-                          <div class='magic__spell heal'>Heal</div>
-                          <div class='magic__spell blitzAttack'>Blitz</div>
-                          <div class='magic__spell helper'>Helper</div>
-                          <div class='magic__spell super'>Super</div>
-                        </div>
+                        <ul class='spells'>
+                          <li class='spell attack'><p class='spell_wrapper'><span class='spell__name'>Attack</span><span class='spell__description'>40 damage to monster</span></li>
+                          <li class='spell shield'><p class='spell_wrapper'><span class='spell__name'>Shield</span><span class='spell__description'>+50 to your defense (absorbs damage)</span></li>
+                          <li class='spell heal'><p class='spell_wrapper'><span class='spell__name'>Heal</span><span class='spell__description'>+30 to your health</span></li>
+                          <li class='spell blitzAttack'><p class='spell_wrapper'><span class='spell__name'>Blitz Attack</span><span class='spell__description'>3 tasks, each gives +20 to your attack power (max is 60)</span></li>
+                          <li class='spell super blockSuper'><p class='spell_wrapper'><span class='spell__name'>Super Attack</span><span class='spell__description'>60 damage to monster</span></li>
+                        </ul>
                         <div class="door door-left"></div>
                         <div class="door door-right"></div>
                         <div class='hero-container'>
@@ -215,6 +216,10 @@ class createPage { // класс для создания страниц (ско�
                            </div>
                             <div class='hero-health-scale'>
                               <span class='hero-health-scale__number'></span>
+                            </div>
+                            <div class='hero-super'>
+                              <div class='hero-super_scale'>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -270,14 +275,17 @@ class createPage { // класс для создания страниц (ско�
       new dialogActions().showDialog([dialogText]);
     }, 1000);
 
-    let magic = document.querySelector('.magic');
+    let magic = document.querySelector('.spells');
     Array.from(magic.children).forEach(div => {
-      div.addEventListener('click', e => {
-        document.querySelector('.magic').classList.toggle('showSpells');
+      div.addEventListener('click', e => {        
         spell = e.target.classList[1];
-        modal = document.getElementById('taskModal');
-        modal.style.display = 'block';
-        new Spells()[spell]();
+        console.log(spell);
+        if (spell !== 'super'){
+          document.querySelector('.spells').classList.toggle('showSpells');
+          modal = document.getElementById('taskModal');
+          modal.style.display = 'block';
+          new Spells()[spell]();
+        }
       });
     });
   }
@@ -348,13 +356,19 @@ class Helpers {
     if (blitzCount > 0) {
       blitzCount--;
     }
-    if (blitzCount === false) {
+    if (blitzCount === false || doSuper === true) {
       setTimeout(function () {
         modal.style.display = 'none';
         text.innerHTML = '';
         document.getElementById('answer__wrong').innerHTML = '';
         new monsterAttack();
       }, 1500);
+    }
+    if (doSuper === true) {
+      doSuper = false;
+      player.super = 0;
+      document.querySelector('.hero-super_scale').style.width = `${player.super}%`;
+      new Helpers().blockSuperAttack();
     }
     if (blitzCount === 0) {
       setTimeout(function () {
@@ -383,6 +397,22 @@ class Helpers {
     let readableText = new SpeechSynthesisUtterance(text);
     readableText.volume = volume;
     return readableText;
+  }
+  unblockSuperAttack(){
+    document.querySelector('.super').classList.toggle('blockSuper');
+    document.querySelector('.super').addEventListener('click', new Helpers().superClick);
+  }
+  blockSuperAttack(){
+    document.querySelector('.super').classList.toggle('blockSuper');
+    document.querySelector('.super').removeEventListener('click', new Helpers().superClick);
+  }
+  superClick(){
+    spell = 'superAttack';
+    doSuper = true;
+    document.querySelector('.spells').classList.toggle('showSpells');
+    modal = document.getElementById('taskModal');
+    modal.style.display = 'block';
+    new Spells()[spell]();
   }
 }
 
@@ -416,7 +446,7 @@ class dialogActions { // методы окна диалога
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
     if (level) {
-      document.querySelector('.magic').classList.toggle('showSpells');
+      document.querySelector('.spells').classList.toggle('showSpells');
     }
   }
 }
@@ -500,6 +530,13 @@ class Spells { // заклинания
     if (!blitzCount) {
       blitzCount = 3;
     };
+    new Tasks()[task]();
+  }
+  superAttack(){
+    console.log('we are super');
+    modal.style.display = 'block';
+    let tasks = ['calculator', 'putInRightOrder', 'translate', 'audioTask'];
+    let task = new Helpers().randomArrayElem(tasks);
     new Tasks()[task]();
   }
 }
@@ -624,7 +661,7 @@ class checkAnswer { // класс проверки ответов
   }
 }
 
-
+const SUPER_ATTACK_POWER = 60;
 class doSpell { // игрок применяет заклинание
   constructor() { }
   attack(power) {
@@ -644,6 +681,11 @@ class doSpell { // игрок применяет заклинание
       if (monster.shield > force) {
         monster.shield -= force;
       }
+    }
+    player.super += 20;
+    document.querySelector('.hero-super_scale').style.width = `${player.super}%`;
+    if (player.super === 20){
+      new Helpers().unblockSuperAttack();
     }
     if (monster.health <= 0) {
       monster.health = 0;
@@ -682,6 +724,13 @@ class doSpell { // игрок применяет заклинание
     new doSpell().attack(blitzPower);
     blitzCount = false;
     blitzPower = 0;
+  }
+  superAttack() {
+    new doSpell().attack(SUPER_ATTACK_POWER);
+    player.super = 0;
+    doSuper = false;
+    document.querySelector('.hero-super_scale').style.width = `${player.super}%`;
+    new Helpers().blockSuperAttack();
   }
 }
 
@@ -731,12 +780,12 @@ class monsterAttack { // монстр выбирает рандомную спо
     document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
     document.querySelector('.hero-shield__number').innerHTML = player.shield;
-    document.querySelector('.magic').classList.toggle('showSpells');
+    document.querySelector('.spells').classList.toggle('showSpells');
   }
   shield() {
     monster.shield += SHIELD_POWER;
     document.querySelector('.monster-shield__number').innerHTML = monster.shield;
-    document.querySelector('.magic').classList.toggle('showSpells');
+    document.querySelector('.spells').classList.toggle('showSpells');
   }
   heal() {
     monster.health += HEAL_POWER;
@@ -746,7 +795,7 @@ class monsterAttack { // монстр выбирает рандомную спо
     document.querySelector('.monster-health-scale').style.width = `${monster.health * 100 / (100 + 20 * level)}%`;
     document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health * 100 / (100 + 20 * level)}%`;
     document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
-    document.querySelector('.magic').classList.toggle('showSpells');
+    document.querySelector('.spells').classList.toggle('showSpells');
   }
   /*helper() { console.log('HElper'); }
   multiAttack() { console.log('multi-attack'); }*/
