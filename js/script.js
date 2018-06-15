@@ -1,3 +1,11 @@
+import {ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH} from './const'
+import {AttackQuestions, ShieldQuestions, HealQuestions} from './questions'
+//import '../css/style.css';
+console.log(ATTACK_POWER);
+console.log(SHIELD_POWER);
+console.log(HEAL_POWER);
+console.log(PLAYER_MAX_HEALTH);
+
 let result;
 let answerArray = [];
 
@@ -81,15 +89,15 @@ let englishVocab,
   audioVocab;
 let officeColors = ["white", "blue", "green", "red", "pink", "mint"],
   gameColor = officeColors[0];
-let voices;
+let voices,
 volume = 0.5;
 let blitzCount = false;
 let blitzPower = 0;
 let text;
-const ATTACK_POWER = 40;
+/*const ATTACK_POWER = 40;
 const SHIELD_POWER = 50;
 const HEAL_POWER = 30;
-const PLAYER_MAX_HEALTH = 100;
+const PLAYER_MAX_HEALTH = 100;*/
 
 class Player { // класс игрока
   constructor(name, character) {
