@@ -13,7 +13,6 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-
 .task-modal-content {
     background-image: url("../assets/img/extras/white-board.png");
     background-size: cover;
@@ -47,6 +46,15 @@
 .rules-list{
     display: inline-block;
     margin-left: 15px;
+}
+
+.options {
+    grid-template: "task-task-content" 40% "task-field" 60%;
+    margin-left: 15px;
+}
+
+.rules-list {
+    display: inline-block;
 }
 
 .task-task-content {

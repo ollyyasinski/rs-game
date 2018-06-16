@@ -1,13 +1,16 @@
 import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './const'
-//import { AttackQuestions, ShieldQuestions, HealQuestions } from './questions'
 import '../css/style.css';
 import $ from 'jquery';
 require('jquery-ui');
 require('jquery-ui/ui/widgets/sortable');
+require('jquery-ui/ui/widgets/draggable');
 require('jquery-ui/ui/disable-selection');
 import _ from 'lodash';
 import vocabulary from '../assets/vocabularies/vocabulary.json';
 import audioVocabulary from '../assets/vocabularies/audioVocabulary.json';
+
+import '../css/style.css';
+
 import aQ from '../assets/questions/attackQuestions.json'
 import sQ from '../assets/questions/shieldQuestions.json'
 import hQ from '../assets/questions/healQuestions.json'
@@ -43,6 +46,7 @@ let level = 0;
 let levelLanguage;
 let spell, modal;
 let gameBackground,
+  selectedOffice,
   offices = ['reception', 'office-1', 'office-2', 'office-3', 'office-4', "office-5"],
   fullGameBody = `<div class="game-background">
   <div class="door door-left"></div>
@@ -97,18 +101,145 @@ let receptionHTML = `<div class="game-background game-background-mirror">
                        <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
                      </div>`
 
+let sideNavHTML = `                        <div class="sidenav">
+<btn class="close-btn" id="closeBtn">&#10006;</btn>
+<ul class="sidenav-list">
+  <li id="officeColors">Office Colors</li>
+  <li id="soundSettings">Sound</li>
+  <li id="bestResults">Best Results</li>
+  <li id="rules">Rules</li>
+</ul>
+</div>                       `;
+let officesSettingsHTML = `<div class="menu-modal">
+                            <div class="menu-modal-content-wrapper">
+                              <div class="menu-modal-content">
+                                <div class="menu-modal-caption">
+                                  <btn class="close-btn menu-close-btn" id="closeOffices">&#10006;</btn>
+                                  <h1>Select Office Color</h1>
+                                </div>
+                                <div class="menu-modal-section">
+                                  <div class="offices-grid">
+                                    <div class="offices-row-1">
+                                      <div class="office-option office-option-1-1 selected"></div>
+                                      <div class="office-option office-option-1-2"></div>
+                                      <div class="office-option office-option-1-3"></div>
+                                      <div class="office-option office-option-1-4"></div>
+                                    </div>
+                                    <div class="offices-row-2">
+                                      <div class="office-option office-option-2-1"></div>
+                                      <div class="office-option office-option-2-2"></div>
+                                      <div class="office-option office-option-2-3"></div>
+                                  </div>
+                                </div>
+                                <div class="menu-modal-submit-wrapper">
+                                  <button type="button" class="btn btn-danger menu-btn" id="saveOfficeBtn">Save</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>`;
+
+let resultsTableHTML = `
+                          <div class="menu-modal">
+                            <div class="menu-modal-content-wrapper">
+                              <div class="menu-modal-content">
+                                <div class="menu-modal-caption">
+                                  <btn class="close-btn menu-close-btn" id="closeResults">&#10006;</btn>
+                                  <h1>Best Results</h1>
+                                </div>
+                                <div class="menu-modal-section result-modal-content">
+                                
+                                <table>
+                                    <thead>
+                                        <tr class="table-header">
+                                            <th>#</th>
+                                            <th>User Name</th>
+                                            <th>Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="resultsTable">
+                                    </tbody>
+                                </table>
+                               
+                                </div>
+                              </div>
+                            </div>`;
+
+let soundSettingsHTML = `<div class="menu-modal">
+<div class="menu-modal-content-wrapper">
+  <div class="menu-modal-content">
+  <div class="menu-modal-caption">
+  <btn class="close-btn menu-close-btn" id="closeSound">&#10006;</btn>
+  <h1>Sound Settings</h1>
+</div>
+    <div class="menu-modal-section">
+      <div class="sound-grid">
+        <div class="volume-column">
+          <div class="sound-wrapper">
+            <div class="map-slider">
+              <div class="buttons">
+                <span class="fa fa-plus" id="volumePlusBtn"></span>
+                <div class="drag-line">
+                  <div class="line" id="volumeLine"></div> 
+                  <div class="draggable-button" id="volumeBtn"></div>   
+                </div>
+                <div class="draggable-buton" id="volumeBtn"></div>   
+                <span class="fa fa-minus" id="volumeMinusBtn"></span>
+              </div>
+            </div>
+          </div>
+          <h2 class="sound-caption">Select volume level for a game</h2>
+        </div>
+        <div class="speed-column">
+          <div class="sound-wrapper">
+            <div class="map-slider">
+              <div class="buttons">
+                <span class="fa fa-plus" id="speedPlusBtn"></span>
+                <div class="drag-line">
+                  <div class="line" id="speedLine"></div> 
+                  <div class="draggable-button" id="speedBtn"></div>   
+                </div>
+                <div class="draggable-buton" id="speedBtn"></div>   
+                <span class="fa fa-minus" id="speedMinusBtn"></span>
+              </div>
+            </div>
+          </div>
+          <h2 class="sound-caption">Select speech speed for a game</h2>
+        </div>
+      </div>
+    </div>
+    <div class="menu-modal-submit-wrapper">
+      <button type="button" class="btn btn-danger menu-btn" id="saveSoundBtn">Save</button>
+    </div>
+  </div>
+</div>
+</div>`;
+let lineHeight,
+  marginTop;
+
 let synth = window.speechSynthesis;
-let officeColors = ["white", "blue", "green", "red", "pink", "mint"],
+let officeColors = ["white", "blue", "green", "red", "pink", "mint", "purple"],
   gameColor = officeColors[0];
 let voices,
-  volume = 0.5;
+  volume = 1,
+  rate = 1;
 let blitzCount = false;
 let blitzPower = 0;
 let text;
 let doSuper;
 let levelFinished;
 let description;
-
+let soundLevels = [
+  { 0: 1 },
+  { 20: 0.9 },
+  { 40: 0.8 },
+  { 60: 0.7 },
+  { 80: 0.6 },
+  { 100: 0.5 },
+  { 120: 0.3 },
+  { 140: 0.1 },
+  { 160: 0 }
+],
+  soundLevel = volume;
 /*const ATTACK_POWER = 40;
 const SHIELD_POWER = 50;
 const HEAL_POWER = 30;
@@ -149,36 +280,185 @@ class Office {
   };
 }
 
-class GameSettings {
-  constructor() { };
-  setGameColor(selectedColor) {
-    gameColor = selectedColor;
+class SoundSlider {
+  constructor(soundLine, soundBtn, minusBtn, plusBtn) {
+    this.soundLine = soundLine;
+    this.soundBtn = soundBtn;
+    this.minusBtn = minusBtn;
+    this.plusBtn = plusBtn;
+    this.soundLevel;
   };
-  disableSound() {
-    volume = 0;
+  createSoundSlider() {
+    lineHeight = ($(this.soundLine).height());
+    let sliderSoundLine = this.soundLine,
+      sliderSoundBtn = this.soundBtn,
+      sliderMinusBtn = this.minusBtn,
+      sliderPlusBtn = this.plusBtn;
+
+    $(sliderSoundBtn).draggable({
+      axis: 'y',
+      containment: 'parent'
+    });
+
+    // let moveSlider = (movePosition) => {
+    //   let position = currentPosition,
+    //     marginTop = position.top,
+    //     soundLevel = marginTop + movePosition;
+
+    //   $(sliderSoundLine).css({
+    //     'clip': 'rect(' + soundLevel + 'px,8px, 183px,0px)'
+    //   });
+    // }
+
+    $(sliderSoundBtn).on('drag', function () {
+      // moveSlider();
+      let position = $(sliderSoundBtn).position(),
+        marginTop = position.top,
+        soundLevel = marginTop;
+
+      $(sliderSoundLine).css({
+        'clip': 'rect(' + marginTop + 'px,8px, 183px,0px)'
+      });
+    });
+
+
+    $(sliderMinusBtn).on('click', function () {
+      let position = $(sliderSoundBtn).position(),
+        marginTop = position.top,
+        soundLevel = marginTop + 20;
+
+      $(sliderSoundLine).css({
+        'clip': 'rect(' + (marginTop + 20) + 'px,8px, 183px,0px)'
+      });
+
+      if (marginTop < lineHeight - 28) {
+        $(sliderSoundBtn).css({
+          'top': marginTop + 20
+        });
+        console.log(soundLevel);
+      } else {
+        soundLevel = lineHeight - 10;
+        console.log(soundLevel);
+      }
+    });
+
+    $(sliderPlusBtn).on('click', function () {
+      let position = $(sliderSoundBtn).position();
+      marginTop = position.top;
+      soundLevel = marginTop - 20;
+
+      $(sliderSoundLine).css({
+        'clip': 'rect(' + (marginTop - 20) + 'px,8px, 183px,0px)'
+      });
+
+      if (marginTop > 0) {
+        console.log(soundLevel);
+        $(sliderSoundBtn).css({
+          'top': marginTop - 20
+        });
+      }
+
+      if (marginTop > lineHeight - 38) {
+        soundLevel = lineHeight - 40;
+        console.log(soundLevel);
+      }
+    }
+    );
+
   }
-  enableSound() {
-    volume = 1;
+  getSoundSetting(sliderSoundBtn) {
+    for (let i in soundLevels) {
+      let sliderPosition = $(sliderSoundBtn).position().top;
+      soundLevel = new Helpers().roundToTwenty(sliderPosition, 20, 0);
+      if (soundLevel === Number(Object.keys(soundLevels[i]))) {
+        return soundLevels[i][Number(Object.keys(soundLevels[i]))];
+      }
+    }
   }
 }
 
+class SideNav {
+  constructor() { };
+  createSideNav(level, levelLanguage) {
+    $(".game-background").append(sideNavHTML);
+
+    $("#humbergerBtn").click(() => {
+      $(".background-opacity-wrapper").addClass("background-opacity-wrapper-width");
+      $(".sidenav").addClass("sidenav-width");
+    });
+
+    $("#closeBtn").click(() => {
+      $(".background-opacity-wrapper").removeClass("background-opacity-wrapper-width");
+      $(".sidenav").removeClass("sidenav-width");
+    });
+
+    $('#officeColors').click(() => {
+      this.showOfficeSelector();
+    })
+
+    $('#soundSettings').click(() => {
+      this.showSoundSelector();
+    });
+
+    $("#bestResults").click(() => {
+      new ResultsTable().showResults();
+      this.closeMenuModal("#closeResults");
+    });
+  }
+  showOfficeSelector() {
+    $(".game-background").append(officesSettingsHTML);
+    let officesArray = $(".office-option").toArray();
+    for (let i in officesArray) {
+      $(officesArray[i]).css('background-image', `url("assets/img/office-background/${officeColors[i]}-offices/${selectedOffice}.png")`);
+      $(officesArray[i]).click(new Helpers().selectElement);
+    }
+
+    $("#saveOfficeBtn").click(() => {
+      let selectedBgd = $(".selected").css("background-image");
+      gameColor = selectedBgd.match("(?<=background\/)(.*)(?=-offices)")[0];
+      gameBackground.css("background-image", selectedBgd);
+      $(".menu-modal").remove();
+      $(".background-opacity-wrapper").removeClass("background-opacity-wrapper-width");
+      $(".sidenav").removeClass("sidenav-width");
+    }
+    )
+
+    this.closeMenuModal("#closeOffices");
+  }
+  showSoundSelector() {
+    $(".game-background").append(soundSettingsHTML);
+
+    let volumeSlider = new SoundSlider("#volumeLine", "#volumeBtn", "#volumeMinusBtn", "#volumePlusBtn");
+    let speedSlider = new SoundSlider("#speedLine", "#speedBtn", "#speedMinusBtn", "#speedPlusBtn");
+    volumeSlider.createSoundSlider();
+    speedSlider.createSoundSlider();
+
+    $("#saveSoundBtn").click(() => {
+      volume = volumeSlider.getSoundSetting("#volumeBtn");
+      rate = speedSlider.getSoundSetting("#speedBtn");
+      $(".menu-modal").remove();
+      $(".background-opacity-wrapper").removeClass("background-opacity-wrapper-width");
+      $(".sidenav").removeClass("sidenav-width");
+      console.log(volume, rate);
+    });
+
+    this.closeMenuModal("#closeSound");
+  }
+  closeMenuModal(closeBtn) {
+    $(closeBtn).click(() => {
+      $(".menu-modal").remove();
+      $(".background-opacity-wrapper").removeClass("background-opacity-wrapper-width");
+      $(".sidenav").removeClass("sidenav-width");
+    })
+  }
+}
 
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
   greeting() {
     const characters = document.getElementById('characters');
     Array.from(characters.children).forEach(div => {
-      div.addEventListener('click', e => {
-        let current = document.querySelector('.selected');
-        let elem = e.target;
-        if (current) {
-          current.classList.remove('selected');
-        }
-        if (elem.tagName === 'IMG') {
-          elem = e.target.parentElement;
-        };
-        elem.classList.add('selected');
-      });
+      div.addEventListener('click', new Helpers().selectElement)
     });
     const startButton = document.getElementById('startGame');
     startButton.addEventListener('click', new createPage().reception);
@@ -205,8 +485,16 @@ class createPage { // класс для создания страниц (ско�
     level++;
     levelFinished = false;
     levelLanguage = new Helpers().chooseLanguage(languages);
-    main.innerHTML = `<div class="game-background">
+    main.innerHTML = `<div class = "background-opacity-wrapper"> </div>
+                      <div class="game-background">
+                      <nav>
+                        <div class="humburger-btn-wrapper" id="humbergerBtn">
+                          <div class="humburger-btn-line"></div>
+                          <div class="humburger-btn-line"></div>
+                          <div class="humburger-btn-line"></div>
+                        </div>
                         <h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>
+                      </nav>
                         <ul class='spells'>
                           <li class='spell attack'><p class='spell_wrapper'><span class='spell__name'>Attack</span><span class='spell__description'>40 damage to monster</span></li>
                           <li class='spell shield'><p class='spell_wrapper'><span class='spell__name'>Shield</span><span class='spell__description'>+50 to your defense (absorbs damage)</span></li>
@@ -263,10 +551,16 @@ class createPage { // класс для создания страниц (ско�
                           <p class='dialog__message' id='message'></p>
                           <button type="button" class="dialog__button" id = 'dialogButton'>Close</button>
                         </div>
+                      
                       </div> `; //нарисовать страницу
-    new Office(new Helpers().randomArrayElem(offices), 2).createOffice(); //создает рандомный офис, пока закомментила, чтобы не мешать твоему innerHTML
+
+    selectedOffice = new Helpers().randomArrayElem(offices);
+    new Office(selectedOffice, 2).createOffice(); //создает рандомный офис, пока закомментила, чтобы не мешать твоему innerHTML
     $(".hero-container").addClass(player.character);
     new MonsterGenerator($(".monster-head-container"), $(".monster-body-container"), $(".monster-legs-container"), ).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
+
+    //side-nav
+    new SideNav().createSideNav(level, levelLanguage);
 
     monster = new Monster(level);
     taskField = document.getElementById('taskFieldAnswer');
@@ -289,9 +583,9 @@ class createPage { // класс для создания страниц (ско�
 
     let magic = document.querySelector('.spells');
     Array.from(magic.children).forEach(div => {
-      div.addEventListener('click', e => {        
+      div.addEventListener('click', e => {
         spell = e.target.classList[1];
-        if (spell !== 'super'){
+        if (spell !== 'super') {
           document.querySelector('.spells').classList.toggle('showSpells');
           modal = document.getElementById('taskModal');
           modal.style.display = 'block';
@@ -316,6 +610,20 @@ class Helpers {
     let language = languages.splice(index, 1).toString();
     return language;
   }
+  selectElement(e) {
+    let current = document.querySelector('.selected');
+    let elem = e.target;
+    if (current) {
+      current.classList.remove('selected');
+    }
+    if (elem.tagName === 'IMG') {
+      elem = e.target.parentElement;
+    };
+    elem.classList.add('selected');
+  };
+  roundToTwenty(number, increment, offset) {
+    return Math.ceil((number - offset) / increment) * increment + offset;
+  };
   generateRandomArrayIndex(array) { // random index generator
     return _.random(0, array.length - 1, 0);
   };
@@ -415,19 +723,20 @@ class Helpers {
   createReadableText(text) {
     let readableText = new SpeechSynthesisUtterance(text);
     readableText.volume = volume;
+    readableText.rate = rate;
     return readableText;
   }
-  unblockSuperAttack(){
+  unblockSuperAttack() {
     document.querySelector('.super').classList.toggle('blockSuper');
     document.querySelector('.hero-super').classList.toggle('super__full');
     document.querySelector('.super').addEventListener('click', new Helpers().superClick);
   }
-  blockSuperAttack(){
+  blockSuperAttack() {
     document.querySelector('.super').classList.toggle('blockSuper');
     document.querySelector('.hero-super').classList.toggle('super__full');
     document.querySelector('.super').removeEventListener('click', new Helpers().superClick);
   }
-  superClick(){
+  superClick() {
     spell = 'superAttack';
     doSuper = true;
     document.querySelector('.spells').classList.toggle('showSpells');
@@ -516,7 +825,7 @@ class Tasks { // дополнитльные (рандомные) задания
         ["let max", "=", "(a, b)", "=>", "{", "a > b", ";", "}", ";"],
         ["setTimeout(", "()", "=>", "{", "return 'result'", ";", "},", "1)", ";"],
         ["for(", "var i = 0", ";", "i++", ")", "{", "if (i > 3)", "break;", "}"],
-        ["el", ".addEventListener(", '"click"', ",", "()", "=>", '{ alert("hello!"); }', ",", ");"],
+        ["el", ".addEventListener(", '"click"', ",", "()", "=>", '{ alert("hello!"); }', ")", ";"],
         ["class", "Rectangle", "{", "constructor", "(height){", "this.height", "=", "height;", "} }"]
       ];
 
@@ -634,7 +943,8 @@ class Spells { // заклинания
     };
     new Tasks()[task]();
   }
-  superAttack(){
+
+  superAttack() {
     modal.style.display = 'block';
     let tasks = new Helpers().randomTasksArray();
     let task = new Helpers().randomArrayElem(tasks);
@@ -939,7 +1249,7 @@ class doSpell { // игрок применяет заклинание
       player.super = 100;
     }
     document.querySelector('.hero-super_scale').style.width = `${player.super}%`;
-    if (player.super === 20){
+    if (player.super === 20) {
       new Helpers().unblockSuperAttack();
     }
     if (monster.health <= 0) {
@@ -1099,7 +1409,7 @@ class levelResults { // уровень закончен
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
       new dialogActions().showDialog([dialogText]);
     }, 500);
-  } 
+  }
 }
 
 class Dialogs {
@@ -1123,7 +1433,7 @@ class Dialogs {
     ];
     return arr;
   }
-  monstersPhrasesLevelWin(){
+  monstersPhrasesLevelWin() {
     let arr = [
       `Excellent work, ${player.name}! Choose your way and good luck.`,
       `You're really good in ${levelLanguage}. You can go through any door for the next interview.`,
@@ -1138,7 +1448,7 @@ class Dialogs {
     ];
     return arr;
   }
-  monstersPhrasesLevelLose(){
+  monstersPhrasesLevelLose() {
     let arr = [
       `Better luck next time, ${player.name}.`,
       `I'm sorry, ${player.name}, but as long as your knowledge is not enough.`,
@@ -1213,23 +1523,7 @@ class Monster { // класс монстра
 }
 
 
-let resultsTableHTML = `<div id="resultsModal" class="result-modal">
-<div class="result-modal-content">
-<table>
-<caption>Best Results</caption>
-    <thead>
-        <tr class="table-header">
-            <th>#</th>
-            <th>User Name</th>
-            <th>Result</th>
-        </tr>
-    </thead>
-    <tbody id="resultsTable">
-    </tbody>
-</table>
-</div>
-</div>`,
-  resultsTable;
+let resultsTable;
 
 class ResultsTable {
   constructor() {
@@ -1252,6 +1546,7 @@ class ResultsTable {
   };
   createResultsTable(bestResultsSortedArray) {
     $(".game-background").append(resultsTableHTML);
+
     resultsTable = document.getElementById("resultsTable");
     if (bestResultsSortedArray.length !== 0) {
       while (resultsTable.firstChild) {
