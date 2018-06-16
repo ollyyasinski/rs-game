@@ -1,0 +1,6 @@
+[
+	["How many digits '3' are there in the picture?", "../assets/countTask/1.png", "19"],
+	["How many sticks are in this picture?", "../assets/countTask/2.png", "6"],
+	["How many faces are in this picture?", "../assets/countTask/3.png", "10"],
+	["How many numbers you see?", "../assets/countTask/4.png", "9"]
+]
