@@ -12,23 +12,9 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.result-modal-content {
-    background-image: url("../assets/img/extras/white-board.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: absolute;
-    width: 80%;
-    height: 85%;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    align-items: center;
-}
 
 .result-modal-content table {
-    margin: 10%;
+    margin: 2% 10%;
     border-collapse: collapse;
     width: 80%;
 }

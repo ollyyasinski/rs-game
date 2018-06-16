@@ -1,0 +1,52 @@
+.background-opacity-wrapper {
+    transition: background-color .5s;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    position: absolute;
+    height: 100%;
+    background-color: black;
+    opacity: 0.5;
+}
+
+.background-opacity-wrapper-width {
+    width: 100%;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav-width {
+    width: 250px;
+}
+
+.sidenav-list li, .close-btn {
+    padding: 14px 8px 14px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #cccccc;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav-list li:hover, .close-btn:hover {
+    color: #0D61BC;
+    cursor: pointer;
+}
+
+.sidenav .close-btn {
+    position: absolute;
+    top: 1vh;
+    right: 2vh;
+    font-size: 4vh;
+    margin-left: 5vh;
+}
