@@ -1,5 +1,4 @@
 import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './const'
-// import { AttackQuestions, ShieldQuestions, HealQuestions } from './questions'
 import '../css/style.css';
 import $ from 'jquery';
 require('jquery-ui');
@@ -11,6 +10,7 @@ import vocabulary from '../assets/vocabularies/vocabulary.json';
 import audioVocabulary from '../assets/vocabularies/audioVocabulary.json';
 
 import '../css/style.css';
+
 import aQ from '../assets/questions/attackQuestions.json'
 import sQ from '../assets/questions/shieldQuestions.json'
 import hQ from '../assets/questions/healQuestions.json'
@@ -759,7 +759,6 @@ class dialogActions { // методы окна диалога
     synth.cancel(); //stop reading
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
-    console.log('LEVEL FINISHED', levelFinished);
     if (level && levelFinished === false) {
       document.querySelector('.spells').classList.toggle('showSpells');
     }
@@ -813,7 +812,7 @@ class Spells { // заклинания
   constructor() { } //в консоли пока отображаются ответы для задач
   attack() {
     if (!attackQuestions) {
-      attackQuestions = aQ[levelLanguage]; // получаем массив в вопросами для данного уровня // получаем массив в вопросами для данного уровня
+      attackQuestions = aQ[levelLanguage]; // получаем массив в вопросами для данного уровня
     };
     let question = new Helpers().randomArrayElem(attackQuestions);
     console.log('Answer ', question[1]);
@@ -847,6 +846,7 @@ class Spells { // заклинания
     };
     new Tasks()[task]();
   }
+
   superAttack() {
     modal.style.display = 'block';
     let tasks = ['calculator', 'putInRightOrder', 'translate', 'audioTask'];
@@ -887,15 +887,15 @@ class giveTask { // вывод вопросов на экран
 
     console.log(answer);
     result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
-    console.log(result)
+    console.log(result);
     answerButtom.addEventListener('click', result.checkSimpleAnswer); // по клику - проверять результат
     delete audioVocabulary[task]; //delete alredy used question
   };
   showTaskWithOptions(rules, task, options, answer) { //вопросы по схеме правило -> варианты ответов 
-    taskField.innerHTML = `<label  class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[0]}'>${options[0]}</label>
-                           <label  class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[1]}'>${options[1]}</label>
-                           <label  class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[2]}'>${options[2]}</label>
-                           <label  class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[3]}'>${options[3]}</label>
+    taskField.innerHTML = `<label class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[0]}'>${options[0]}</label>
+                           <label class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[1]}'>${options[1]}</label>
+                           <label class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[2]}'>${options[2]}</label>
+                           <label class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[3]}'>${options[3]}</label>
                            <input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.btn');
     document.querySelector(".task-modal-content").classList.add('options');
@@ -1006,7 +1006,6 @@ class doSpell { // игрок применяет заклинание
       document.querySelector('.monster-health-scale').style.width = `${monster.health}%`;
       document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
       new levelResults().win();
-
     };
     if (monster.health > 0) {
       document.querySelector('.monster-health-scale').style.width = `${monster.health * 100 / (100 + 20 * level)}%`;

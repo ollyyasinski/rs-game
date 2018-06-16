@@ -30,9 +30,17 @@
     align-items: center;
 }
 
-.task-caption {
+.options {
+    grid-template: "task-task-content" 40% "task-field" 60%;
+}
+/*.task-caption {
     grid-area: task-caption;
     margin-top: 7%;
+}*/
+
+.rules-list{
+    display: inline-block;
+    margin-left: 15px;
 }
 
 .options {
@@ -65,7 +73,7 @@
     color: teal;
 }
 
-.task-task-text-wrapper {
+.task-task-text-wrapper{
     width: 80%;
     justify-self: center;
 }

@@ -346,6 +346,15 @@ nav {
 	height: 100%;
 }
 
+.options-label{
+	display: block;
+	margin-bottom: 10px;
+}
+
+.super__full{
+	box-shadow: 0 0 15px rgba(250, 230, 11, 1);
+}
+
 @font-face {
 	font-family: "Gwent";
 	font-weight: bold;
