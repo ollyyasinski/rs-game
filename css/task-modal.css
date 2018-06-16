@@ -33,6 +33,11 @@
 .options {
     grid-template: "task-task-content" 40% "task-field" 60%;
 }
+
+.countTask{
+    grid-template: "task-task-content" 30% "task-field" 70%;
+}
+
 /*.task-caption {
     grid-area: task-caption;
     margin-top: 7%;
