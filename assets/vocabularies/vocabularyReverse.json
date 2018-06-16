@@ -1,0 +1,15 @@
+{
+	"компьютер": ["computer", "electronic computer", "electronic brain", "machine"],
+	"процесс": ["process", "operation", "act"],
+	"поток": ["stream", "thread"],
+	"чертеж": ["drawing", "draft", "draught", "figure", "design", "plan"],
+	"проект": ["project", "projection", "plan"],
+	"ноутбук": ["laptop"],
+	"логотип": ["logo", "logotype"],
+	"урон": ["damage", "loss", "casualties"],
+	"разрушение": ["destruction", "demolition", "breakdown", "collapse"],
+	"печенье": ["biscuit", "cookie", "pastry"],
+	"поджигатель": ["arsonist", "firebug"],
+	"предложение": ["offer", "offering", "sentence"],
+	"еж" : ["hedgehog", "urchin"]
+}

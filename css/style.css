@@ -323,6 +323,40 @@ body {
 	box-shadow: 0 0 15px rgba(250, 230, 11, 1);
 }
 
+.count-task,
+.celebrities-task{
+	max-width: 600px;
+	height: 270px;
+	float: left;
+	margin-right: 50px; 
+}
+
+.hero-spell-vis,
+.monster-spell-vis{
+    overflow: hidden;
+    position: absolute;
+    bottom:  0;
+}
+
+.hero-spell-image,
+.monster-spell-image{
+	position: absolute;
+  	left: 0;
+  	top: 0;
+}
+
+.math{
+	width: 30px;
+}
+
+.word{
+	width: 100px;
+}
+
+.options-wrapper{
+	float: right;
+}
+
 @font-face {
 	font-family: "Gwent";
 	font-weight: bold;

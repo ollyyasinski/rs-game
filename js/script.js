@@ -11,6 +11,12 @@ import audioVocabulary from '../assets/vocabularies/audioVocabulary.json';
 import aQ from '../assets/questions/attackQuestions.json'
 import sQ from '../assets/questions/shieldQuestions.json'
 import hQ from '../assets/questions/healQuestions.json'
+import vocabularyReverse from '../assets/vocabularies/vocabularyReverse.json'
+import smallQuestions from '../assets/questions/smallQuestions.json'
+import countQuestions from '../assets/questions/countQuestions.json'
+import nameQuestions from '../assets/questions/nameTask.json'
+import addWordQuestions from '../assets/questions/addWordTask.json'
+import celebritiesQuestions from '../assets/questions/celebritiesQuestions.json'
 
 let result;
 let answerArray = [];
@@ -101,6 +107,8 @@ let blitzPower = 0;
 let text;
 let doSuper;
 let levelFinished;
+let description;
+
 /*const ATTACK_POWER = 40;
 const SHIELD_POWER = 50;
 const HEAL_POWER = 30;
@@ -221,6 +229,7 @@ class createPage { // класс для создания страниц (ско�
                               </div>
                             </div>
                           </div>
+                          <div class='hero-spell-vis'><img class='hero-spell-image'></div>
                         </div>
                         <div class="monster-container">
                           <div class="monster-head-container">
@@ -234,7 +243,9 @@ class createPage { // класс для создания страниц (ско�
                             </div>
                           </div>
                           <div class="monster-body-container"></div>
-                          <div class="monster-legs-container"></div>
+                          <div class="monster-legs-container">
+                            <div class='monster-spell-vis'><img class='monster-spell-image'></div>
+                          </div>
                         </div>
                         <div id="taskModal" class="modal">
                           <div class="task-modal-content">
@@ -266,7 +277,7 @@ class createPage { // класс для создания страниц (ско�
     document.querySelector('.monster-shield__number').innerHTML = monster.shield;
     gameBackground.addClass(new Helpers().randomArrayElem(offices));
     text = document.getElementById('taskText');
-
+    description = document.getElementById('taskDesc');
     monstersPhrases = new Dialogs().monstersPhrasesLevelStart();
     if (level === 5) {
       monstersPhrases = new Dialogs().monstersPhrasesFinal();
@@ -338,6 +349,7 @@ class Helpers {
         text.innerHTML = '';
         document.getElementById('answer__correct').innerHTML = '';
         document.querySelector(".task-modal-content").classList.remove('options');
+        document.querySelector(".task-modal-content").classList.remove('countTask');
         new doSpell()[spell]();
       }, 1500);
     } else {
@@ -345,6 +357,7 @@ class Helpers {
         modal.style.display = 'none';
         text.innerHTML = '';
         document.getElementById('answer__correct').innerHTML = '';
+        document.querySelector(".task-modal-content").classList.remove('countTask');
       }, 1000);
 
       setTimeout(function () {
@@ -363,12 +376,14 @@ class Helpers {
         text.innerHTML = '';
         document.getElementById('answer__wrong').innerHTML = '';
         document.querySelector(".task-modal-content").classList.remove('options');
+        document.querySelector(".task-modal-content").classList.remove('countTask');
         new monsterAttack();
       }, 1500);
     }
     if (doSuper === true) {
       doSuper = false;
       player.super = 0;
+      document.querySelector(".task-modal-content").classList.remove('countTask');
       document.querySelector('.hero-super_scale').style.width = `${player.super}%`;
       new Helpers().blockSuperAttack();
     }
@@ -377,6 +392,7 @@ class Helpers {
         modal.style.display = 'none';
         text.innerHTML = '';
         document.getElementById('answer__wrong').innerHTML = '';
+        document.querySelector(".task-modal-content").classList.remove('countTask');
         new doSpell()[spell]();
       }, 1500);
     } else if (blitzCount > 0) {
@@ -384,6 +400,7 @@ class Helpers {
         modal.style.display = 'none';
         text.innerHTML = '';
         document.getElementById('answer__wrong').innerHTML = '';
+        document.querySelector(".task-modal-content").classList.remove('countTask');
       }, 1000);
 
       setTimeout(function () {
@@ -417,6 +434,34 @@ class Helpers {
     modal = document.getElementById('taskModal');
     modal.style.display = 'block';
     new Spells()[spell]();
+  }
+  randomTasksArray() {
+    let arr = ['calculator', 'firstNumberInEquation', 'secondNumberInEquation', 'putInRightOrder'];
+    if (Object.keys(englishVocab).length !== 0) {
+      arr.push('translate');
+    }
+    if (Object.keys(audioVocabulary).length !== 0) {
+      arr.push('audioTask');
+    }
+    if (vocabularyReverse.length !== 0) {
+      arr.push('translateRUtoEN');
+    }
+    if (smallQuestions.length !== 0) {
+      arr.push('trueAndFalseQuestions');
+    }
+    if (countQuestions.length !== 0) {
+      arr.push('count');
+    }
+    if (nameQuestions.length !== 0) {
+      arr.push('nameTheThing');
+    }
+    if (addWordQuestions.length !== 0) {
+      arr.push('addWord');
+    }
+    if (celebritiesQuestions.length !== 0) {
+      arr.push('chooseRightName');
+    }
+    return arr;
   }
 }
 
@@ -458,7 +503,7 @@ class dialogActions { // методы окна диалога
 class Tasks { // дополнитльные (рандомные) задания
   constructor() { }
   calculator() {
-    let rules = `Calculate the result.\nIf necessary, round the number to the nearest integer.`; //правило на этот тип задач
+    let rules = `Calculate the result<br>If necessary, round the number to the nearest integer`; //правило на этот тип задач
     let signs = [' + ', ' - ', ' * ', ' / '];
     let str = new Helpers().randomNumber(100) + signs[new Helpers().randomNumber(4)] + new Helpers().randomNumber(100); // пример
     let res = Math.round(eval(str)).toString(); //результат    
@@ -466,11 +511,11 @@ class Tasks { // дополнитльные (рандомные) задания
     new giveTask().showTaskSimple(rules, str, res); // выводим на экран
   }
   putInRightOrder() {
-    let rules = `Put code parts in the right order.`,
+    let rules = `Put code parts in the right order`,
       res = [
         ["let max", "=", "(a, b)", "=>", "{", "a > b", ";", "}", ";"],
         ["setTimeout(", "()", "=>", "{", "return 'result'", ";", "},", "1)", ";"],
-        ["for(", "var i = 0;", ";", "i++", ")", "{", "if (i > 3)", "break;", "}"],
+        ["for(", "var i = 0", ";", "i++", ")", "{", "if (i > 3)", "break;", "}"],
         ["el", ".addEventListener(", '"click"', ",", "()", "=>", '{ alert("hello!"); }', ",", ");"],
         ["class", "Rectangle", "{", "constructor", "(height){", "this.height", "=", "height;", "} }"]
       ];
@@ -482,7 +527,7 @@ class Tasks { // дополнитльные (рандомные) задания
     new giveTask().showTaskOrder(rules, task, answer); // выводим на экран
   }
   translate() {
-    let rules = `Translate the word into russian.`;
+    let rules = `Translate the word into russian`;
     let task = new Helpers().generateRandomObjProperty(englishVocab),
       answer = englishVocab[task];
     new giveTask().showTaskSimple(rules, task, answer);
@@ -495,6 +540,59 @@ class Tasks { // дополнитльные (рандомные) задания
       answer = audioVocabulary[task];
     new giveTask().showTaskAudio(rules, task, answer);
 
+  }
+  translateRUtoEN() {
+    let rules = `Translate the word into english`;
+    let task = new Helpers().generateRandomObjProperty(vocabularyReverse),
+        answer = vocabularyReverse[task];
+    new giveTask().showTaskSimple(rules, task, answer);
+    delete vocabularyReverse[task];
+  }
+  trueAndFalseQuestions() {
+    let rules = `Select if the fact is true or false`;
+    let question = new Helpers().randomArrayElem(smallQuestions);
+    new giveTask().showTrueFalseTask(rules, question[0], question[1]);
+  }
+  count() {
+    let rules = `Read the task and write the correct number`;
+    let question = new Helpers().randomArrayElem(countQuestions);
+    new giveTask().showCountTask(rules, question[0], question[1], question[2]);
+  }
+  nameTheThing() {
+    let rules = `Write the name of what is shown in the picture (in English)`;
+    let question = new Helpers().randomArrayElem(nameQuestions);
+    new giveTask().showCountTask(rules, null, question[0], question[1]);
+  }
+  firstNumberInEquation() {
+    let rules = `Write a number to make the equation correct`;
+    let signs = [' + ', ' - ', ' * '];
+    let a = new Helpers().randomNumber(100);
+    let b = new Helpers().randomNumber(100);
+    let sign = signs[new Helpers().randomNumber(3)];
+    let res = eval(`${a} ${sign} ${b}`);
+    let task = ` ${sign} ${b} = ${res}`;
+    new giveTask().showTaskFirstInEquation(rules, task, a.toString());
+  }
+  secondNumberInEquation() {
+    let rules = `Write a number to make the equation correct`;
+    let signs = [' + ', ' - ', ' * '];
+    let a = new Helpers().randomNumber(100);
+    let b = new Helpers().randomNumber(100);
+    let sign = signs[new Helpers().randomNumber(3)];
+    let res = eval(`${a} ${sign} ${b}`);
+    let firstPart = `${a} ${sign} `;
+    let secondPart = ` = ${res}`;
+    new giveTask().showTaskSecondInEquation(rules, firstPart, secondPart, b.toString());
+  }
+  addWord() {
+    let rules = `Insert a word to get a sentence`;
+    let question = new Helpers().randomArrayElem(addWordQuestions);
+    new giveTask().showTaskAddWord(rules, question[0], question[1], question[2]);
+  }
+  chooseRightName() {
+    let rules = `Select the name of the person in the photo`;
+    let question = new Helpers().randomArrayElem(celebritiesQuestions);
+    new giveTask().showTaskCelebrities(rules, question[0], question[1], question[2]);
   }
 }
 
@@ -529,7 +627,7 @@ class Spells { // заклинания
   }
   blitzAttack() {
     modal.style.display = 'block';
-    let tasks = ['calculator', 'putInRightOrder', 'translate', 'audioTask'];
+    let tasks = new Helpers().randomTasksArray();
     let task = new Helpers().randomArrayElem(tasks);
     if (!blitzCount) {
       blitzCount = 3;
@@ -538,7 +636,7 @@ class Spells { // заклинания
   }
   superAttack(){
     modal.style.display = 'block';
-    let tasks = ['calculator', 'putInRightOrder', 'translate', 'audioTask'];
+    let tasks = new Helpers().randomTasksArray();
     let task = new Helpers().randomArrayElem(tasks);
     new Tasks()[task]();
   }
@@ -550,7 +648,6 @@ class giveTask { // вывод вопросов на экран
     taskField.innerHTML = `<input type="text" class='task__form_answer'>
     <input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.btn');
-    let description = document.getElementById('taskDesc');
     description.innerHTML = rules;
     text.innerHTML = task;
     result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
@@ -588,10 +685,9 @@ class giveTask { // вывод вопросов на экран
                            <input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.btn');
     document.querySelector(".task-modal-content").classList.add('options');
-    let description = document.getElementById('taskDesc');
     description.innerHTML = rules;
     text.innerHTML = task;
-    result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
+    result = new checkAnswer(answer); 
     answerButtom.addEventListener('click', result.checkSelectedAnswer);
   }
   showTaskOrder(rules, task, answer) {
@@ -609,13 +705,78 @@ class giveTask { // вывод вопросов на экран
                       <input type="button" class='btn task-field-btn' value="Answer">`;
     // <input type="button" class='btn task-filed-btn' value="Answer">`;
     answerButtom = document.querySelector('.task-field-btn');
-    let description = document.getElementById('taskDesc');
     description.innerHTML = rules;
-    result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователяЧ
+    result = new checkAnswer(answer); 
     $(function () {
       $(".sortable").sortable();
     });
     answerButtom.addEventListener('click', result.checkDroppedAnswer);
+  }
+  showTrueFalseTask(rules, task, answer){
+    taskField.innerHTML = `<label class='options-label'><input type='radio' class='task__form_options' name='answer' value='True'>True</label>
+                           <label class='options-label'><input type='radio' class='task__form_options' name='answer' value='False'>False</label> 
+                           <input type="button" class='btn task-field-btn' value="Answer">`;   
+    answerButtom = document.querySelector('.btn');
+    document.querySelector(".task-modal-content").classList.add('options');
+    description.innerHTML = rules;
+    text.innerHTML = task;
+    result = new checkAnswer(answer); 
+    answerButtom.addEventListener('click', result.checkSelectedAnswer);                           
+  }
+  showCountTask(rules, task, src, answer) {
+    taskField.innerHTML = `<img src=${src} class='count-task'>
+                            <input type="text" class='task__form_answer'>
+                            <input type="button" class='btn task-field-btn' value="Answer">`;
+    document.querySelector(".task-modal-content").classList.add('countTask');
+    answerButtom = document.querySelector('.btn');
+    description.innerHTML = rules;
+    if (task !== null) { 
+      text.innerHTML = task;
+    }
+    result = new checkAnswer(answer); 
+    answerButtom.addEventListener('click', result.checkSimpleAnswer);
+  }
+  showTaskFirstInEquation(rules, task, answer) {
+    taskField.innerHTML = `<label><input type="text" class='task__form_answer math'>${task}</label>
+                          <input type="button" class='btn task-field-btn' value="Answer">`;
+    answerButtom = document.querySelector('.btn');
+    description.innerHTML = rules;
+    console.log('Answer', answer);
+    result = new checkAnswer(answer); 
+    answerButtom.addEventListener('click', result.checkSimpleAnswer);
+  }
+  showTaskSecondInEquation(rules, firstPart, secondPart, answer) {
+    taskField.innerHTML = `<label>${firstPart}<input type="text" class='task__form_answer math'>${secondPart}</label>
+                          <input type="button" class='btn task-field-btn' value="Answer">`;
+    answerButtom = document.querySelector('.btn');
+    description.innerHTML = rules;
+    console.log('Answer', answer);
+    result = new checkAnswer(answer); 
+    answerButtom.addEventListener('click', result.checkSimpleAnswer);                      
+  }
+  showTaskAddWord(rules, firstPart, secondPart, answer) {
+    taskField.innerHTML = `<label>${firstPart}<input type="text" class='task__form_answer word'>${secondPart}</label>
+                          <input type="button" class='btn task-field-btn' value="Answer">`;
+    answerButtom = document.querySelector('.btn');
+    description.innerHTML = rules;
+    console.log('Answer', answer);
+    result = new checkAnswer(answer); 
+    answerButtom.addEventListener('click', result.checkSimpleAnswer);           
+  }
+  showTaskCelebrities(rules, src, options, answer) {
+    taskField.innerHTML = `<img src=${src} class='celebrities-task'>
+                           <div class='options-wrapper'>
+                           <label class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[0]}'>${options[0]}</label>
+                           <label class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[1]}'>${options[1]}</label>
+                           <label class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[2]}'>${options[2]}</label>
+                           <label class='options-label'><input type='radio' class='task__form_options' name='answer' value='${options[3]}'>${options[3]}</label>
+                           <input type="button" class='btn task-field-btn' value="Answer">
+                           </div>`;
+    answerButtom = document.querySelector('.btn');
+    document.querySelector(".task-modal-content").classList.add('countTask');
+    description.innerHTML = rules;
+    result = new checkAnswer(answer); // создаем новый объект, в котором будет храниться ответ и проверяться ответ пользователя
+    answerButtom.addEventListener('click', result.checkSelectedAnswer);
   }
 }
 
@@ -665,10 +826,98 @@ class checkAnswer { // класс проверки ответов
 }
 
 
+class showSpell {
+  constructor(){}
+  attack(who) {
+    let wrapper = document.querySelector(`.${who}-spell-vis`);
+    let image = document.querySelector(`.${who}-spell-image`);
+    wrapper.style.width = '140px';
+    wrapper.style.height = '140px';
+    wrapper.style.left = document.querySelector(`.${who}-container`).offsetWidth/2 - 70 + 'px';
+    image.style.display = 'block';
+    image.src = '../assets/img/spells/Exattack.png';
+    image.style.width = '1200%';
+    image.style.height = '100%';
+
+    let attack = setInterval(() => {
+        let now = parseInt(image.style.left) || 0;
+        image.style.left = now - 100+ '%';
+      }, 50);
+
+      setTimeout(function() {
+        clearInterval(attack);
+        image.style.display = 'none';
+        image.style.left = 0;
+        image.style.top = 0;
+      }, 500);
+  }
+  shield(who) {
+    let wrapper = document.querySelector(`.${who}-spell-vis`);
+    let image = document.querySelector(`.${who}-spell-image`);
+    wrapper.style.width = '150px';
+    wrapper.style.height = '160px';
+    wrapper.style.left = document.querySelector(`.${who}-container`).offsetWidth/2 - 75 + 'px';
+    image.style.display = 'block';
+    image.src = '../assets/img/spells/Exshield.png';
+    image.style.width = '1048px';
+    image.style.height = '472px';
+
+    let shield = setInterval(() => {
+        let now = parseInt(image.style.left) || 0;
+        
+        if (now === -900) {
+          let top = parseInt(image.style.top) || 0;
+          image.style.top =  top - 160 + 'px';
+          now = 150;
+        }
+        image.style.left = now - 150 + 'px';
+      }, 100);
+
+      setTimeout(function() {
+        clearInterval(shield);
+        image.style.display = 'none';
+        image.style.left = 0;
+        image.style.top = 0;
+      }, 1900);
+  }
+  heal(who){
+    let wrapper = document.querySelector(`.${who}-spell-vis`);
+    let image = document.querySelector(`.${who}-spell-image`);
+    wrapper.style.width = '215px';
+    wrapper.style.height = '220px';
+    wrapper.style.left = document.querySelector(`.${who}-container`).offsetWidth/2 - 108 + 'px';
+    image.style.display = 'block';
+    image.src = '../assets/img/spells/Exheal.png';
+    image.style.width = '870px';
+    image.style.height = '673px';
+
+
+    let heal = setInterval(() => {
+        let now = parseInt(image.style.left) || 0;
+
+        if (now === -645) {
+          let top = parseInt(image.style.top) || 0;
+
+          image.style.top =  top - 220 + 'px';
+          now = 215;
+        }
+        image.style.left = now - 215 + 'px';
+      }, 100);
+    setTimeout(function() {
+        clearInterval(heal);
+        image.style.display = 'none';
+        image.style.left = 0;
+        image.style.top = 0;
+      }, 1000);
+  }
+}
 class doSpell { // игрок применяет заклинание
   constructor() { }
   attack(power) {
+    let audio = new Audio(`../assets/sounds/attack/${new Helpers().randomNumber(9)}.mp4`);
+    audio.play();
     let force = ATTACK_POWER;
+    new showSpell().attack('monster');
     if (power !== undefined) {
       force = power;
     }
@@ -686,6 +935,9 @@ class doSpell { // игрок применяет заклинание
       }
     }
     player.super += 20;
+    if (player.super > 100) {
+      player.super = 100;
+    }
     document.querySelector('.hero-super_scale').style.width = `${player.super}%`;
     if (player.super === 20){
       new Helpers().unblockSuperAttack();
@@ -701,24 +953,36 @@ class doSpell { // игрок применяет заклинание
       document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health * 100 / (100 + 20 * level)}%`;
       document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
       document.querySelector('.monster-shield__number').innerHTML = monster.shield;
-      new monsterAttack(); // передать ход монстру
+      setTimeout(() => {
+        new monsterAttack();
+      }, 2000);
     };
   }
   shield() {
+    let audio = new Audio(`../assets/sounds/shield/${new Helpers().randomNumber(5)}.mp4`);
+    audio.play();
     player.shield += SHIELD_POWER;
     document.querySelector('.hero-shield__number').innerHTML = player.shield;
-    new monsterAttack();
+    new showSpell().shield('hero');
+    setTimeout(() => {
+      new monsterAttack();
+    }, 2000);
   }
   heal() {
+    let audio = new Audio(`../assets/sounds/heal/${new Helpers().randomNumber(7)}.mp4`);
+    audio.play();
     if (player.health < PLAYER_MAX_HEALTH) {
       player.health += HEAL_POWER;
       if (player.health > PLAYER_MAX_HEALTH) {
         player.health = PLAYER_MAX_HEALTH;
       }
     }
+    new showSpell().heal('hero');
     document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
     document.querySelector('.hero-health-scale__number').innerHTML = player.health;
-    new monsterAttack();
+    setTimeout(() => {
+      new monsterAttack();
+    }, 2000);
   }
   blitzAttack() {
     new doSpell().attack(blitzPower);
@@ -744,10 +1008,12 @@ class monsterAttack { // монстр выбирает рандомную спо
       this.spells.push('heal');
     };
     let spell = this.spells[new Helpers().randomNumber(this.spells.length)];
-    console.log('Monster do', spell);
     setTimeout(this[spell], 1000);
   }
   attack() {
+    let audio = new Audio(`../assets/sounds/attack/${new Helpers().randomNumber(9)}.mp4`);
+    audio.play();
+    new showSpell().attack('hero');
     if (!player.shield) {
       player.health -= ATTACK_POWER;
     }
@@ -773,15 +1039,24 @@ class monsterAttack { // монстр выбирает рандомную спо
       document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
       document.querySelector('.hero-health-scale__number').innerHTML = player.health;
       document.querySelector('.hero-shield__number').innerHTML = player.shield;
+          setTimeout(function(){
       document.querySelector('.spells').classList.toggle('showSpells');
+    }, 1000);
     }
   }
   shield() {
+    let audio = new Audio(`../assets/sounds/shield/${new Helpers().randomNumber(5)}.mp4`);
+    audio.play();
     monster.shield += SHIELD_POWER;
     document.querySelector('.monster-shield__number').innerHTML = monster.shield;
-    document.querySelector('.spells').classList.toggle('showSpells');
+    new showSpell().shield('monster');
+        setTimeout(function(){
+      document.querySelector('.spells').classList.toggle('showSpells');
+    }, 1000);
   }
   heal() {
+    let audio = new Audio(`../assets/sounds/heal/${new Helpers().randomNumber(7)}.mp4`);
+    audio.play();
     monster.health += HEAL_POWER;
     if (monster.health > (100 + 20 * level)) {
       monster.health = 100 + 20 * level;
@@ -789,7 +1064,10 @@ class monsterAttack { // монстр выбирает рандомную спо
     document.querySelector('.monster-health-scale').style.width = `${monster.health * 100 / (100 + 20 * level)}%`;
     document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health * 100 / (100 + 20 * level)}%`;
     document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
-    document.querySelector('.spells').classList.toggle('showSpells');
+    new showSpell().heal('monster');
+    setTimeout(function(){
+      document.querySelector('.spells').classList.toggle('showSpells');
+    }, 1000);
   }
 }
 
