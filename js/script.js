@@ -361,9 +361,9 @@ class SoundSlider {
   }
   getSoundSetting(sliderSoundBtn) {
     for (let i in soundLevels) {
-      soundLevel = new Helpers().roundToTwenty(soundLevel, 20, 0);
       let sliderPosition = $(sliderSoundBtn).position().top;
-      if (sliderPosition === Number(Object.keys(soundLevels[i]))) {
+      soundLevel = new Helpers().roundToTwenty(sliderPosition, 20, 0);
+      if (soundLevel === Number(Object.keys(soundLevels[i]))) {
         return soundLevels[i][Number(Object.keys(soundLevels[i]))];
       }
     }
