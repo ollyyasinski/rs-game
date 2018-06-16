@@ -42,7 +42,7 @@ const spellsPower = { // силы способностей (будем тест�
   multipleAttack: 20,
 };
 let player, monster; // объекты игрока и монстра
-let level = 0;
+let level = 4;
 let levelLanguage;
 let spell, modal;
 let gameBackground,
@@ -593,6 +593,16 @@ class createPage { // класс для создания страниц (ско�
         }
       });
     });
+  }
+  endGame() {
+    main.innerHTML = `<div class='dialog' id='dialog'>
+                       <p class='dialog__message' id='message'></p>
+                       <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
+                     </div>`;
+    setTimeout(function () {
+      let dialogText = new Dialogs().boss();
+      new dialogActions().showDialog([dialogText]);
+    }, 500);
   }
 }
 
@@ -1226,7 +1236,8 @@ class doSpell { // игрок применяет заклинание
   attack(power) {
     let audio = new Audio(`../assets/sounds/attack/${new Helpers().randomNumber(9)}.mp4`);
     audio.play();
-    let force = ATTACK_POWER;
+    //let force = ATTACK_POWER;
+    let force = 200;
     new showSpell().attack('monster');
     if (power !== undefined) {
       force = power;
@@ -1256,7 +1267,16 @@ class doSpell { // игрок применяет заклинание
       monster.health = 0;
       document.querySelector('.monster-health-scale').style.width = `${monster.health}%`;
       document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
-      new levelResults().win();
+      if (level < 5) {
+        setTimeout(() => {
+          new levelResults().win();
+        }, 2000); 
+      }
+      if (level === 5) {
+        setTimeout(() => {
+          new levelResults().winGame();
+        }, 2000); 
+      } 
     };
     if (monster.health > 0) {
       document.querySelector('.monster-health-scale').style.width = `${monster.health * 100 / (100 + 20 * level)}%`;
@@ -1343,7 +1363,9 @@ class monsterAttack { // монстр выбирает рандомную спо
       document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
       document.querySelector('.hero-health-scale__number').innerHTML = player.health;
       document.querySelector('.hero-shield__number').innerHTML = player.shield;
-      new levelResults().lose();
+      setTimeout(() => {
+        new levelResults().lose();
+      }, 2000); 
     };
     if (player.health > 0) {
       document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
@@ -1397,7 +1419,7 @@ class levelResults { // уровень закончен
       new dialogActions().showDialog([dialogText]);
     }, 500);
     new Door($(".door-right")).openDoor();
-    synth.cancel(); //stop reading
+    //synth.cancel(); //stop reading
     document.querySelector('.door-right').addEventListener('click', function () { setTimeout(new createPage().level, 1500); });
     new Door($(".door-left")).openDoor();
     document.querySelector('.door-left').addEventListener('click', function () { setTimeout(new createPage().level, 1500); });
@@ -1409,6 +1431,24 @@ class levelResults { // уровень закончен
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
       new dialogActions().showDialog([dialogText]);
     }, 500);
+  }
+  winGame() {
+    document.querySelector('.level__caption').innerHTML = "Congratulations!";
+    player.levelPass++;
+    levelFinished = true;
+    
+
+    setTimeout(function () {
+      let dialogText = new Dialogs().monstersPhrasesWinFinal();
+      new dialogActions().showDialog([dialogText]);
+    }, 500);
+
+    new Door($(".door-right")).openDoor();
+    synth.cancel(); //stop reading
+    document.querySelector('.door-right').addEventListener('click', function () { setTimeout(new createPage().endGame, 1500); });
+    new Door($(".door-left")).openDoor();
+    document.querySelector('.door-left').addEventListener('click', function () { setTimeout(new createPage().endGame, 1500); });
+
   }
 }
 
@@ -1469,6 +1509,14 @@ class Dialogs {
       `Was it easy to get here? Well, the last fight!`,
       `Don't be too happy, ${player.name}! Here everything can end!`
     ];
+    return arr;
+  }
+  monstersPhrasesWinFinal() {
+    let arr = [`Congratulations, ${player.name}, your level is really great. I'll be glad to see you sometime and talk a bit more about ${levelLanguage}. Go through any door, your Boss is waiting.`];
+    return arr;
+  }
+  boss() {
+    let arr = [`Hello, ${player.name}! My "monsters" have tested you well, right? But now we know for sure that you are worthy to become a part of our company! Welcome and good luck in your future work!`];
     return arr;
   }
 }
