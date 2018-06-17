@@ -4,8 +4,8 @@ import {
   LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML, SIDE_NAV_HTML, OFFICE_SETTINGS_HTML, RESULTS_TABLE_HTML, SOUND_SETTINGS_HTML,
   PLAY_AGAIN_BTN_HTML, RULES_HTML
 } from "./consts/html_consts.js";
+import { answerArray, languages, offices } from "./variables/arrays";
 
-import { answerArray, languages} from "./variables/arrays";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/style.css';
@@ -31,17 +31,20 @@ import addWordQuestions from '../assets/questions/addWordTask.json'
 import celebritiesQuestions from '../assets/questions/celebritiesQuestions.json'
 import ddQuestions from '../assets/questions/d&dQuestions.json'
 
-let result, taskField, answerButtom, player, monster, levelLanguage, spell, modal, selectedOffice, lineHeight, voices, text, doSuper,
+let result, taskField, answerButtom, player, monster, levelLanguage, spell, modal, voices, text, doSuper,
   levelFinished, description, attackQuestions, shieldQuestions, healQuestions, monstersPhrases;
 
 let synth = window.speechSynthesis;
-let volume = 1;
+
 let level = 0;
-let rate = 1;
 let blitzCount = false;
 let blitzPower = 0;
-let soundLevel = volume;
 
+
+// let gameBackground;
+let selectedOffice;
+
+let { gameColor } = require('./components/offices');
 
 const englishVocab = vocabulary.english;
 const SUPER_ATTACK_POWER = 60; // константа
@@ -74,8 +77,7 @@ class Player { // класс игрока
   }
 }
 
-import { SideNav } from "./components/game-settings";
-import { Office } from "./components/offices";
+
 
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
@@ -92,6 +94,7 @@ class createPage { // класс для создания страниц (ско�
     document.querySelector('body').style.overflow = 'hidden';
     selectedOffice = offices[0];
     new Office(offices[0], "right").createOffice();
+
     new SideNav().createSideNav();
     $(".hero-container").addClass(player.character).addClass("hero-container-mirror");
     offices.splice(0, 1); //delete reception from office list, this array will be used for random office generation
@@ -164,6 +167,9 @@ class createPage { // класс для создания страниц (ско�
     }, 500);
   }
 }
+
+import { SideNav, volume, rate } from "./components/game-settings";
+import { Office, gameBackground } from "./components/offices";
 
 class Helpers {
   constructor() { }
@@ -1209,3 +1215,5 @@ class ResultsTable {
 
 
 new createPage().greeting();
+
+export { selectedOffice };

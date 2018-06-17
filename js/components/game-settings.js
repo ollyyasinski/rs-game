@@ -1,9 +1,17 @@
 import { CLIP_PXS, MOVE_LENGTH, SOUND_LEVELS } from "../consts/slider_const";
+import { OFFICE_COLORS } from "../consts/const";
 import { SIDE_NAV_HTML, OFFICE_SETTINGS_HTML, SOUND_SETTINGS_HTML, PLAY_AGAIN_BTN_HTML, RULES_HTML } from "../consts/html_consts.js";
 import { ResultsTable } from "../components/game-results";
+import { Helpers } from "../helpers/helpers";
 import $ from 'jquery';
 
-let selectedOffice;
+import { selectedOffice } from "../script";
+import { gameBackground } from '../components/offices';
+let gameColor = OFFICE_COLORS[0],
+    volume = 1,
+    rate = 1,
+    lineHeight,
+    soundLevel = volume;
 
 class SoundSlider {
     constructor(soundLine, soundBtn, minusBtn, plusBtn) {
@@ -75,7 +83,7 @@ class SoundSlider {
             soundLevel = new Helpers().roundToTwenty($(sliderSoundBtn).position().top, MOVE_LENGTH, 0);
             let soundLevelNumber = Number(Object.keys(SOUND_LEVELS[i]));
             if (soundLevel === soundLevelNumber) {
-                return soundLevels[i][soundLevelNumber];
+                return SOUND_LEVELS[i][soundLevelNumber];
             }
         }
     }
@@ -115,7 +123,7 @@ class SideNav {
         $(".game-background").append(OFFICE_SETTINGS_HTML);
         let officesArray = $(".office-option").toArray();
         for (let i in officesArray) {
-            $(officesArray[i]).css('background-image', `url("assets/img/office-background/${officeColors[i]}-offices/${selectedOffice}.png")`);
+            $(officesArray[i]).css('background-image', `url("assets/img/office-background/${OFFICE_COLORS[i]}-offices/${selectedOffice}.png")`);
             $(officesArray[i]).click(new Helpers().selectElement);
         }
 
@@ -175,4 +183,4 @@ class SideNav {
     }
 }
 
-export { SideNav };
+export { SideNav, gameColor, volume, rate };

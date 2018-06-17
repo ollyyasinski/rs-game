@@ -1,10 +1,11 @@
 import $ from 'jquery';
 import { LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML } from "../consts/html_consts.js";
-import { OFFICE_COLORS } from "../consts/const";
 
+
+import { gameColor } from "../components/game-settings";
 let main = document.querySelector('main'),
-    gameBackground,
-    gameColor = OFFICE_COLORS[0];
+    gameBackground;
+
 
 class Door {
     constructor(door) {
@@ -47,4 +48,4 @@ class Office {
     };
 }
 
-export { Office };
+export { Office, gameBackground, gameColor };
