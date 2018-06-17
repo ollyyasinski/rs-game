@@ -3,10 +3,9 @@ import { OFFICE_COLORS } from "../consts/const";
 import { SIDE_NAV_HTML, OFFICE_SETTINGS_HTML, SOUND_SETTINGS_HTML, PLAY_AGAIN_BTN_HTML, RULES_HTML } from "../consts/html_consts.js";
 import { ResultsTable } from "../components/game-results";
 import { Helpers } from "../helpers/helpers";
-import $ from 'jquery';
-
 import { selectedOffice } from "../script";
 import { gameBackground } from '../components/offices';
+
 let gameColor = OFFICE_COLORS[0],
     volume = 1,
     rate = 1,

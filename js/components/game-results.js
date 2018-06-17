@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import { RESULTS_TABLE_HTML } from "../consts/html_consts.js";
 
 

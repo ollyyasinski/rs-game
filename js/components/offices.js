@@ -1,8 +1,6 @@
-import $ from 'jquery';
 import { LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML } from "../consts/html_consts.js";
-
-
 import { gameColor } from "../components/game-settings";
+
 let main = document.querySelector('main'),
     gameBackground;
 
