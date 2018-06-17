@@ -221,7 +221,7 @@ nav {
 }
 
 .game-background-mirror {
-	grid-template: ". . . . . ." ". . . . hero-mirror ." ". . . . . .";
+	grid-template: "level level level level level level" ". . . . hero-mirror ." ". . . . . .";
 }
 
 .door {
@@ -251,6 +251,10 @@ nav {
 
 .door-right-reception {
 	right: 3.8%;
+}
+
+.door-left-boss {
+	left: 3.8%;
 }
 
 .doorOpened {
@@ -349,46 +353,43 @@ nav {
 	height: 100%;
 }
 
-.options-label{
+.options-label {
 	display: block;
 	margin-bottom: 10px;
 }
 
-.super__full{
+.super__full {
 	box-shadow: 0 0 15px rgba(250, 230, 11, 1);
 }
 
-.count-task,
-.celebrities-task{
+.count-task, .celebrities-task {
 	max-width: 600px;
 	height: 270px;
 	float: left;
-	margin-right: 50px; 
+	margin-right: 50px;
 }
 
-.hero-spell-vis,
-.monster-spell-vis{
-    overflow: hidden;
-    position: absolute;
-    bottom:  0;
-}
-
-.hero-spell-image,
-.monster-spell-image{
+.hero-spell-vis, .monster-spell-vis {
+	overflow: hidden;
 	position: absolute;
-  	left: 0;
-  	top: 0;
+	bottom: 0;
 }
 
-.math{
+.hero-spell-image, .monster-spell-image {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.math {
 	width: 30px;
 }
 
-.word{
+.word {
 	width: 100px;
 }
 
-.options-wrapper{
+.options-wrapper {
 	float: right;
 }
 

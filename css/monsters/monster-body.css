@@ -17,3 +17,12 @@
 .monster-body-5 {
     background-image: url("../../assets/img/monstres/bodies/body5.png");
 }
+
+.monster-name {
+    width: 9vh;
+    position: absolute;
+    right: 37%;
+    top: 24%;
+    font-size: 2vh;
+    color: #efefef;
+}
