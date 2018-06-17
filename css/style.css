@@ -49,18 +49,18 @@ body {
 }
 
 .greeting__text {
-	font-size: 30px;
+	font-size: 29px;
 	width: 100%;
 	text-align: center;
-	margin: 20px 0;
+	margin: 15px 0;
 	color: white;
 }
 
 .greeting__profile_caption, .greeting__profile_character-caption {
-	font-size: 25px;
+	font-size: 22px;
 	width: 100%;
 	text-align: center;
-	margin: 15px 0;
+	margin: 13px 0;
 	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -92,7 +92,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	grid-column-gap: 20px;
-	height: 324px;
+	height: 265px;
 	margin: 20px auto;
 }
 
@@ -122,16 +122,18 @@ body {
 	color: white;
 	border: none;
 	background: #0D61BC;
-	font-size: 30px;
+	font-size: 26px;
 	border-radius: 5px;
-	margin: 25px auto 0;
+	margin: 22px auto 0;
 	outline: none;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 	background: linear-gradient(180deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
+	cursor: pointer;
 }
 
 .greeting__profile_button:hover {
 	background: linear-gradient(180deg, #091b37 33%, #0B2349 66%, #0D61BC);
+	cursor: pointer;
 }
 
 .selected {
@@ -175,10 +177,12 @@ body {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 	background: linear-gradient(180deg, #520971 33%, #9c5cb7 66%, #cc98e2);
 	float: right;
+	cursor: pointer;
 }
 
 .dialog__button:hover {
 	background: linear-gradient(180deg, #3b164a 33%, #602479 66%, #9e4bc0);
+	cursor: pointer;
 }
 
 .game-background {
@@ -186,7 +190,7 @@ body {
 	background-position: center center;
 	background-size: 100% auto;
 	min-height: 100vh;
-	background-color: #030000;
+	background-color: #8e9492;
 	position: relative;
 	display: grid;
 	grid-template: "level level level level level level" ". hero spells spells monster ." ". . . . . ."/auto auto 150px 150px auto auto;
@@ -286,6 +290,7 @@ nav {
 .btn {
 	display: block;
 	margin: 40px auto 20px;
+	cursor: pointer;
 }
 
 .hero-shield, .monster-shield {

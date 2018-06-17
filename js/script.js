@@ -736,7 +736,6 @@ class Helpers {
   createPlayer() { // создание объекта игрока
     let character = document.querySelector('.selected') ? document.querySelector('.selected').id : 'hero-2'; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
     player = new Player(document.getElementById('name').value || 'Anonim', character);
-    localStorage.setItem(player.name, 25); //save player name to local storage
   }
   createMonster() { } // сюда запихнем создание имени, тела, объекта 
   showIfAnswerCorrect() { // показывает Correct, если введенные ответ правильный
@@ -1498,6 +1497,7 @@ class levelResults { // уровень закончен
     player.super = 0;
     attackQuestions = 0, shieldQuestions = 0, healQuestions = 0;
     levelFinished = true;
+    localStorage.setItem(player.name, player.levelPass); //save player name to local storage
     document.querySelector('.level__caption').innerHTML = "Congratulations!";
     monstersPhrases = new Dialogs().monstersPhrasesLevelWin();
     setTimeout(function () {
@@ -1513,6 +1513,7 @@ class levelResults { // уровень закончен
   lose() {
     levelFinished = true;
     level = 'lose';
+    localStorage.setItem(player.name, player.levelPass); //save player name to local storage
     monstersPhrases = new Dialogs().monstersPhrasesLevelLose();
     setTimeout(function () {
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
@@ -1523,7 +1524,7 @@ class levelResults { // уровень закончен
     document.querySelector('.level__caption').innerHTML = "Congratulations!";
     player.levelPass++;
     levelFinished = true;
-    console.log(player);
+    localStorage.setItem(player.name, player.levelPass); //save player name to local storage
 
     setTimeout(function () {
       let dialogText = new Dialogs().monstersPhrasesWinFinal();
@@ -1677,7 +1678,7 @@ class ResultsTable {
   };
   createSortedResults() {
     for (result in this.bestResults) {
-      if (this.bestResults[result] !== "no result") {
+      if (!isNaN(Number(this.bestResults[result]))) {
         this.bestResultsSortedArray.push([result, this.bestResults[result]]);
       }
     }
