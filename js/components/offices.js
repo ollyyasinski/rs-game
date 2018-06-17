@@ -46,4 +46,4 @@ class Office {
     };
 }
 
-export { Office, gameBackground, gameColor };
+export { Office, gameBackground };

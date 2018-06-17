@@ -1,5 +1,6 @@
-import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './consts/const';
-import { CLIP_PXS, MOVE_LENGTH } from "./consts/slider_const";
+import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH, ROLE_ARRAY, NAME_ARRAY, SECOND_NAME_ARRAY } from './consts/const';
+import { MONSTER_HEAD_CONTAINER, MONSTER_BODY_CONTAINER, MONSTER_LEGS_CONTAINER, MONSTER_HEAD_ARRAY, MONSTER_BODY_ARRAY, MONSTER_LEGS_ARRAY } from "./consts/monster_consts";
+
 import {
   LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML, SIDE_NAV_HTML, OFFICE_SETTINGS_HTML, RESULTS_TABLE_HTML, SOUND_SETTINGS_HTML,
   PLAY_AGAIN_BTN_HTML, RULES_HTML
@@ -49,18 +50,7 @@ let { gameColor } = require('./components/offices');
 const englishVocab = vocabulary.english;
 const SUPER_ATTACK_POWER = 60; // константа
 
-const heroesArray = ["hero-1", "hero-2", "hero-3", "hero-4"];
 
-const monsterHeadContainer = $(".monster-head-container"),
-  monsterBodyContainer = $(".monster-body-container"),
-  monsterLegsContainer = $(".monster-legs-container"),
-  monsterHeadArray = ["monster-head-1", "monster-head-2", "monster-head-3", "monster-head-4"],
-  monsterBodyArray = ["monster-body-1", "monster-body-2", "monster-body-3", "monster-body-4", "monster-body-5"],
-  monsterLegsArray = ["monster-legs-1", "monster-legs-2", "monster-legs-3"];
-
-const roleArray = ["Project Manager", "Product Owner", "Scrum Master", "Team Lead", "Key Developer"],
-  nameArray = ["Jack", "Tom", "Dzmitry", "Abishek", "Alyaxey", "Richard", "John", "Kiran", "Yauheniy"],
-  secondNameArray = ["Jones", "Abhishek", "Smith", "Brown", "Ivanou", "Hill", "Omar", "Clark"];
 
 const bossOffice = "office-6"; //const
 
@@ -121,7 +111,7 @@ class createPage { // класс для создания страниц (ско�
     new SideNav().createSideNav(level, levelLanguage);
 
     $(".hero-container").addClass(player.character);
-    new MonsterGenerator($(".monster-head-container"), $(".monster-body-container"), $(".monster-legs-container"), ).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
+    new MonsterGenerator( $(".monster-head-container"),  $(".monster-body-container"),  $(".monster-legs-container") ).generateMonster(MONSTER_HEAD_ARRAY, MONSTER_BODY_ARRAY, MONSTER_LEGS_ARRAY);
 
     monster = new Monster(level);
     taskField = document.getElementById('taskFieldAnswer');
@@ -1114,7 +1104,7 @@ class MonsterGenerator {
     new Helpers().addRandomClass(this.head, headArray);
     new Helpers().addRandomClass(this.body, bodyArray);
     new Helpers().addRandomClass(this.legs, legsArray);
-    new NameGenerator(roleArray, nameArray, secondNameArray).showMonsterName();
+    new NameGenerator(ROLE_ARRAY, NAME_ARRAY, SECOND_NAME_ARRAY).showMonsterName();
   }
 
 }
@@ -1140,7 +1130,7 @@ class NameGenerator {
 
 class Monster { // класс монстра
   constructor(level) {
-    this.name = new NameGenerator(roleArray, nameArray, secondNameArray).generateRandomName();
+    this.name = new NameGenerator(ROLE_ARRAY, NAME_ARRAY, SECOND_NAME_ARRAY).generateRandomName();
     this.health = 100 + 20 * level;  // переменная, которая будет определять номер уровеня (1, 2, 3, 4, 5)
     this.spells = ['attack', 'shield', 'heal', 'helper', 'multipleAttack'];
     this.shield = 0;
