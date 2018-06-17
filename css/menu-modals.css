@@ -182,3 +182,13 @@
 .menu-close-btn:hover {
     color: #d43f3a;
 }
+
+.rules-wrapper{
+    margin: 20px;
+    font-size: 25px;
+    line-height: 1.1;
+}
+
+.rules-wrapper p{
+    padding-bottom: 10px; 
+}

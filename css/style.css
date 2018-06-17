@@ -43,7 +43,7 @@ body {
 
 .level__caption {
 	grid-area: level-caption;
-	background: linear-gradient(360deg, #f63d04 33%, #f45d2e 66%, #fc784f);
+	background: linear-gradient(360deg, #fa850f 33%, #ffad5b 66%, #ffc387);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
