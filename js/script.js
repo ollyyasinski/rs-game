@@ -1,4 +1,5 @@
-import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './const'
+import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './const';
+import { CLIP_PXS, MOVE_LENGTH } from "./slider_const";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/style.css';
 import $ from 'jquery';
@@ -50,27 +51,75 @@ let spell, modal;
 let gameBackground,
   selectedOffice,
   offices = ['office-0', 'office-1', 'office-2', 'office-3', 'office-4', "office-5"],
-  fullGameBody = `<div class="game-background">
-  <div class="door door-left"></div>
-  <div class="door door-right"></div>
-  <div class='hero-container'>
-    <div class="hero-health__wrapper">
-      <div class='hero-health-scale'>
-        <span class='hero-health-scale__number'></span>
+  fullGameBody = `<div class = "background-opacity-wrapper"> </div>
+  <div class="game-background">
+  <nav>
+    <div class="humburger-btn-wrapper" id="humbergerBtn">
+      <div class="humburger-btn-line"></div>
+      <div class="humburger-btn-line"></div>
+      <div class="humburger-btn-line"></div>
+    </div>
+  </nav>
+    <ul class='spells'>
+
+      <li class='spell attack'><p class='spell_wrapper'><span class='spell__name'>Attack</span><span class='spell__description'>40 damage to monster</span></li>
+      <li class='spell shield'><p class='spell_wrapper'><span class='spell__name'>Shield</span><span class='spell__description'>+50 to your defense (absorbs damage)</span></li>
+      <li class='spell heal'><p class='spell_wrapper'><span class='spell__name'>Heal</span><span class='spell__description'>+30 to your health</span></li>
+      <li class='spell blitzAttack'><p class='spell_wrapper'><span class='spell__name'>Blitz Attack</span><span class='spell__description'>3 tasks, each gives +20 to your attack power (max is 60)</span></li>
+      <li class='spell super blockSuper'><p class='spell_wrapper'><span class='spell__name'>Super Attack</span><span class='spell__description'>60 damage to monster. Available when the yellow scale is full</span></li>
+    <li class='tips-background'></li>
+    </ul>
+    <div class="door door-left"></div>
+    <div class="door door-right"></div>
+    <div class='hero-container'>
+      <div class="hero-health__wrapper">
+       <div class='hero-shield'>
+         <span>Shield: <span class='hero-shield__number'></span></span>
+       </div>
+        <div class='hero-health-scale'>
+          <span class='hero-health-scale__number'></span>
+        </div>
+        <div class='hero-super'>
+          <div class='hero-super_scale'>
+          </div>
+        </div>
+      </div>
+      <div class='hero-spell-vis'><img class='hero-spell-image'></div>
+    </div>
+    <div class="monster-container">
+      <div class="monster-head-container">
+        <div class="monster-health__wrapper">
+          <div class='monster-shield'>
+            <span>Shield: <span class='monster-shield__number'></span></span>
+          </div>                          
+          <div class='monster-health-scale'>
+            <span class='monster-health-scale__number'></span>
+          </div>
+        </div>
+      </div>
+      <div class="monster-body-container"><p class="monster-name"></p></div>
+      <div class="monster-legs-container">
+        <div class='monster-spell-vis'><img class='monster-spell-image'></div>
       </div>
     </div>
-  </div>
-  <div class="monster-container">
-    <div class="monster-health__wrapper">
-      <div class='monster-health-scale'>
-        <span class='monster-health-scale__number'></span>
+    <div id="taskModal" class="modal">
+      <div class="task-modal-content">
+        <div class='task-task-content'>
+          <p class='task-task-description' id='taskDesc'></p>
+          <div class='task-task-text-wrapper'><p class='task-task-text' id='taskText'></p></div>
+        </div>
+        <div class='task-field' id='taskField'>
+          <div class='task-field-answer-container' id="taskFieldAnswer"></div>
+          <div class='answer'><span id='answer__correct' class='correct'></span><span id='answer__wrong' class='wrong'></span></div>
+        </div>
       </div>
+    </div>                      
+    <div class='dialog' id = dialog>
+      <p class='dialog__message' id='message'></p>
+      <button type="button" class="dialog__button" id = 'dialogButton'>Close</button>
     </div>
-    <div class="monster-head-container"></div>
-    <div class="monster-body-container"><p class="monster-name"></p></div>
-    <div class="monster-legs-container"></div>
-  </div>
-</div>`,
+  
+  </div>`,
   rightDoorGameBody = `<div class="game-background game-background-mirror">
   <nav>
   <div class="humburger-btn-wrapper" id="humbergerBtn">
@@ -316,26 +365,25 @@ class Office {
     this.background = background;
     this.doors = doors;
   };
-  createOffice() {
-    if (this.doors === 2) {
-      // main.innerHTML = fullGameBody;
+  createOffice(level, levelLanguage) {
+    let addGameBody = () => {
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
       gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
+    }
+    if (this.doors === 2) {
+      main.innerHTML = fullGameBody;
+      $("nav").append(`<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>`);
+      addGameBody();
     } else if (this.doors === "right") {
       main.classList.add('wrapper__reception');
       main.innerHTML = rightDoorGameBody;
-      gameBackground = $('.game-background');
-      gameBackground.addClass(this.background);
-      gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
+      addGameBody();
       new Door($(".door-right")).openDoor();
     } else {
       main.classList.add('wrapper__reception');
       main.innerHTML = leftDoorGameBody;
-      gameBackground = $('.game-background');
-      gameBackground.addClass(this.background);
-      gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
-      // new Door($(".door-left")); 
+      addGameBody();
     }
   };
 }
@@ -360,67 +408,46 @@ class SoundSlider {
       containment: 'parent'
     });
 
-    // let moveSlider = (movePosition) => {
-    //   let position = currentPosition,
-    //     marginTop = position.top,
-    //     soundLevel = marginTop + movePosition;
-
-    //   $(sliderSoundLine).css({
-    //     'clip': 'rect(' + soundLevel + 'px,8px, 183px,0px)'
-    //   });
-    // }
-
-    $(sliderSoundBtn).on('drag', function () {
-      // moveSlider();
-      let position = $(sliderSoundBtn).position(),
-        marginTop = position.top,
-        soundLevel = marginTop;
+    $(sliderSoundBtn).on('drag', () => {
+      let soundLevel = $(sliderSoundBtn).position().top;
 
       $(sliderSoundLine).css({
-        'clip': 'rect(' + marginTop + 'px,8px, 183px,0px)'
+        'clip': 'rect(' + soundLevel + CLIP_PXS
       });
     });
 
 
     $(sliderMinusBtn).on('click', function () {
-      let position = $(sliderSoundBtn).position(),
-        marginTop = position.top,
-        soundLevel = marginTop + 20;
+      let soundLevel = $(sliderSoundBtn).position().top + MOVE_LENGTH;
 
       $(sliderSoundLine).css({
-        'clip': 'rect(' + (marginTop + 20) + 'px,8px, 183px,0px)'
+        'clip': 'rect(' + soundLevel + CLIP_PXS
       });
 
-      if (marginTop < lineHeight - 28) {
+      if (soundLevel <= lineHeight - (MOVE_LENGTH / 2)) {
         $(sliderSoundBtn).css({
-          'top': marginTop + 20
+          'top': soundLevel
         });
-        console.log(soundLevel);
       } else {
-        soundLevel = lineHeight - 10;
-        console.log(soundLevel);
+        soundLevel = lineHeight - (MOVE_LENGTH / 2);
       }
     });
 
     $(sliderPlusBtn).on('click', function () {
-      let position = $(sliderSoundBtn).position();
-      marginTop = position.top;
-      soundLevel = marginTop - 20;
+      let soundLevel = $(sliderSoundBtn).position().top - MOVE_LENGTH;
 
       $(sliderSoundLine).css({
-        'clip': 'rect(' + (marginTop - 20) + 'px,8px, 183px,0px)'
+        'clip': 'rect(' + soundLevel + CLIP_PXS
       });
 
-      if (marginTop > 0) {
-        console.log(soundLevel);
+      if (soundLevel + MOVE_LENGTH > 0) {
         $(sliderSoundBtn).css({
-          'top': marginTop - 20
+          'top': soundLevel
         });
-      }
+      };
 
-      if (marginTop > lineHeight - 38) {
-        soundLevel = lineHeight - 40;
-        console.log(soundLevel);
+      if (soundLevel >= lineHeight - (MOVE_LENGTH / 2)) {
+        soundLevel = lineHeight - (MOVE_LENGTH * 2);
       }
     }
     );
@@ -428,10 +455,10 @@ class SoundSlider {
   }
   getSoundSetting(sliderSoundBtn) {
     for (let i in soundLevels) {
-      let sliderPosition = $(sliderSoundBtn).position().top;
-      soundLevel = new Helpers().roundToTwenty(sliderPosition, 20, 0);
-      if (soundLevel === Number(Object.keys(soundLevels[i]))) {
-        return soundLevels[i][Number(Object.keys(soundLevels[i]))];
+      soundLevel = new Helpers().roundToTwenty($(sliderSoundBtn).position().top, MOVE_LENGTH, 0);
+      let soundLevelNumber = Number(Object.keys(soundLevels[i]));
+      if (soundLevel === soundLevelNumber) {
+        return soundLevels[i][soundLevelNumber];
       }
     }
   }
@@ -567,84 +594,12 @@ class createPage { // класс для создания страниц (ско�
     level++;
     levelFinished = false;
     levelLanguage = new Helpers().chooseLanguage(languages);
-    main.innerHTML = `<div class = "background-opacity-wrapper"> </div>
-                      <div class="game-background">
-                      <nav>
-                        <div class="humburger-btn-wrapper" id="humbergerBtn">
-                          <div class="humburger-btn-line"></div>
-                          <div class="humburger-btn-line"></div>
-                          <div class="humburger-btn-line"></div>
-                        </div>
-                        <h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>
-                      </nav>
-                        <ul class='spells'>
-
-                          <li class='spell attack'><p class='spell_wrapper'><span class='spell__name'>Attack</span><span class='spell__description'>40 damage to monster</span></li>
-                          <li class='spell shield'><p class='spell_wrapper'><span class='spell__name'>Shield</span><span class='spell__description'>+50 to your defense (absorbs damage)</span></li>
-                          <li class='spell heal'><p class='spell_wrapper'><span class='spell__name'>Heal</span><span class='spell__description'>+30 to your health</span></li>
-                          <li class='spell blitzAttack'><p class='spell_wrapper'><span class='spell__name'>Blitz Attack</span><span class='spell__description'>3 tasks, each gives +20 to your attack power (max is 60)</span></li>
-                          <li class='spell super blockSuper'><p class='spell_wrapper'><span class='spell__name'>Super Attack</span><span class='spell__description'>60 damage to monster. Available when the yellow scale is full</span></li>
-                        <li class='tips-background'></li>
-                        </ul>
-                        <div class="door door-left"></div>
-                        <div class="door door-right"></div>
-                        <div class='hero-container'>
-                          <div class="hero-health__wrapper">
-                           <div class='hero-shield'>
-                             <span>Shield: <span class='hero-shield__number'></span></span>
-                           </div>
-                            <div class='hero-health-scale'>
-                              <span class='hero-health-scale__number'></span>
-                            </div>
-                            <div class='hero-super'>
-                              <div class='hero-super_scale'>
-                              </div>
-                            </div>
-                          </div>
-                          <div class='hero-spell-vis'><img class='hero-spell-image'></div>
-                        </div>
-                        <div class="monster-container">
-                          <div class="monster-head-container">
-                            <div class="monster-health__wrapper">
-                              <div class='monster-shield'>
-                                <span>Shield: <span class='monster-shield__number'></span></span>
-                              </div>                          
-                              <div class='monster-health-scale'>
-                                <span class='monster-health-scale__number'></span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="monster-body-container"><p class="monster-name"></p></div>
-                          <div class="monster-legs-container">
-                            <div class='monster-spell-vis'><img class='monster-spell-image'></div>
-                          </div>
-                        </div>
-                        <div id="taskModal" class="modal">
-                          <div class="task-modal-content">
-                            <div class='task-task-content'>
-                              <p class='task-task-description' id='taskDesc'></p>
-                              <div class='task-task-text-wrapper'><p class='task-task-text' id='taskText'></p></div>
-                            </div>
-                            <div class='task-field' id='taskField'>
-                              <div class='task-field-answer-container' id="taskFieldAnswer"></div>
-                              <div class='answer'><span id='answer__correct' class='correct'></span><span id='answer__wrong' class='wrong'></span></div>
-                            </div>
-                          </div>
-                        </div>                      
-                        <div class='dialog' id = dialog>
-                          <p class='dialog__message' id='message'></p>
-                          <button type="button" class="dialog__button" id = 'dialogButton'>Close</button>
-                        </div>
-                      
-                      </div> `; //нарисовать страницу
-
     selectedOffice = new Helpers().randomArrayElem(offices);
-    new Office(selectedOffice, 2).createOffice(); //создает рандомный офис, пока закомментила, чтобы не мешать твоему innerHTML
+    new Office(selectedOffice, 2).createOffice(level, levelLanguage); //создает рандомный офис, пока закомментила, чтобы не мешать твоему innerHTML
+    new SideNav().createSideNav(level, levelLanguage);
+
     $(".hero-container").addClass(player.character);
     new MonsterGenerator($(".monster-head-container"), $(".monster-body-container"), $(".monster-legs-container"), ).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
-
-    //side-nav
-    new SideNav().createSideNav(level, levelLanguage);
 
     monster = new Monster(level);
     taskField = document.getElementById('taskFieldAnswer');
@@ -1321,8 +1276,8 @@ class doSpell { // игрок применяет заклинание
   attack(power) {
     let audio = new Audio(`../assets/sounds/attack/${new Helpers().randomNumber(9)}.mp4`);
     audio.play();
-    let force = ATTACK_POWER;
-    //let force = 200;
+    //let force = ATTACK_POWER;
+    let force = 200;
     new showSpell().attack('monster');
     if (power !== undefined) {
       force = power;

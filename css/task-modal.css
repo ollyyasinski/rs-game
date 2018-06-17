@@ -34,7 +34,7 @@
     grid-template: "task-task-content" 40% "task-field" 60%;
 }
 
-.countTask{
+.countTask {
     grid-template: "task-task-content" 30% "task-field" 70%;
 }
 
@@ -43,7 +43,7 @@
     margin-top: 7%;
 }*/
 
-.rules-list{
+.rules-list {
     display: inline-block;
     margin-left: 15px;
 }
@@ -71,9 +71,11 @@
     grid-area: task-task-description;
     align-self: center;
     color: teal;
+    width: 80%;
+    margin: 0 auto;
 }
 
-.task-task-text-wrapper{
+.task-task-text-wrapper {
     width: 80%;
     justify-self: center;
 }
