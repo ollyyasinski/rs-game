@@ -14,7 +14,6 @@
     background-size: auto 100%;
     height: 70vh;
     min-width: 22vh;
-    bottom: -60px;
     position: relative;
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
@@ -23,6 +22,7 @@
     filter: FlipH;
     -ms-filter: "FlipH";
     grid-area: hero-mirror;
+    margin-bottom: 10px;
 }
 
 .hero-1 {

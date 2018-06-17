@@ -1,4 +1,5 @@
 import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './const'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/style.css';
 import $ from 'jquery';
 require('jquery-ui');
@@ -20,12 +21,13 @@ import countQuestions from '../assets/questions/countQuestions.json'
 import nameQuestions from '../assets/questions/nameTask.json'
 import addWordQuestions from '../assets/questions/addWordTask.json'
 import celebritiesQuestions from '../assets/questions/celebritiesQuestions.json'
+import ddQuestions from '../assets/questions/d&dQuestions.json'
 
 let result;
 let answerArray = [];
 const englishVocab = vocabulary.english; //get english vocabulary
 const SUPER_ATTACK_POWER = 60;
-let languages = ['javaScript', 'css', 'html', 'c++', 'java', 'php', 'ruby', 'python3']; // ЯП для монстров (уровней)
+let languages = [/*'javaScript', 'css', */'html'/*, 'c++', 'java', 'php', 'ruby', 'python3'*/]; // ЯП для монстров (уровней)
 let taskField;
 let main = document.querySelector('main'),
   body = $('body');
@@ -519,7 +521,7 @@ class SideNav {
     $(closeBtn).click(() => {
       $(".menu-modal").remove();
       $(".background-opacity-wrapper").removeClass("background-opacity-wrapper-width");
-      $(".sidenav").removeClass("sidenav-width");
+      //$(".sidenav").removeClass("sidenav-width");
     })
   }
   addPlayAgainBtn() {
@@ -542,6 +544,7 @@ class createPage { // класс для создания страниц (ско�
   }
   reception() { // страница ресепшена 
     new Helpers().createPlayer();
+    document.querySelector('body').style.overflow = 'hidden';
     selectedOffice = offices[0];
     new Office(offices[0], "right").createOffice();
     new SideNav().createSideNav();
@@ -836,7 +839,7 @@ class Helpers {
     new Spells()[spell]();
   }
   randomTasksArray() {
-    let arr = ['calculator', 'firstNumberInEquation', 'secondNumberInEquation', 'putInRightOrder'];
+    let arr = ['calculator', 'firstNumberInEquation', 'secondNumberInEquation'];
     if (Object.keys(englishVocab).length !== 0) {
       arr.push('translate');
     }
@@ -860,6 +863,9 @@ class Helpers {
     }
     if (celebritiesQuestions.length !== 0) {
       arr.push('chooseRightName');
+    }
+    if (ddQuestions.length !== 0) {
+      arr.push('putInRightOrder');
     }
     return arr;
   }
@@ -911,15 +917,9 @@ class Tasks { // дополнитльные (рандомные) задания
     new giveTask().showTaskSimple(rules, str, res); // выводим на экран
   }
   putInRightOrder() {
-    let rules = `Put code parts in the right order`,
-      res = [
-        ["let max", "=", "(a, b)", "=>", "{", "a > b", ";", "}", ";"],
-        ["setTimeout(", "()", "=>", "{", "return 'result'", ";", "},", "1)", ";"],
-        ["for(", "var i = 0", ";", "i++", ")", "{", "if (i > 3)", "break;", "}"],
-        ["el", ".addEventListener(", '"click"', ",", "()", "=>", '{ alert("hello!"); }', ")", ";"],
-        ["class", "Rectangle", "{", "constructor", "(height){", "this.height", "=", "height;", "} }"]
-      ];
-
+    let rules = `Put code parts in the right order`;
+    let res = ddQuestions; 
+    console.log(res);
     let index = new Helpers().randomNumber(res.length); // генерируем рандомный индекс
     let answer = res[index]; // получаем массив с ответом
     let task = _.shuffle(res[index]);
@@ -1046,7 +1046,7 @@ class Spells { // заклинания
 class giveTask { // вывод вопросов на экран
   constructor() { }
   showTaskSimple(rules, task, answer) { // вопросы по схеме правило -> текст 
-    taskField.innerHTML = `<input type="text" class='task__form_answer'>
+    taskField.innerHTML = `<input type="text" class='task__form_answer' autofocus>
     <input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.btn');
     description.innerHTML = rules;
@@ -1055,7 +1055,7 @@ class giveTask { // вывод вопросов на экран
     answerButtom.addEventListener('click', result.checkSimpleAnswer); // по клику - проверять результат
   }
   showTaskAudio(rules, task, answer) {
-    taskField.innerHTML = `<input type="text" class='task__form_answer'>
+    taskField.innerHTML = `<input type="text" class='task__form_answer' autofocus>
     <input type="button" class='btn task-field-btn' value="Answer">`;
 
     let description = document.querySelector('#taskDesc'),
@@ -1092,7 +1092,7 @@ class giveTask { // вывод вопросов на экран
     answerButtom.addEventListener('click', result.checkSelectedAnswer);
   }
   showTaskOrder(rules, task, answer) {
-    taskField.innerHTML = `<ul class="sortable task-filed-answer">
+    text.innerHTML = `<ul class="sortable task-filed-answer">
                         <li class="default" id="id_1">${task[0]}</li>
                         <li class="default" id="id_2">${task[1]}</li>
                         <li class="default" id="id_3">${task[2]}</li>
@@ -1102,16 +1102,17 @@ class giveTask { // вывод вопросов на экран
                         <li class="default" id="id_7">${task[6]}</li>
                         <li class="default" id="id_7">${task[7]}</li>
                         <li class="default" id="id_7">${task[8]}</li>
-                      </ul>
-                      <input type="button" class='btn task-field-btn' value="Answer">`;
-    // <input type="button" class='btn task-filed-btn' value="Answer">`;
-    answerButtom = document.querySelector('.task-field-btn');
+                      </ul>`;                
+    taskField.innerHTML = `<input type="button" class='btn task-field-btn' value="Answer">`;
+    answerButtom = document.querySelector('.task-field-btn');    
     description.innerHTML = rules;
     result = new checkAnswer(answer);
     $(function () {
       $(".sortable").sortable();
     });
     answerButtom.addEventListener('click', result.checkDroppedAnswer);
+
+    
   }
   showTrueFalseTask(rules, task, answer) {
     taskField.innerHTML = `<label class='options-label'><input type='radio' class='task__form_options' name='answer' value='True'>True</label>
@@ -1126,7 +1127,7 @@ class giveTask { // вывод вопросов на экран
   }
   showCountTask(rules, task, src, answer) {
     taskField.innerHTML = `<img src=${src} class='count-task'>
-                            <input type="text" class='task__form_answer'>
+                            <input type="text" class='task__form_answer' autofocus>
                             <input type="button" class='btn task-field-btn' value="Answer">`;
     document.querySelector(".task-modal-content").classList.add('countTask');
     answerButtom = document.querySelector('.btn');
@@ -1138,7 +1139,7 @@ class giveTask { // вывод вопросов на экран
     answerButtom.addEventListener('click', result.checkSimpleAnswer);
   }
   showTaskFirstInEquation(rules, task, answer) {
-    taskField.innerHTML = `<label><input type="text" class='task__form_answer math'>${task}</label>
+    taskField.innerHTML = `<label><input type="text" class='task__form_answer math' autofocus>${task}</label>
                           <input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.btn');
     description.innerHTML = rules;
@@ -1147,7 +1148,7 @@ class giveTask { // вывод вопросов на экран
     answerButtom.addEventListener('click', result.checkSimpleAnswer);
   }
   showTaskSecondInEquation(rules, firstPart, secondPart, answer) {
-    taskField.innerHTML = `<label>${firstPart}<input type="text" class='task__form_answer math'>${secondPart}</label>
+    taskField.innerHTML = `<label>${firstPart}<input type="text" class='task__form_answer math' autofocus>${secondPart}</label>
                           <input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.btn');
     description.innerHTML = rules;
@@ -1156,7 +1157,7 @@ class giveTask { // вывод вопросов на экран
     answerButtom.addEventListener('click', result.checkSimpleAnswer);
   }
   showTaskAddWord(rules, firstPart, secondPart, answer) {
-    taskField.innerHTML = `<label>${firstPart}<input type="text" class='task__form_answer word'>${secondPart}</label>
+    taskField.innerHTML = `<label>${firstPart}<input type="text" class='task__form_answer word' autofocus>${secondPart}</label>
                           <input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.btn');
     description.innerHTML = rules;
@@ -1317,8 +1318,8 @@ class doSpell { // игрок применяет заклинание
   attack(power) {
     let audio = new Audio(`../assets/sounds/attack/${new Helpers().randomNumber(9)}.mp4`);
     audio.play();
-    //let force = ATTACK_POWER;
-    let force = 200;
+    let force = ATTACK_POWER;
+    //let force = 200;
     new showSpell().attack('monster');
     if (power !== undefined) {
       force = power;

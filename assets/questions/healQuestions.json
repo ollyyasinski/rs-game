@@ -213,7 +213,7 @@
                 "HyperText Mask Language",
                 "HyperText Markup Language"
             ],
-            "Hypertext Markup Language"
+            "HyperText Markup Language"
         ],
         [
             "Which &lt;link&gt; attribute contains the link address?",
@@ -253,7 +253,7 @@
                 "&lt;input type=check&gt;",
                 "&lt;input type=checkbox&gt;"
             ],
-            "&lt;input type=checkbox&gt;"
+            "<input type=checkbox>"
         ],
         [
             "Which tag doesn't exist?",
