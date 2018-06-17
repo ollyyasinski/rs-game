@@ -1321,8 +1321,8 @@ class doSpell { // игрок применяет заклинание
   attack(power) {
     let audio = new Audio(`../assets/sounds/attack/${new Helpers().randomNumber(9)}.mp4`);
     audio.play();
-    //let force = ATTACK_POWER;
-    let force = 200;
+    let force = ATTACK_POWER;
+    //let force = 200;
     new showSpell().attack('monster');
     if (power !== undefined) {
       force = power;
