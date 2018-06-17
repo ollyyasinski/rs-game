@@ -680,6 +680,7 @@ class createPage { // класс для создания страниц (ско�
   }
   endGame() {
     // new Helpers().createPlayer();
+    level = 'boss';
     selectedOffice = bossOffice;
     new Office(selectedOffice, "left").createOffice();
     new SideNav().createSideNav();
@@ -902,6 +903,9 @@ class dialogActions { // методы окна диалога
     dialogWrapper.classList.toggle('dialog-active');
     if (level && levelFinished === false) {
       document.querySelector('.spells').classList.toggle('showSpells');
+    }
+    if (level === 'boss' || level === 'lose') {
+      new SideNav().showResults(true);
     }
   }
 }
@@ -1318,8 +1322,8 @@ class doSpell { // игрок применяет заклинание
   attack(power) {
     let audio = new Audio(`../assets/sounds/attack/${new Helpers().randomNumber(9)}.mp4`);
     audio.play();
-    let force = ATTACK_POWER;
-    //let force = 200;
+    //let force = ATTACK_POWER;
+    let force = 200;
     new showSpell().attack('monster');
     if (power !== undefined) {
       force = power;
@@ -1508,6 +1512,7 @@ class levelResults { // уровень закончен
   }
   lose() {
     levelFinished = true;
+    level = 'lose';
     monstersPhrases = new Dialogs().monstersPhrasesLevelLose();
     setTimeout(function () {
       let dialogText = new Helpers().randomArrayElem(monstersPhrases);
@@ -1518,7 +1523,7 @@ class levelResults { // уровень закончен
     document.querySelector('.level__caption').innerHTML = "Congratulations!";
     player.levelPass++;
     levelFinished = true;
-
+    console.log(player);
 
     setTimeout(function () {
       let dialogText = new Dialogs().monstersPhrasesWinFinal();
