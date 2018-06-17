@@ -43,24 +43,23 @@ body {
 .level__caption {
 	grid-area: level-caption;
 	background: linear-gradient(180deg, #401167 33%, #580e96 66%, #7918cc);
-	/*background: linear-gradient(180deg, #000000 33%, #4b4b4b 66%, #767676);*/
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
 
 .greeting__text {
-	font-size: 29px;
+	font-size: 30px;
 	width: 100%;
 	text-align: center;
-	margin: 15px 0;
+	margin: 20px 0;
 	color: white;
 }
 
 .greeting__profile_caption, .greeting__profile_character-caption {
-	font-size: 22px;
+	font-size: 25px;
 	width: 100%;
 	text-align: center;
-	margin: 13px 0;
+	margin: 15px 0;
 	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -92,7 +91,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	grid-column-gap: 20px;
-	height: 265px;
+	height: calc(100vh - 350px);
 	margin: 20px auto;
 }
 
@@ -122,9 +121,9 @@ body {
 	color: white;
 	border: none;
 	background: #0D61BC;
-	font-size: 26px;
+	font-size: 30px;
 	border-radius: 5px;
-	margin: 22px auto 0;
+	margin: 25px auto 0;
 	outline: none;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 	background: linear-gradient(180deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
@@ -267,20 +266,27 @@ nav {
 }
 
 .hero-health__wrapper, .monster-health__wrapper {
-	position: relative;
-	width: 200px;
-	border: 2px solid blue;
-	height: 20px;
-	margin: -40px auto 0;
+    position: relative;
+    width: 200px;
+    border: 2px solid black;
+    height: 20px;
+    margin: -40px auto 0;
+    border-radius: 5px;
 }
 
 .hero-health-scale, .monster-health-scale {
-	background: red;
-	text-align: center;
-	height: 100%;
-	position: absolute;
-	width: 100%;
-	color: white;
+    background: linear-gradient(90deg, #ff0000, #ff5e5e);
+    border-radius: 2px;
+    text-align: center;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    color: white;
+    transition: .9s;
+}
+
+.monster-health-scale {
+	background: linear-gradient(90deg, #ff5e5e, #ff0000);
 }
 
 .showSpells {
@@ -295,13 +301,20 @@ nav {
 
 .hero-shield, .monster-shield {
 	position: absolute;
-	margin-top: -20px;
-	width: 100px;
-	height: 18px;
-	background-color: green;
-	color: white;
-	padding-top: 2px;
-	padding: 3px 3px;
+    margin-top: -20px;
+    width: 100px;
+    height: 18px;
+    color: white;
+    padding-top: 2px;
+    padding: 3px 10px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background: linear-gradient(90deg, #7ec936, #a1ff45);
+}
+
+.monster-shield {
+	background: linear-gradient(90deg, #a1ff45, #7ec936);
 }
 
 .hero-shield {
@@ -330,10 +343,6 @@ nav {
 	margin-bottom: 10px;
 }
 
-.super__full {
-	box-shadow: 0 0 15px rgba(250, 230, 11, 1);
-}
-
 .wrong {
 	background: linear-gradient(360deg, #be0d0d 33%, #e32121 66%, #fa4242);
 	-webkit-background-clip: text;
@@ -341,30 +350,32 @@ nav {
 }
 
 .hero-super {
-	text-align: center;
-	height: 60%;
-	position: relative;
-	width: calc(100% + 4px);
-	margin-top: 18px;
-	margin-left: -2px;
-	color: white;
-	border: 1px solid orange;
-	border-top: none;
+    text-align: center;
+    height: 70%;
+    position: relative;
+    width: calc(100% + 2px);
+    margin-top: 16px;
+    color: white;
+    border: 2px solid orange;
+    border-radius: 3px;
+    border-top: 2px solid black;
 }
 
 .hero-super_scale {
-	background: yellow;
 	position: absolute;
-	height: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #fffb93, #fff836);
+    border-radius: 1px;
+    transition: .9s;
+}
+
+.super__full {
+	border: 2px solid #ffcc00;
 }
 
 .options-label {
 	display: block;
 	margin-bottom: 10px;
-}
-
-.super__full {
-	box-shadow: 0 0 15px rgba(250, 230, 11, 1);
 }
 
 .count-task, .celebrities-task {
