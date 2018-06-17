@@ -44,7 +44,7 @@ const spellsPower = { // силы способностей (будем тест�
   multipleAttack: 20,
 };
 let player, monster; // объекты игрока и монстра
-let level = 4;
+let level = 0;
 let levelLanguage;
 let spell, modal;
 let gameBackground,
@@ -422,9 +422,7 @@ class SoundSlider {
         soundLevel = lineHeight - 40;
         console.log(soundLevel);
       }
-    }
-    );
-
+    });
   }
   getSoundSetting(sliderSoundBtn) {
     for (let i in soundLevels) {
