@@ -49,7 +49,7 @@ let levelLanguage;
 let spell, modal;
 let gameBackground,
   selectedOffice,
-  offices = ['reception', 'office-1', 'office-2', 'office-3', 'office-4', "office-5"],
+  offices = ['office-0', 'office-1', 'office-2', 'office-3', 'office-4', "office-5"],
   fullGameBody = `<div class="game-background">
   <div class="door door-left"></div>
   <div class="door door-right"></div>
@@ -67,11 +67,18 @@ let gameBackground,
       </div>
     </div>
     <div class="monster-head-container"></div>
-    <div class="monster-body-container"></div>
+    <div class="monster-body-container"><p class="monster-name"></p></div>
     <div class="monster-legs-container"></div>
   </div>
 </div>`,
-  oneDoorGameBody = `<div class="game-background game-background-mirror">
+  rightDoorGameBody = `<div class="game-background game-background-mirror">
+  <nav>
+  <div class="humburger-btn-wrapper" id="humbergerBtn">
+    <div class="humburger-btn-line"></div>
+    <div class="humburger-btn-line"></div>
+    <div class="humburger-btn-line"></div>
+  </div>
+</nav>
 <div class="door door-right door-right-reception"></div>
 <div class="hero-container"></div>
 </div>
@@ -79,6 +86,22 @@ let gameBackground,
 <p class='dialog__message' id='message'></p>
 <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
 </div>`;
+
+let leftDoorGameBody = `<div class="game-background">
+<nav>
+<div class="humburger-btn-wrapper" id="humbergerBtn">
+  <div class="humburger-btn-line"></div>
+  <div class="humburger-btn-line"></div>
+  <div class="humburger-btn-line"></div>
+</div>
+</nav>
+<div class="door door-left door-left-boss"></div>
+<div class="hero-container"></div>
+</div>
+<div class='dialog' id='dialog'>
+                       <p class='dialog__message' id='message'></p>
+                       <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
+                     </div>`;
 
 const heroesArray = ["hero-1", "hero-2", "hero-3", "hero-4"];
 
@@ -216,6 +239,11 @@ let soundSettingsHTML = `<div class="menu-modal">
 </div>
 </div>`;
 
+let playAganBtnHTML = `
+<div class="menu-modal-submit-wrapper">
+<button type="button" class="btn btn-danger menu-btn" id="playAgainBtn">Play Again</button>
+</div>`;
+
 let rulesHTML = `<div class="menu-modal">
   <div class="menu-modal-content-wrapper">
     <div class="menu-modal-content">
@@ -264,6 +292,7 @@ let soundLevels = [
   { 160: 0 }
 ],
   soundLevel = volume;
+const bossOffice = "office-6";
 /*const ATTACK_POWER = 40;
 const SHIELD_POWER = 50;
 const HEAL_POWER = 30;
@@ -283,23 +312,30 @@ class Player { // класс игрока
 }
 
 class Office {
-  constructor(background, doorsAmount) {
+  constructor(background, doors) {
     this.background = background;
-    this.doorsAmount = doorsAmount;
+    this.doors = doors;
   };
   createOffice() {
-    if (this.doorsAmount === 2) {
+    if (this.doors === 2) {
       // main.innerHTML = fullGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
       gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
-    } else {
+    } else if (this.doors === "right") {
       main.classList.add('wrapper__reception');
-      main.innerHTML = oneDoorGameBody;
+      main.innerHTML = rightDoorGameBody;
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
       gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
       new Door($(".door-right")).openDoor();
+    } else {
+      main.classList.add('wrapper__reception');
+      main.innerHTML = leftDoorGameBody;
+      gameBackground = $('.game-background');
+      gameBackground.addClass(this.background);
+      gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
+      // new Door($(".door-left")); 
     }
   };
 }
@@ -425,8 +461,7 @@ class SideNav {
     });
 
     $("#bestResults").click(() => {
-      new ResultsTable().showResults();
-      this.closeMenuModal("#closeResults");
+      this.showResults(true);
     });
     $('#rules').click(() => {
       this.showRules();
@@ -475,12 +510,25 @@ class SideNav {
     $(".game-background").append(rulesHTML);
     this.closeMenuModal("#closeSound");
   }
+  showResults(btn) {
+    new ResultsTable().showResults();
+    this.closeMenuModal("#closeResults");
+    if (btn) {
+      this.addPlayAgainBtn();
+    }
+  }
   closeMenuModal(closeBtn) {
     $(closeBtn).click(() => {
       $(".menu-modal").remove();
       $(".background-opacity-wrapper").removeClass("background-opacity-wrapper-width");
       //$(".sidenav").removeClass("sidenav-width");
     })
+  }
+  addPlayAgainBtn() {
+    $(".menu-modal-content").append(playAganBtnHTML);
+    $("#playAgainBtn").click(
+      new createPage().greeting()
+    )
   }
 }
 
@@ -497,7 +545,9 @@ class createPage { // класс для создания страниц (ско�
   reception() { // страница ресепшена 
     new Helpers().createPlayer();
     document.querySelector('body').style.overflow = 'hidden';
-    new Office(offices[0], 1).createOffice();
+    selectedOffice = offices[0];
+    new Office(offices[0], "right").createOffice();
+    new SideNav().createSideNav();
     $(".hero-container").addClass(player.character).addClass("hero-container-mirror");
     offices.splice(0, 1); //delete reception from office list, this array will be used for random office generation
 
@@ -564,7 +614,7 @@ class createPage { // класс для создания страниц (ско�
                               </div>
                             </div>
                           </div>
-                          <div class="monster-body-container"></div>
+                          <div class="monster-body-container"><p class="monster-name"></p></div>
                           <div class="monster-legs-container">
                             <div class='monster-spell-vis'><img class='monster-spell-image'></div>
                           </div>
@@ -629,10 +679,10 @@ class createPage { // класс для создания страниц (ско�
     });
   }
   endGame() {
-    main.innerHTML = `<div class='dialog' id='dialog'>
-                       <p class='dialog__message' id='message'></p>
-                       <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
-                     </div>`;
+    // new Helpers().createPlayer();
+    selectedOffice = bossOffice;
+    new Office(selectedOffice, "left").createOffice();
+    new SideNav().createSideNav();
     setTimeout(function () {
       let dialogText = new Dialogs().boss();
       new dialogActions().showDialog([dialogText]);
@@ -762,7 +812,7 @@ class Helpers {
   }
   setVoiceGender(reading, gender) {
     voices = synth.getVoices();
-    (gender === 'female') ? reading.voice = voices[4] : reading.voice = voices[0];
+    (gender === 'female') ? reading.voice = _.find(voices, (o) => { return o.voiceURI === "Google UK English Female"; }) : _.find(voices, (o) => { return o.voiceURI === "Google UK English Male"; });
   }
   createReadableText(text) {
     let readableText = new SpeechSynthesisUtterance(text);
@@ -894,7 +944,7 @@ class Tasks { // дополнитльные (рандомные) задания
   translateRUtoEN() {
     let rules = `Translate the word into english`;
     let task = new Helpers().generateRandomObjProperty(vocabularyReverse),
-        answer = vocabularyReverse[task];
+      answer = vocabularyReverse[task];
     new giveTask().showTaskSimple(rules, task, answer);
     delete vocabularyReverse[task];
   }
@@ -1038,7 +1088,7 @@ class giveTask { // вывод вопросов на экран
     document.querySelector(".task-modal-content").classList.add('options');
     description.innerHTML = rules;
     text.innerHTML = task;
-    result = new checkAnswer(answer); 
+    result = new checkAnswer(answer);
     answerButtom.addEventListener('click', result.checkSelectedAnswer);
   }
   showTaskOrder(rules, task, answer) {
@@ -1056,7 +1106,7 @@ class giveTask { // вывод вопросов на экран
     taskField.innerHTML = `<input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.task-field-btn');    
     description.innerHTML = rules;
-    result = new checkAnswer(answer); 
+    result = new checkAnswer(answer);
     $(function () {
       $(".sortable").sortable();
     });
@@ -1064,16 +1114,16 @@ class giveTask { // вывод вопросов на экран
 
     
   }
-  showTrueFalseTask(rules, task, answer){
+  showTrueFalseTask(rules, task, answer) {
     taskField.innerHTML = `<label class='options-label'><input type='radio' class='task__form_options' name='answer' value='True'>True</label>
                            <label class='options-label'><input type='radio' class='task__form_options' name='answer' value='False'>False</label> 
-                           <input type="button" class='btn task-field-btn' value="Answer">`;   
+                           <input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.btn');
     document.querySelector(".task-modal-content").classList.add('options');
     description.innerHTML = rules;
     text.innerHTML = task;
-    result = new checkAnswer(answer); 
-    answerButtom.addEventListener('click', result.checkSelectedAnswer);                           
+    result = new checkAnswer(answer);
+    answerButtom.addEventListener('click', result.checkSelectedAnswer);
   }
   showCountTask(rules, task, src, answer) {
     taskField.innerHTML = `<img src=${src} class='count-task'>
@@ -1082,10 +1132,10 @@ class giveTask { // вывод вопросов на экран
     document.querySelector(".task-modal-content").classList.add('countTask');
     answerButtom = document.querySelector('.btn');
     description.innerHTML = rules;
-    if (task !== null) { 
+    if (task !== null) {
       text.innerHTML = task;
     }
-    result = new checkAnswer(answer); 
+    result = new checkAnswer(answer);
     answerButtom.addEventListener('click', result.checkSimpleAnswer);
   }
   showTaskFirstInEquation(rules, task, answer) {
@@ -1094,7 +1144,7 @@ class giveTask { // вывод вопросов на экран
     answerButtom = document.querySelector('.btn');
     description.innerHTML = rules;
     console.log('Answer', answer);
-    result = new checkAnswer(answer); 
+    result = new checkAnswer(answer);
     answerButtom.addEventListener('click', result.checkSimpleAnswer);
   }
   showTaskSecondInEquation(rules, firstPart, secondPart, answer) {
@@ -1103,8 +1153,8 @@ class giveTask { // вывод вопросов на экран
     answerButtom = document.querySelector('.btn');
     description.innerHTML = rules;
     console.log('Answer', answer);
-    result = new checkAnswer(answer); 
-    answerButtom.addEventListener('click', result.checkSimpleAnswer);                      
+    result = new checkAnswer(answer);
+    answerButtom.addEventListener('click', result.checkSimpleAnswer);
   }
   showTaskAddWord(rules, firstPart, secondPart, answer) {
     taskField.innerHTML = `<label>${firstPart}<input type="text" class='task__form_answer word' autofocus>${secondPart}</label>
@@ -1112,8 +1162,8 @@ class giveTask { // вывод вопросов на экран
     answerButtom = document.querySelector('.btn');
     description.innerHTML = rules;
     console.log('Answer', answer);
-    result = new checkAnswer(answer); 
-    answerButtom.addEventListener('click', result.checkSimpleAnswer);           
+    result = new checkAnswer(answer);
+    answerButtom.addEventListener('click', result.checkSimpleAnswer);
   }
   showTaskCelebrities(rules, src, options, answer) {
     taskField.innerHTML = `<img src=${src} class='celebrities-task'>
@@ -1179,65 +1229,65 @@ class checkAnswer { // класс проверки ответов
 
 
 class showSpell {
-  constructor(){}
+  constructor() { }
   attack(who) {
     let wrapper = document.querySelector(`.${who}-spell-vis`);
     let image = document.querySelector(`.${who}-spell-image`);
     wrapper.style.width = '140px';
     wrapper.style.height = '140px';
-    wrapper.style.left = document.querySelector(`.${who}-container`).offsetWidth/2 - 70 + 'px';
+    wrapper.style.left = document.querySelector(`.${who}-container`).offsetWidth / 2 - 70 + 'px';
     image.style.display = 'block';
     image.src = '../assets/img/spells/Exattack.png';
     image.style.width = '1200%';
     image.style.height = '100%';
 
     let attack = setInterval(() => {
-        let now = parseInt(image.style.left) || 0;
-        image.style.left = now - 100+ '%';
-      }, 50);
+      let now = parseInt(image.style.left) || 0;
+      image.style.left = now - 100 + '%';
+    }, 50);
 
-      setTimeout(function() {
-        clearInterval(attack);
-        image.style.display = 'none';
-        image.style.left = 0;
-        image.style.top = 0;
-      }, 500);
+    setTimeout(function () {
+      clearInterval(attack);
+      image.style.display = 'none';
+      image.style.left = 0;
+      image.style.top = 0;
+    }, 500);
   }
   shield(who) {
     let wrapper = document.querySelector(`.${who}-spell-vis`);
     let image = document.querySelector(`.${who}-spell-image`);
     wrapper.style.width = '150px';
     wrapper.style.height = '160px';
-    wrapper.style.left = document.querySelector(`.${who}-container`).offsetWidth/2 - 75 + 'px';
+    wrapper.style.left = document.querySelector(`.${who}-container`).offsetWidth / 2 - 75 + 'px';
     image.style.display = 'block';
     image.src = '../assets/img/spells/Exshield.png';
     image.style.width = '1048px';
     image.style.height = '472px';
 
     let shield = setInterval(() => {
-        let now = parseInt(image.style.left) || 0;
-        
-        if (now === -900) {
-          let top = parseInt(image.style.top) || 0;
-          image.style.top =  top - 160 + 'px';
-          now = 150;
-        }
-        image.style.left = now - 150 + 'px';
-      }, 100);
+      let now = parseInt(image.style.left) || 0;
 
-      setTimeout(function() {
-        clearInterval(shield);
-        image.style.display = 'none';
-        image.style.left = 0;
-        image.style.top = 0;
-      }, 1900);
+      if (now === -900) {
+        let top = parseInt(image.style.top) || 0;
+        image.style.top = top - 160 + 'px';
+        now = 150;
+      }
+      image.style.left = now - 150 + 'px';
+    }, 100);
+
+    setTimeout(function () {
+      clearInterval(shield);
+      image.style.display = 'none';
+      image.style.left = 0;
+      image.style.top = 0;
+    }, 1900);
   }
-  heal(who){
+  heal(who) {
     let wrapper = document.querySelector(`.${who}-spell-vis`);
     let image = document.querySelector(`.${who}-spell-image`);
     wrapper.style.width = '215px';
     wrapper.style.height = '220px';
-    wrapper.style.left = document.querySelector(`.${who}-container`).offsetWidth/2 - 108 + 'px';
+    wrapper.style.left = document.querySelector(`.${who}-container`).offsetWidth / 2 - 108 + 'px';
     image.style.display = 'block';
     image.src = '../assets/img/spells/Exheal.png';
     image.style.width = '870px';
@@ -1245,22 +1295,22 @@ class showSpell {
 
 
     let heal = setInterval(() => {
-        let now = parseInt(image.style.left) || 0;
+      let now = parseInt(image.style.left) || 0;
 
-        if (now === -645) {
-          let top = parseInt(image.style.top) || 0;
+      if (now === -645) {
+        let top = parseInt(image.style.top) || 0;
 
-          image.style.top =  top - 220 + 'px';
-          now = 215;
-        }
-        image.style.left = now - 215 + 'px';
-      }, 100);
-    setTimeout(function() {
-        clearInterval(heal);
-        image.style.display = 'none';
-        image.style.left = 0;
-        image.style.top = 0;
-      }, 1000);
+        image.style.top = top - 220 + 'px';
+        now = 215;
+      }
+      image.style.left = now - 215 + 'px';
+    }, 100);
+    setTimeout(function () {
+      clearInterval(heal);
+      image.style.display = 'none';
+      image.style.left = 0;
+      image.style.top = 0;
+    }, 1000);
   }
 }
 class doSpell { // игрок применяет заклинание
@@ -1302,13 +1352,13 @@ class doSpell { // игрок применяет заклинание
       if (level < 5) {
         setTimeout(() => {
           new levelResults().win();
-        }, 2000); 
+        }, 2000);
       }
       if (level === 5) {
         setTimeout(() => {
           new levelResults().winGame();
-        }, 2000); 
-      } 
+        }, 2000);
+      }
     };
     if (monster.health > 0) {
       document.querySelector('.monster-health-scale').style.width = `${monster.health * 100 / (100 + 20 * level)}%`;
@@ -1397,15 +1447,15 @@ class monsterAttack { // монстр выбирает рандомную спо
       document.querySelector('.hero-shield__number').innerHTML = player.shield;
       setTimeout(() => {
         new levelResults().lose();
-      }, 2000); 
+      }, 2000);
     };
     if (player.health > 0) {
       document.querySelector('.hero-health-scale').style.width = `${player.health}%`;
       document.querySelector('.hero-health-scale__number').innerHTML = player.health;
       document.querySelector('.hero-shield__number').innerHTML = player.shield;
-          setTimeout(function(){
-      document.querySelector('.spells').classList.toggle('showSpells');
-    }, 1000);
+      setTimeout(function () {
+        document.querySelector('.spells').classList.toggle('showSpells');
+      }, 1000);
     }
   }
   shield() {
@@ -1414,7 +1464,7 @@ class monsterAttack { // монстр выбирает рандомную спо
     monster.shield += SHIELD_POWER;
     document.querySelector('.monster-shield__number').innerHTML = monster.shield;
     new showSpell().shield('monster');
-        setTimeout(function(){
+    setTimeout(function () {
       document.querySelector('.spells').classList.toggle('showSpells');
     }, 1000);
   }
@@ -1429,7 +1479,7 @@ class monsterAttack { // монстр выбирает рандомную спо
     document.querySelector('.monster-health-scale').style.marginLeft = `${100 - monster.health * 100 / (100 + 20 * level)}%`;
     document.querySelector('.monster-health-scale__number').innerHTML = monster.health;
     new showSpell().heal('monster');
-    setTimeout(function(){
+    setTimeout(function () {
       document.querySelector('.spells').classList.toggle('showSpells');
     }, 1000);
   }
@@ -1468,7 +1518,7 @@ class levelResults { // уровень закончен
     document.querySelector('.level__caption').innerHTML = "Congratulations!";
     player.levelPass++;
     levelFinished = true;
-    
+
 
     setTimeout(function () {
       let dialogText = new Dialogs().monstersPhrasesWinFinal();
@@ -1576,6 +1626,7 @@ class MonsterGenerator {
     new Helpers().addRandomClass(this.head, headArray);
     new Helpers().addRandomClass(this.body, bodyArray);
     new Helpers().addRandomClass(this.legs, legsArray);
+    new NameGenerator(roleArray, nameArray, secondNameArray).showMonsterName();
   }
 
 }
@@ -1587,11 +1638,17 @@ class NameGenerator {
     this.surname = nameOptionsArray3;
   };
   generateRandomName() {
-    return console.log(this.position[new Helpers().randomNumber(this.position.length)] + ' ' +
+    return this.position[new Helpers().randomNumber(this.position.length)] + ' ' +
       this.name[new Helpers().randomNumber(this.name.length)] + ' ' +
-      this.surname[new Helpers().randomNumber(this.surname.length)]);
+      this.surname[new Helpers().randomNumber(this.surname.length)];
+  };
+  showMonsterName() {
+    let monsterRandomName = this.generateRandomName();
+    $(".monster-name").append(monsterRandomName);
   }
+
 }
+
 
 class Monster { // класс монстра
   constructor(level) {
