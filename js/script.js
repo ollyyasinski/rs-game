@@ -1,6 +1,10 @@
 import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './consts/const';
 import { CLIP_PXS, MOVE_LENGTH } from "./consts/slider_const";
-import { LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML, SIDE_NAV_HTML, OFFICE_SETTINGS_HTML, RESULTS_TABLE_HTML, SOUND_SETTINGS_HTML, PLAY_AGAIN_BTN_HTML, RULES_HTML } from "./consts/html_consts.js";
+import { LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML, SIDE_NAV_HTML, OFFICE_SETTINGS_HTML, RESULTS_TABLE_HTML, SOUND_SETTINGS_HTML, 
+  PLAY_AGAIN_BTN_HTML, RULES_HTML } from "./consts/html_consts.js";
+
+import { answerArray, languages, offices, officeColors, soundLevels } from "./variables/arrays"; 
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/style.css';
 import $ from 'jquery';
@@ -25,33 +29,20 @@ import addWordQuestions from '../assets/questions/addWordTask.json'
 import celebritiesQuestions from '../assets/questions/celebritiesQuestions.json'
 import ddQuestions from '../assets/questions/d&dQuestions.json'
 
-let result;
-let answerArray = [];
-const englishVocab = vocabulary.english; 
-const SUPER_ATTACK_POWER = 60;
-let languages = [/*'javaScript', 'css', */'html'/*, 'c++', 'java', 'php', 'ruby', 'python3'*/]; // ЯП для монстров (уровней)
-let taskField;
-let main = document.querySelector('main'),
-  body = $('body');
-let attackQuestions, shieldQuestions, healQuestions, monstersPhrases; // массивы вопросов (чтобы исключить повторение вопросов)
-let answerButtom; // кнопка "отправки" ответа, создается в процессе отображения задачи
-const spellsPower = { // силы способностей (будем тестировать)
-  attack: 40,
-  shield: 50,
-  heal: 30,
-  helper: {
-    health: 40,
-    attack: 15,
-  },
-  multipleAttack: 20,
-};
-let player, monster; // объекты игрока и монстра
+let result, taskField, answerButtom, player, monster, levelLanguage, spell, modal, gameBackground, selectedOffice, lineHeight, voices, text, doSuper, 
+levelFinished, description, attackQuestions, shieldQuestions, healQuestions, monstersPhrases;
+let main = document.querySelector('main');
+let synth = window.speechSynthesis;
+let volume = 1;
 let level = 0;
-let levelLanguage;
-let spell, modal;
-let gameBackground,
-  selectedOffice,
-  offices = ['office-0', 'office-1', 'office-2', 'office-3', 'office-4', "office-5"];
+let rate = 1;
+let blitzCount = false; 
+let blitzPower = 0; 
+let soundLevel = volume; 
+let gameColor = officeColors[0];
+
+const englishVocab = vocabulary.english;
+const SUPER_ATTACK_POWER = 60; // константа
 
 const heroesArray = ["hero-1", "hero-2", "hero-3", "hero-4"];
 
@@ -66,39 +57,7 @@ const roleArray = ["Project Manager", "Product Owner", "Scrum Master", "Team Lea
   nameArray = ["Jack", "Tom", "Dzmitry", "Abishek", "Alyaxey", "Richard", "John", "Kiran", "Yauheniy"],
   secondNameArray = ["Jones", "Abhishek", "Smith", "Brown", "Ivanou", "Hill", "Omar", "Clark"];
 
-
-let lineHeight,
-  marginTop;
-
-let synth = window.speechSynthesis;
-let officeColors = ["white", "blue", "green", "red", "pink", "mint", "purple"],
-  gameColor = officeColors[0];
-let voices,
-  volume = 1,
-  rate = 1;
-let blitzCount = false;
-let blitzPower = 0;
-let text;
-let doSuper;
-let levelFinished;
-let description;
-let soundLevels = [
-  { 0: 1 },
-  { 20: 0.9 },
-  { 40: 0.8 },
-  { 60: 0.7 },
-  { 80: 0.6 },
-  { 100: 0.5 },
-  { 120: 0.3 },
-  { 140: 0.1 },
-  { 160: 0 }
-],
-  soundLevel = volume;
-const bossOffice = "office-6";
-/*const ATTACK_POWER = 40;
-const SHIELD_POWER = 50;
-const HEAL_POWER = 30;
-const PLAYER_MAX_HEALTH = 100;*/
+const bossOffice = "office-6"; //const
 
 class Player { // класс игрока
   constructor(name, character) {
@@ -342,6 +301,7 @@ class createPage { // класс для создания страниц (ско�
     }, 200);
   }
   level() { // страница уровня
+    console.log('LEVEL ',level);
     level++;
     levelFinished = false;
     levelLanguage = new Helpers().chooseLanguage(languages);
@@ -441,6 +401,8 @@ class Helpers {
   }
   createPlayer() { // создание объекта игрока
     let character = document.querySelector('.selected') ? document.querySelector('.selected').id : 'hero-2'; // если пользователь не выбрал персонажа - взять персонажа по умолчанию
+    console.log(player);
+    debugger;
     player = new Player(document.getElementById('name').value || 'Anonim', character);
   }
   createMonster() { } // сюда запихнем создание имени, тела, объекта 
