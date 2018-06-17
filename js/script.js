@@ -1,4 +1,6 @@
-import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './const'
+import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './consts/const';
+import { CLIP_PXS, MOVE_LENGTH } from "./consts/slider_const";
+import { LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML, SIDE_NAV_HTML, OFFICE_SETTINGS_HTML, RESULTS_TABLE_HTML, SOUND_SETTINGS_HTML, PLAY_AGAIN_BTN_HTML, RULES_HTML } from "./consts/html_consts.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/style.css';
 import $ from 'jquery';
@@ -25,7 +27,7 @@ import ddQuestions from '../assets/questions/d&dQuestions.json'
 
 let result;
 let answerArray = [];
-const englishVocab = vocabulary.english; //get english vocabulary
+const englishVocab = vocabulary.english; 
 const SUPER_ATTACK_POWER = 60;
 let languages = [/*'javaScript', 'css', */'html'/*, 'c++', 'java', 'php', 'ruby', 'python3'*/]; // ЯП для монстров (уровней)
 let taskField;
@@ -49,59 +51,7 @@ let levelLanguage;
 let spell, modal;
 let gameBackground,
   selectedOffice,
-  offices = ['office-0', 'office-1', 'office-2', 'office-3', 'office-4', "office-5"],
-  fullGameBody = `<div class="game-background">
-  <div class="door door-left"></div>
-  <div class="door door-right"></div>
-  <div class='hero-container'>
-    <div class="hero-health__wrapper">
-      <div class='hero-health-scale'>
-        <span class='hero-health-scale__number'></span>
-      </div>
-    </div>
-  </div>
-  <div class="monster-container">
-    <div class="monster-health__wrapper">
-      <div class='monster-health-scale'>
-        <span class='monster-health-scale__number'></span>
-      </div>
-    </div>
-    <div class="monster-head-container"></div>
-    <div class="monster-body-container"><p class="monster-name"></p></div>
-    <div class="monster-legs-container"></div>
-  </div>
-</div>`,
-  rightDoorGameBody = `<div class="game-background game-background-mirror">
-  <nav>
-  <div class="humburger-btn-wrapper" id="humbergerBtn">
-    <div class="humburger-btn-line"></div>
-    <div class="humburger-btn-line"></div>
-    <div class="humburger-btn-line"></div>
-  </div>
-</nav>
-<div class="door door-right door-right-reception"></div>
-<div class="hero-container"></div>
-</div>
-<div class='dialog' id='dialog'>
-<p class='dialog__message' id='message'></p>
-<button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
-</div>`;
-
-let leftDoorGameBody = `<div class="game-background">
-<nav>
-<div class="humburger-btn-wrapper" id="humbergerBtn">
-  <div class="humburger-btn-line"></div>
-  <div class="humburger-btn-line"></div>
-  <div class="humburger-btn-line"></div>
-</div>
-</nav>
-<div class="door door-left door-left-boss"></div>
-<div class="hero-container"></div>
-</div>
-<div class='dialog' id='dialog'>
-                       <p class='dialog__message' id='message'></p>
-                       <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
-                     </div>`;
+  offices = ['office-0', 'office-1', 'office-2', 'office-3', 'office-4', "office-5"];
 
 const heroesArray = ["hero-1", "hero-2", "hero-3", "hero-4"];
 
@@ -117,154 +67,6 @@ const roleArray = ["Project Manager", "Product Owner", "Scrum Master", "Team Lea
   secondNameArray = ["Jones", "Abhishek", "Smith", "Brown", "Ivanou", "Hill", "Omar", "Clark"];
 
 
-let receptionHTML = `<div class="game-background game-background-mirror">
-                       <div class="door door-right"></div>
-                       <div class="hero-container"></div>
-                     </div>
-                     <div class='dialog' id='dialog'>
-                       <p class='dialog__message' id='message'></p>
-                       <button type="button" class="dialog__button" id = 'dialogButton'>Start</button>
-                     </div>`
-
-let sideNavHTML = `                        <div class="sidenav">
-<btn class="close-btn" id="closeBtn">&#10006;</btn>
-<ul class="sidenav-list">
-  <li id="officeColors">Office Colors</li>
-  <li id="soundSettings">Sound</li>
-  <li id="bestResults">Best Results</li>
-  <li id="rules">Rules</li>
-</ul>
-</div>                       `;
-let officesSettingsHTML = `<div class="menu-modal">
-                            <div class="menu-modal-content-wrapper">
-                              <div class="menu-modal-content">
-                                <div class="menu-modal-caption">
-                                  <btn class="close-btn menu-close-btn" id="closeOffices">&#10006;</btn>
-                                  <h1>Select Office Color</h1>
-                                </div>
-                                <div class="menu-modal-section">
-                                  <div class="offices-grid">
-                                    <div class="offices-row-1">
-                                      <div class="office-option office-option-1-1 selected"></div>
-                                      <div class="office-option office-option-1-2"></div>
-                                      <div class="office-option office-option-1-3"></div>
-                                      <div class="office-option office-option-1-4"></div>
-                                    </div>
-                                    <div class="offices-row-2">
-                                      <div class="office-option office-option-2-1"></div>
-                                      <div class="office-option office-option-2-2"></div>
-                                      <div class="office-option office-option-2-3"></div>
-                                  </div>
-                                </div>
-                                <div class="menu-modal-submit-wrapper">
-                                  <button type="button" class="btn btn-danger menu-btn" id="saveOfficeBtn">Save</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>`;
-
-let resultsTableHTML = `
-                          <div class="menu-modal">
-                            <div class="menu-modal-content-wrapper">
-                              <div class="menu-modal-content">
-                                <div class="menu-modal-caption">
-                                  <btn class="close-btn menu-close-btn" id="closeResults">&#10006;</btn>
-                                  <h1>Best Results</h1>
-                                </div>
-                                <div class="menu-modal-section result-modal-content">
-                                
-                                <table>
-                                    <thead>
-                                        <tr class="table-header">
-                                            <th>#</th>
-                                            <th>User Name</th>
-                                            <th>Result</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="resultsTable">
-                                    </tbody>
-                                </table>
-                               
-                                </div>
-                              </div>
-                            </div>`;
-
-let soundSettingsHTML = `<div class="menu-modal">
-<div class="menu-modal-content-wrapper">
-  <div class="menu-modal-content">
-  <div class="menu-modal-caption">
-  <btn class="close-btn menu-close-btn" id="closeSound">&#10006;</btn>
-  <h1>Sound Settings</h1>
-</div>
-    <div class="menu-modal-section">
-      <div class="sound-grid">
-        <div class="volume-column">
-          <div class="sound-wrapper">
-            <div class="map-slider">
-              <div class="buttons">
-                <span class="fa fa-plus" id="volumePlusBtn"></span>
-                <div class="drag-line">
-                  <div class="line" id="volumeLine"></div> 
-                  <div class="draggable-button" id="volumeBtn"></div>   
-                </div>
-                <div class="draggable-buton" id="volumeBtn"></div>   
-                <span class="fa fa-minus" id="volumeMinusBtn"></span>
-              </div>
-            </div>
-          </div>
-          <h2 class="sound-caption">Select volume level for a game</h2>
-        </div>
-        <div class="speed-column">
-          <div class="sound-wrapper">
-            <div class="map-slider">
-              <div class="buttons">
-                <span class="fa fa-plus" id="speedPlusBtn"></span>
-                <div class="drag-line">
-                  <div class="line" id="speedLine"></div> 
-                  <div class="draggable-button" id="speedBtn"></div>   
-                </div>
-                <div class="draggable-buton" id="speedBtn"></div>   
-                <span class="fa fa-minus" id="speedMinusBtn"></span>
-              </div>
-            </div>
-          </div>
-          <h2 class="sound-caption">Select speech speed for a game</h2>
-        </div>
-      </div>
-    </div>
-    <div class="menu-modal-submit-wrapper">
-      <button type="button" class="btn btn-danger menu-btn" id="saveSoundBtn">Save</button>
-    </div>
-  </div>
-</div>
-</div>`;
-
-let playAganBtnHTML = `
-<div class="menu-modal-submit-wrapper">
-<button type="button" class="btn btn-danger menu-btn" id="playAgainBtn">Play Again</button>
-</div>`;
-
-let rulesHTML = `<div class="menu-modal">
-  <div class="menu-modal-content-wrapper">
-    <div class="menu-modal-content">
-      <div class="menu-modal-caption">
-        <btn class="close-btn menu-close-btn" id="closeSound">&#10006;</btn>
-        <h1>Rules</h1>
-      </div>
-    <div class="menu-modal-section">
-      <div class='rules-wrapper'>
-        <p>In this game you are a programmer trying to get a job in the 'Company name'.</p>
-        <p>You need to complete 5 levels to win. In each level you will come across a "monster" who will test your knowledge in some programming language.</p>
-        <p>Use spells to inflict damage or to protect and heal yourself.</p>
-        <p>After choosing a spell, you will be given a task. The spell will apply only if your answer is correct. Don't forget to read tasks rules carefully.</p>
-        <p>You go first. After your turn a monster does his spell (regardless of the correctness of your answer). Monster can heal and protect himself or attack you (but always in 40 points). With each level the monster's health will increase.</p>
-        <p>To win the level you must lower the monster's health to zero.</p>
-        <p>Use the doors to go to new levels.</p>
-        <p>Good luck!</p>
-      </div>
-    </div>
-  </div>
-</div>`;
 let lineHeight,
   marginTop;
 
@@ -316,26 +118,25 @@ class Office {
     this.background = background;
     this.doors = doors;
   };
-  createOffice() {
-    if (this.doors === 2) {
-      // main.innerHTML = fullGameBody;
+  createOffice(level, levelLanguage) {
+    let addGameBody = () => {
       gameBackground = $('.game-background');
       gameBackground.addClass(this.background);
       gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
+    }
+    if (this.doors === 2) {
+      main.innerHTML = LEVEL_HTML;
+      $("nav").append(`<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>`);
+      addGameBody();
     } else if (this.doors === "right") {
       main.classList.add('wrapper__reception');
-      main.innerHTML = rightDoorGameBody;
-      gameBackground = $('.game-background');
-      gameBackground.addClass(this.background);
-      gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
+      main.innerHTML = RIGHT_DOOR_PAGE_HTML;
+      addGameBody();
       new Door($(".door-right")).openDoor();
     } else {
       main.classList.add('wrapper__reception');
-      main.innerHTML = leftDoorGameBody;
-      gameBackground = $('.game-background');
-      gameBackground.addClass(this.background);
-      gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
-      // new Door($(".door-left")); 
+      main.innerHTML = LEFT_DOOR_PAGE_HTML;
+      addGameBody();
     }
   };
 }
@@ -360,76 +161,55 @@ class SoundSlider {
       containment: 'parent'
     });
 
-    // let moveSlider = (movePosition) => {
-    //   let position = currentPosition,
-    //     marginTop = position.top,
-    //     soundLevel = marginTop + movePosition;
-
-    //   $(sliderSoundLine).css({
-    //     'clip': 'rect(' + soundLevel + 'px,8px, 183px,0px)'
-    //   });
-    // }
-
-    $(sliderSoundBtn).on('drag', function () {
-      // moveSlider();
-      let position = $(sliderSoundBtn).position(),
-        marginTop = position.top,
-        soundLevel = marginTop;
+    $(sliderSoundBtn).on('drag', () => {
+      let soundLevel = $(sliderSoundBtn).position().top;
 
       $(sliderSoundLine).css({
-        'clip': 'rect(' + marginTop + 'px,8px, 183px,0px)'
+        'clip': 'rect(' + soundLevel + CLIP_PXS
       });
     });
 
 
     $(sliderMinusBtn).on('click', function () {
-      let position = $(sliderSoundBtn).position(),
-        marginTop = position.top,
-        soundLevel = marginTop + 20;
+      let soundLevel = $(sliderSoundBtn).position().top + MOVE_LENGTH;
 
       $(sliderSoundLine).css({
-        'clip': 'rect(' + (marginTop + 20) + 'px,8px, 183px,0px)'
+        'clip': 'rect(' + soundLevel + CLIP_PXS
       });
 
-      if (marginTop < lineHeight - 28) {
+      if (soundLevel <= lineHeight - (MOVE_LENGTH / 2)) {
         $(sliderSoundBtn).css({
-          'top': marginTop + 20
+          'top': soundLevel
         });
-        console.log(soundLevel);
       } else {
-        soundLevel = lineHeight - 10;
-        console.log(soundLevel);
+        soundLevel = lineHeight - (MOVE_LENGTH / 2);
       }
     });
 
     $(sliderPlusBtn).on('click', function () {
-      let position = $(sliderSoundBtn).position();
-      marginTop = position.top;
-      soundLevel = marginTop - 20;
+      let soundLevel = $(sliderSoundBtn).position().top - MOVE_LENGTH;
 
       $(sliderSoundLine).css({
-        'clip': 'rect(' + (marginTop - 20) + 'px,8px, 183px,0px)'
+        'clip': 'rect(' + soundLevel + CLIP_PXS
       });
 
-      if (marginTop > 0) {
-        console.log(soundLevel);
+      if (soundLevel + MOVE_LENGTH > 0) {
         $(sliderSoundBtn).css({
-          'top': marginTop - 20
+          'top': soundLevel
         });
-      }
+      };
 
-      if (marginTop > lineHeight - 38) {
-        soundLevel = lineHeight - 40;
-        console.log(soundLevel);
+      if (soundLevel >= lineHeight - (MOVE_LENGTH / 2)) {
+        soundLevel = lineHeight - (MOVE_LENGTH * 2);
       }
     });
   }
   getSoundSetting(sliderSoundBtn) {
     for (let i in soundLevels) {
-      let sliderPosition = $(sliderSoundBtn).position().top;
-      soundLevel = new Helpers().roundToTwenty(sliderPosition, 20, 0);
-      if (soundLevel === Number(Object.keys(soundLevels[i]))) {
-        return soundLevels[i][Number(Object.keys(soundLevels[i]))];
+      soundLevel = new Helpers().roundToTwenty($(sliderSoundBtn).position().top, MOVE_LENGTH, 0);
+      let soundLevelNumber = Number(Object.keys(soundLevels[i]));
+      if (soundLevel === soundLevelNumber) {
+        return soundLevels[i][soundLevelNumber];
       }
     }
   }
@@ -438,7 +218,7 @@ class SoundSlider {
 class SideNav {
   constructor() { };
   createSideNav(level, levelLanguage) {
-    $(".game-background").append(sideNavHTML);
+    $(".game-background").append(SIDE_NAV_HTML);
 
     $("#humbergerBtn").click(() => {
       $(".background-opacity-wrapper").addClass("background-opacity-wrapper-width");
@@ -459,14 +239,14 @@ class SideNav {
     });
 
     $("#bestResults").click(() => {
-      this.showResults(true);
+      this.showResults();
     });
     $('#rules').click(() => {
       this.showRules();
     });
   }
   showOfficeSelector() {
-    $(".game-background").append(officesSettingsHTML);
+    $(".game-background").append(OFFICE_SETTINGS_HTML);
     let officesArray = $(".office-option").toArray();
     for (let i in officesArray) {
       $(officesArray[i]).css('background-image', `url("assets/img/office-background/${officeColors[i]}-offices/${selectedOffice}.png")`);
@@ -486,7 +266,7 @@ class SideNav {
     this.closeMenuModal("#closeOffices");
   }
   showSoundSelector() {
-    $(".game-background").append(soundSettingsHTML);
+    $(".game-background").append(SOUND_SETTINGS_HTML);
 
     let volumeSlider = new SoundSlider("#volumeLine", "#volumeBtn", "#volumeMinusBtn", "#volumePlusBtn");
     let speedSlider = new SoundSlider("#speedLine", "#speedBtn", "#speedMinusBtn", "#speedPlusBtn");
@@ -505,7 +285,7 @@ class SideNav {
     this.closeMenuModal("#closeSound");
   }
   showRules() {
-    $(".game-background").append(rulesHTML);
+    $(".game-background").append(RULES_HTML);
     this.closeMenuModal("#closeSound");
   }
   showResults(btn) {
@@ -523,7 +303,7 @@ class SideNav {
     })
   }
   addPlayAgainBtn() {
-    $(".menu-modal-content").append(playAganBtnHTML);
+    $(".menu-modal-content").append(PLAY_AGAIN_BTN_HTML);
     $("#playAgainBtn").click(
       new createPage().greeting()
     )
@@ -565,84 +345,12 @@ class createPage { // класс для создания страниц (ско�
     level++;
     levelFinished = false;
     levelLanguage = new Helpers().chooseLanguage(languages);
-    main.innerHTML = `<div class = "background-opacity-wrapper"> </div>
-                      <div class="game-background">
-                      <nav>
-                        <div class="humburger-btn-wrapper" id="humbergerBtn">
-                          <div class="humburger-btn-line"></div>
-                          <div class="humburger-btn-line"></div>
-                          <div class="humburger-btn-line"></div>
-                        </div>
-                        <h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>
-                      </nav>
-                        <ul class='spells'>
-
-                          <li class='spell attack'><p class='spell_wrapper'><span class='spell__name'>Attack</span><span class='spell__description'>40 damage to monster</span></li>
-                          <li class='spell shield'><p class='spell_wrapper'><span class='spell__name'>Shield</span><span class='spell__description'>+50 to your defense (absorbs damage)</span></li>
-                          <li class='spell heal'><p class='spell_wrapper'><span class='spell__name'>Heal</span><span class='spell__description'>+30 to your health</span></li>
-                          <li class='spell blitzAttack'><p class='spell_wrapper'><span class='spell__name'>Blitz Attack</span><span class='spell__description'>3 tasks, each gives +20 to your attack power (max is 60)</span></li>
-                          <li class='spell super blockSuper'><p class='spell_wrapper'><span class='spell__name'>Super Attack</span><span class='spell__description'>60 damage to monster. Available when the yellow scale is full</span></li>
-                        <li class='tips-background'></li>
-                        </ul>
-                        <div class="door door-left"></div>
-                        <div class="door door-right"></div>
-                        <div class='hero-container'>
-                          <div class="hero-health__wrapper">
-                           <div class='hero-shield'>
-                             <span>Shield: <span class='hero-shield__number'></span></span>
-                           </div>
-                            <div class='hero-health-scale'>
-                              <span class='hero-health-scale__number'></span>
-                            </div>
-                            <div class='hero-super'>
-                              <div class='hero-super_scale'>
-                              </div>
-                            </div>
-                          </div>
-                          <div class='hero-spell-vis'><img class='hero-spell-image'></div>
-                        </div>
-                        <div class="monster-container">
-                          <div class="monster-head-container">
-                            <div class="monster-health__wrapper">
-                              <div class='monster-shield'>
-                                <span>Shield: <span class='monster-shield__number'></span></span>
-                              </div>                          
-                              <div class='monster-health-scale'>
-                                <span class='monster-health-scale__number'></span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="monster-body-container"><p class="monster-name"></p></div>
-                          <div class="monster-legs-container">
-                            <div class='monster-spell-vis'><img class='monster-spell-image'></div>
-                          </div>
-                        </div>
-                        <div id="taskModal" class="modal">
-                          <div class="task-modal-content">
-                            <div class='task-task-content'>
-                              <p class='task-task-description' id='taskDesc'></p>
-                              <div class='task-task-text-wrapper'><p class='task-task-text' id='taskText'></p></div>
-                            </div>
-                            <div class='task-field' id='taskField'>
-                              <div class='task-field-answer-container' id="taskFieldAnswer"></div>
-                              <div class='answer'><span id='answer__correct' class='correct'></span><span id='answer__wrong' class='wrong'></span></div>
-                            </div>
-                          </div>
-                        </div>                      
-                        <div class='dialog' id = dialog>
-                          <p class='dialog__message' id='message'></p>
-                          <button type="button" class="dialog__button" id = 'dialogButton'>Close</button>
-                        </div>
-                      
-                      </div> `; //нарисовать страницу
-
     selectedOffice = new Helpers().randomArrayElem(offices);
-    new Office(selectedOffice, 2).createOffice(); //создает рандомный офис, пока закомментила, чтобы не мешать твоему innerHTML
+    new Office(selectedOffice, 2).createOffice(level, levelLanguage); 
+    new SideNav().createSideNav(level, levelLanguage);
+
     $(".hero-container").addClass(player.character);
     new MonsterGenerator($(".monster-head-container"), $(".monster-body-container"), $(".monster-legs-container"), ).generateMonster(monsterHeadArray, monsterBodyArray, monsterLegsArray);
-
-    //side-nav
-    new SideNav().createSideNav(level, levelLanguage);
 
     monster = new Monster(level);
     taskField = document.getElementById('taskFieldAnswer');
@@ -1094,15 +802,15 @@ class giveTask { // вывод вопросов на экран
   }
   showTaskOrder(rules, task, answer) {
     text.innerHTML = `<ul class="sortable task-filed-answer">
-                        <li class="default" id="id_1">${task[0]}</li>
-                        <li class="default" id="id_2">${task[1]}</li>
-                        <li class="default" id="id_3">${task[2]}</li>
-                        <li class="default" id="id_4">${task[3]}</li>
-                        <li class="default" id="id_5">${task[4]}</li>
-                        <li class="default" id="id_6">${task[5]}</li>
-                        <li class="default" id="id_7">${task[6]}</li>
-                        <li class="default" id="id_7">${task[7]}</li>
-                        <li class="default" id="id_7">${task[8]}</li>
+                        <li class="drag-item" id="id_1">${task[0]}</li>
+                        <li class="drag-item" id="id_2">${task[1]}</li>
+                        <li class="drag-item" id="id_3">${task[2]}</li>
+                        <li class="drag-item" id="id_4">${task[3]}</li>
+                        <li class="drag-item" id="id_5">${task[4]}</li>
+                        <li class="drag-item" id="id_6">${task[5]}</li>
+                        <li class="drag-item" id="id_7">${task[6]}</li>
+                        <li class="drag-item" id="id_7">${task[7]}</li>
+                        <li class="drag-item" id="id_7">${task[8]}</li>
                       </ul>`;
     taskField.innerHTML = `<input type="button" class='btn task-field-btn' value="Answer">`;
     answerButtom = document.querySelector('.task-field-btn');
@@ -1319,8 +1027,8 @@ class doSpell { // игрок применяет заклинание
   attack(power) {
     let audio = new Audio(`../assets/sounds/attack/${new Helpers().randomNumber(9)}.mp4`);
     audio.play();
-    let force = ATTACK_POWER;
-    //let force = 200;
+    //let force = ATTACK_POWER;
+    let force = 200;
     new showSpell().attack('monster');
     if (power !== undefined) {
       force = power;
@@ -1686,7 +1394,7 @@ class ResultsTable {
     this.bestResultsSortedArray = this.bestResultsSortedArray.slice(0, 10);
   };
   createResultsTable(bestResultsSortedArray) {
-    $(".game-background").append(resultsTableHTML);
+    $(".game-background").append(RESULTS_TABLE_HTML);
 
     resultsTable = document.getElementById("resultsTable");
     if (bestResultsSortedArray.length !== 0) {
@@ -1731,13 +1439,3 @@ class ResultsTable {
 
 
 new createPage().greeting();
-// rightDoor.addEventListener('click', new createPage().level);
-// leftDoor.addEventListener('click', new createPage().level);
-//тест разных способностей
-
-//new Spells().heal();
-//new Spells().attack();
-//new Spells().shield();
-//new Tasks().calculator();
-
-// $("#myBtn").click(new Tasks().putInRightOrder());
