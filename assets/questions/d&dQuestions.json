@@ -1,0 +1,7 @@
+[
+        ["let max", "=", "(a, b)", "=>", "{", "a > b", ";", "}", ";"],
+        ["setTimeout(", "()", "=>", "{", "return 'result'", ";", "},", "1)", ";"],
+        ["for(", "var i = 0", ";", "i++", ")", "{", "if (i > 3)", "break;", "}"],
+        ["el", ".addEventListener(", "\"click\"", ",", "()", "=>", "{ alert(\"hello!\"); }", ")", ";"],
+        ["class", "Rectangle", "{", "constructor", "(height){", "this.height", "=", "height;", "} }"]
+]

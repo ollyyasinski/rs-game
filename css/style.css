@@ -15,14 +15,12 @@
 
 body {
 	font-family: "Gwent";
-	overflow: hidden;
 	font-size: 100%;
 }
 
 .wrapper {
 	padding: 15px 50px;
 	background: linear-gradient(133deg, #F2C14E, #F78154);
-	/*width: calc(100% - 100px);*/
 	width: 100%;
 	min-height: 100vh;
 }
@@ -43,7 +41,8 @@ body {
 
 .level__caption {
 	grid-area: level-caption;
-	background: linear-gradient(360deg, #fa850f 33%, #ffad5b 66%, #ffc387);
+	background: linear-gradient(180deg, #401167 33%, #580e96 66%, #7918cc);
+	/*background: linear-gradient(180deg, #000000 33%, #4b4b4b 66%, #767676);*/
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
@@ -221,7 +220,7 @@ nav {
 }
 
 .game-background-mirror {
-	grid-template: ". . . . . ." ". . . . hero-mirror ." ". . . . . .";
+	grid-template: ". . . . . ." ". . . . hero-mirror .";
 }
 
 .door {
