@@ -1,9 +1,11 @@
 import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './consts/const';
 import { CLIP_PXS, MOVE_LENGTH } from "./consts/slider_const";
-import { LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML, SIDE_NAV_HTML, OFFICE_SETTINGS_HTML, RESULTS_TABLE_HTML, SOUND_SETTINGS_HTML, 
-  PLAY_AGAIN_BTN_HTML, RULES_HTML } from "./consts/html_consts.js";
+import {
+  LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML, SIDE_NAV_HTML, OFFICE_SETTINGS_HTML, RESULTS_TABLE_HTML, SOUND_SETTINGS_HTML,
+  PLAY_AGAIN_BTN_HTML, RULES_HTML
+} from "./consts/html_consts.js";
 
-import { answerArray, languages, offices, officeColors, soundLevels } from "./variables/arrays"; 
+import { answerArray, languages} from "./variables/arrays";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/style.css';
@@ -29,17 +31,17 @@ import addWordQuestions from '../assets/questions/addWordTask.json'
 import celebritiesQuestions from '../assets/questions/celebritiesQuestions.json'
 import ddQuestions from '../assets/questions/d&dQuestions.json'
 
-let result, taskField, answerButtom, player, monster, levelLanguage, spell, modal, gameBackground, selectedOffice, lineHeight, voices, text, doSuper, 
-levelFinished, description, attackQuestions, shieldQuestions, healQuestions, monstersPhrases;
-let main = document.querySelector('main');
+let result, taskField, answerButtom, player, monster, levelLanguage, spell, modal, selectedOffice, lineHeight, voices, text, doSuper,
+  levelFinished, description, attackQuestions, shieldQuestions, healQuestions, monstersPhrases;
+
 let synth = window.speechSynthesis;
 let volume = 1;
 let level = 0;
 let rate = 1;
-let blitzCount = false; 
-let blitzPower = 0; 
-let soundLevel = volume; 
-let gameColor = officeColors[0];
+let blitzCount = false;
+let blitzPower = 0;
+let soundLevel = volume;
+
 
 const englishVocab = vocabulary.english;
 const SUPER_ATTACK_POWER = 60; // константа
@@ -72,202 +74,8 @@ class Player { // класс игрока
   }
 }
 
-class Office {
-  constructor(background, doors) {
-    this.background = background;
-    this.doors = doors;
-  };
-  createOffice(level, levelLanguage) {
-    let addGameBody = () => {
-      gameBackground = $('.game-background');
-      gameBackground.addClass(this.background);
-      gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
-    }
-    if (this.doors === 2) {
-      main.innerHTML = LEVEL_HTML;
-      $("nav").append(`<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>`);
-      addGameBody();
-    } else if (this.doors === "right") {
-      main.classList.add('wrapper__reception');
-      main.innerHTML = RIGHT_DOOR_PAGE_HTML;
-      addGameBody();
-      new Door($(".door-right")).openDoor();
-    } else {
-      main.classList.add('wrapper__reception');
-      main.innerHTML = LEFT_DOOR_PAGE_HTML;
-      addGameBody();
-    }
-  };
-}
-
-class SoundSlider {
-  constructor(soundLine, soundBtn, minusBtn, plusBtn) {
-    this.soundLine = soundLine;
-    this.soundBtn = soundBtn;
-    this.minusBtn = minusBtn;
-    this.plusBtn = plusBtn;
-    this.soundLevel;
-  };
-  createSoundSlider() {
-    lineHeight = ($(this.soundLine).height());
-    let sliderSoundLine = this.soundLine,
-      sliderSoundBtn = this.soundBtn,
-      sliderMinusBtn = this.minusBtn,
-      sliderPlusBtn = this.plusBtn;
-
-    $(sliderSoundBtn).draggable({
-      axis: 'y',
-      containment: 'parent'
-    });
-
-    $(sliderSoundBtn).on('drag', () => {
-      let soundLevel = $(sliderSoundBtn).position().top;
-
-      $(sliderSoundLine).css({
-        'clip': 'rect(' + soundLevel + CLIP_PXS
-      });
-    });
-
-
-    $(sliderMinusBtn).on('click', function () {
-      let soundLevel = $(sliderSoundBtn).position().top + MOVE_LENGTH;
-
-      $(sliderSoundLine).css({
-        'clip': 'rect(' + soundLevel + CLIP_PXS
-      });
-
-      if (soundLevel <= lineHeight - (MOVE_LENGTH / 2)) {
-        $(sliderSoundBtn).css({
-          'top': soundLevel
-        });
-      } else {
-        soundLevel = lineHeight - (MOVE_LENGTH / 2);
-      }
-    });
-
-    $(sliderPlusBtn).on('click', function () {
-      let soundLevel = $(sliderSoundBtn).position().top - MOVE_LENGTH;
-
-      $(sliderSoundLine).css({
-        'clip': 'rect(' + soundLevel + CLIP_PXS
-      });
-
-      if (soundLevel + MOVE_LENGTH > 0) {
-        $(sliderSoundBtn).css({
-          'top': soundLevel
-        });
-      };
-
-      if (soundLevel >= lineHeight - (MOVE_LENGTH / 2)) {
-        soundLevel = lineHeight - (MOVE_LENGTH * 2);
-      }
-    });
-  }
-  getSoundSetting(sliderSoundBtn) {
-    for (let i in soundLevels) {
-      soundLevel = new Helpers().roundToTwenty($(sliderSoundBtn).position().top, MOVE_LENGTH, 0);
-      let soundLevelNumber = Number(Object.keys(soundLevels[i]));
-      if (soundLevel === soundLevelNumber) {
-        return soundLevels[i][soundLevelNumber];
-      }
-    }
-  }
-}
-
-class SideNav {
-  constructor() { };
-  createSideNav(level, levelLanguage) {
-    $(".game-background").append(SIDE_NAV_HTML);
-
-    $("#humbergerBtn").click(() => {
-      $(".background-opacity-wrapper").addClass("background-opacity-wrapper-width");
-      $(".sidenav").addClass("sidenav-width");
-    });
-
-    $("#closeBtn").click(() => {
-      $(".background-opacity-wrapper").removeClass("background-opacity-wrapper-width");
-      $(".sidenav").removeClass("sidenav-width");
-    });
-
-    $('#officeColors').click(() => {
-      this.showOfficeSelector();
-    })
-
-    $('#soundSettings').click(() => {
-      this.showSoundSelector();
-    });
-
-    $("#bestResults").click(() => {
-      this.showResults();
-    });
-    $('#rules').click(() => {
-      this.showRules();
-    });
-  }
-  showOfficeSelector() {
-    $(".game-background").append(OFFICE_SETTINGS_HTML);
-    let officesArray = $(".office-option").toArray();
-    for (let i in officesArray) {
-      $(officesArray[i]).css('background-image', `url("assets/img/office-background/${officeColors[i]}-offices/${selectedOffice}.png")`);
-      $(officesArray[i]).click(new Helpers().selectElement);
-    }
-
-    $("#saveOfficeBtn").click(() => {
-      let selectedBgd = $(".selected").css("background-image");
-      gameColor = selectedBgd.match("(?<=background\/)(.*)(?=-offices)")[0];
-      gameBackground.css("background-image", selectedBgd);
-      $(".menu-modal").remove();
-      $(".background-opacity-wrapper").removeClass("background-opacity-wrapper-width");
-      $(".sidenav").removeClass("sidenav-width");
-    }
-    )
-
-    this.closeMenuModal("#closeOffices");
-  }
-  showSoundSelector() {
-    $(".game-background").append(SOUND_SETTINGS_HTML);
-
-    let volumeSlider = new SoundSlider("#volumeLine", "#volumeBtn", "#volumeMinusBtn", "#volumePlusBtn");
-    let speedSlider = new SoundSlider("#speedLine", "#speedBtn", "#speedMinusBtn", "#speedPlusBtn");
-    volumeSlider.createSoundSlider();
-    speedSlider.createSoundSlider();
-
-    $("#saveSoundBtn").click(() => {
-      volume = volumeSlider.getSoundSetting("#volumeBtn");
-      rate = speedSlider.getSoundSetting("#speedBtn");
-      $(".menu-modal").remove();
-      $(".background-opacity-wrapper").removeClass("background-opacity-wrapper-width");
-      $(".sidenav").removeClass("sidenav-width");
-      console.log(volume, rate);
-    });
-
-    this.closeMenuModal("#closeSound");
-  }
-  showRules() {
-    $(".game-background").append(RULES_HTML);
-    this.closeMenuModal("#closeSound");
-  }
-  showResults(btn) {
-    new ResultsTable().showResults();
-    this.closeMenuModal("#closeResults");
-    if (btn) {
-      this.addPlayAgainBtn();
-    }
-  }
-  closeMenuModal(closeBtn) {
-    $(closeBtn).click(() => {
-      $(".menu-modal").remove();
-      $(".background-opacity-wrapper").removeClass("background-opacity-wrapper-width");
-      //$(".sidenav").removeClass("sidenav-width");
-    })
-  }
-  addPlayAgainBtn() {
-    $(".menu-modal-content").append(PLAY_AGAIN_BTN_HTML);
-    $("#playAgainBtn").click(
-      new createPage().greeting()
-    )
-  }
-}
+import { SideNav } from "./components/game-settings";
+import { Office } from "./components/offices";
 
 class createPage { // класс для создания страниц (скорее всего, все уровни будут создаваться одним методом level)
   constructor() { }
@@ -301,12 +109,12 @@ class createPage { // класс для создания страниц (ско�
     }, 200);
   }
   level() { // страница уровня
-    console.log('LEVEL ',level);
+    console.log('LEVEL ', level);
     level++;
     levelFinished = false;
     levelLanguage = new Helpers().chooseLanguage(languages);
     selectedOffice = new Helpers().randomArrayElem(offices);
-    new Office(selectedOffice, 2).createOffice(level, levelLanguage); 
+    new Office(selectedOffice, 2).createOffice(level, levelLanguage);
     new SideNav().createSideNav(level, levelLanguage);
 
     $(".hero-container").addClass(player.character);

@@ -1,6 +1,9 @@
-import { CLIP_PXS, MOVE_LENGTH } from "../consts/slider_const";
+import { CLIP_PXS, MOVE_LENGTH, SOUND_LEVELS } from "../consts/slider_const";
 import { SIDE_NAV_HTML, OFFICE_SETTINGS_HTML, SOUND_SETTINGS_HTML, PLAY_AGAIN_BTN_HTML, RULES_HTML } from "../consts/html_consts.js";
 import { ResultsTable } from "../components/game-results";
+import $ from 'jquery';
+
+let selectedOffice;
 
 class SoundSlider {
     constructor(soundLine, soundBtn, minusBtn, plusBtn) {
@@ -68,9 +71,9 @@ class SoundSlider {
 
     }
     getSoundSetting(sliderSoundBtn) {
-        for (let i in soundLevels) {
+        for (let i in SOUND_LEVELS) {
             soundLevel = new Helpers().roundToTwenty($(sliderSoundBtn).position().top, MOVE_LENGTH, 0);
-            let soundLevelNumber = Number(Object.keys(soundLevels[i]));
+            let soundLevelNumber = Number(Object.keys(SOUND_LEVELS[i]));
             if (soundLevel === soundLevelNumber) {
                 return soundLevels[i][soundLevelNumber];
             }
