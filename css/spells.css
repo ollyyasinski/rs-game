@@ -1,4 +1,4 @@
-.spells{
+.spells {
   padding: 0;
   margin: 0 auto;
   list-style: none;
@@ -12,7 +12,7 @@
   display: none;
 }
 
-.spell{
+.spell {
   display: block;
   width: 70px;
   height: 70px;
@@ -21,48 +21,52 @@
   border: 2px solid #f69029;
 }
 
-.attack{
+.spells li {
+  cursor: pointer;
+}
+
+.attack {
   left: 115px;
   top: -5px;
   background: url(../assets/img/spells/attack.png) no-repeat center center;
   background-size: cover;
 }
 
-.shield{
-  left:230px;
-  top:80px;
-  background:url(../assets/img/spells/shield.png) no-repeat center center;
+.shield {
+  left: 230px;
+  top: 80px;
+  background: url(../assets/img/spells/shield.png) no-repeat center center;
   background-size: cover;
 }
 
-.heal{
-  top:80px; 
-  background:url(../assets/img/spells/heal2.png) no-repeat center center;
+.heal {
+  top: 80px;
+  background: url(../assets/img/spells/heal2.png) no-repeat center center;
   background-size: cover;
 }
 
-.blitzAttack{
-  left:200px;
-  top:200px;
-  background:url(../assets/img/spells/blitz.png) no-repeat center center;
+.blitzAttack {
+  left: 200px;
+  top: 200px;
+  background: url(../assets/img/spells/blitz.png) no-repeat center center;
   background-size: cover;
 }
 
-.super{
-  left:30px; 
-  top:200px;
-  background:url(../assets/img/spells/super.png) no-repeat center center;
+.super {
+  left: 30px;
+  top: 200px;
+  background: url(../assets/img/spells/super.png) no-repeat center center;
   background-size: cover;
 }
 
-.spell_wrapper{
-  display:none; 
+.spell_wrapper {
+  display: none;
   position: absolute;
   font-size: 20px;
   width: 170px;
 }
 
-.spell__name{
+.spell__name {
   display: block;
   text-align: center;
   text-decoration: underline;
@@ -71,42 +75,42 @@
   text-shadow: 1px 0 1px #000, 0 1px 1px #000, -1px 0 1px #000, 0 -1px 1px #000;
 }
 
-.spell__description{
+.spell__description {
   text-align: center;
   display: block;
   color: black;
 }
 
-.spell:hover{
+.spell:hover {
   border: 2px solid red;
   z-index: 2;
 }
 
-.attack:hover p{
+.attack:hover p {
   display: block;
   left: -50px;
   top: 110px;
 }
 
-.shield:hover p{
+.shield:hover p {
   display: block;
   left: -165px;
   top: 10px;
 }
 
-.heal:hover p{
+.heal:hover p {
   display: block;
   left: 65px;
   top: 40px;
 }
 
-.blitzAttack:hover p{
+.blitzAttack:hover p {
   display: block;
   top: -110px;
   left: -135px;
 }
 
-.super:hover p{
+.super:hover p {
   display: block;
   left: 35px;
   top: -110px;
@@ -116,7 +120,7 @@
   box-shadow: inset 0px 0px 600px rgba(0, 0, 0, 1);
 }
 
-.spell:hover ~ .tips-background {
+.spell:hover~.tips-background {
   display: block;
   z-index: 1;
 }
