@@ -213,6 +213,28 @@ let soundSettingsHTML = `<div class="menu-modal">
   </div>
 </div>
 </div>`;
+
+let rulesHTML = `<div class="menu-modal">
+  <div class="menu-modal-content-wrapper">
+    <div class="menu-modal-content">
+      <div class="menu-modal-caption">
+        <btn class="close-btn menu-close-btn" id="closeSound">&#10006;</btn>
+        <h1>Rules</h1>
+      </div>
+    <div class="menu-modal-section">
+      <div class='rules-wrapper'>
+        <p>In this game you are a programmer trying to get a job in the 'Company name'.</p>
+        <p>You need to complete 5 levels to win. In each level you will come across a "monster" who will test your knowledge in some programming language.</p>
+        <p>Use spells to inflict damage or to protect and heal yourself.</p>
+        <p>After choosing a spell, you will be given a task. The spell will apply only if your answer is correct. Don't forget to read tasks rules carefully.</p>
+        <p>You go first. After your turn a monster does his spell (regardless of the correctness of your answer). Monster can heal and protect himself or attack you (but always in 40 points). With each level the monster's health will increase.</p>
+        <p>To win the level you must lower the monster's health to zero.</p>
+        <p>Use the doors to go to new levels.</p>
+        <p>Good luck!</p>
+      </div>
+    </div>
+  </div>
+</div>`;
 let lineHeight,
   marginTop;
 
@@ -404,6 +426,9 @@ class SideNav {
       new ResultsTable().showResults();
       this.closeMenuModal("#closeResults");
     });
+    $('#rules').click(() => {
+      this.showRules();
+    });
   }
   showOfficeSelector() {
     $(".game-background").append(officesSettingsHTML);
@@ -442,6 +467,10 @@ class SideNav {
       console.log(volume, rate);
     });
 
+    this.closeMenuModal("#closeSound");
+  }
+  showRules() {
+    $(".game-background").append(rulesHTML);
     this.closeMenuModal("#closeSound");
   }
   closeMenuModal(closeBtn) {
@@ -496,11 +525,13 @@ class createPage { // класс для создания страниц (ско�
                         <h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>
                       </nav>
                         <ul class='spells'>
+
                           <li class='spell attack'><p class='spell_wrapper'><span class='spell__name'>Attack</span><span class='spell__description'>40 damage to monster</span></li>
                           <li class='spell shield'><p class='spell_wrapper'><span class='spell__name'>Shield</span><span class='spell__description'>+50 to your defense (absorbs damage)</span></li>
                           <li class='spell heal'><p class='spell_wrapper'><span class='spell__name'>Heal</span><span class='spell__description'>+30 to your health</span></li>
                           <li class='spell blitzAttack'><p class='spell_wrapper'><span class='spell__name'>Blitz Attack</span><span class='spell__description'>3 tasks, each gives +20 to your attack power (max is 60)</span></li>
-                          <li class='spell super blockSuper'><p class='spell_wrapper'><span class='spell__name'>Super Attack</span><span class='spell__description'>60 damage to monster</span></li>
+                          <li class='spell super blockSuper'><p class='spell_wrapper'><span class='spell__name'>Super Attack</span><span class='spell__description'>60 damage to monster. Available when the yellow scale is full</span></li>
+                        <li class='tips-background'></li>
                         </ul>
                         <div class="door door-left"></div>
                         <div class="door door-right"></div>
@@ -1455,7 +1486,7 @@ class levelResults { // уровень закончен
 class Dialogs {
   constructor() { }
   instructions() {
-    let arr = [`Hello, ${player.name}, we were waiting for you! Welcome to 'Company name' - one of the best companies in the world. To get a job you have to go through 5 interviews. Each interview will check your knowledge in some programming language. Your "monsters" are waiting for you, if you are ready - go through that door. Good luck!`];
+    let arr = [`Hello, ${player.name}! Welcome to 'Company name' - one of the best companies in the world. To learn more, look to the rules in your menu. When you are ready - go through that door. Good luck!`];
     return arr;
   }
   monstersPhrasesLevelStart() {
