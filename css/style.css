@@ -32,10 +32,6 @@ body {
 	width: 100%;
 }
 
-.level__caption {
-	grid-area: level-caption;
-}
-
 .greeting__caption, .level__caption {
 	background: linear-gradient(360deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
 	-webkit-background-clip: text;
@@ -43,6 +39,13 @@ body {
 	font-size: 48px;
 	width: 100%;
 	text-align: center;
+}
+
+.level__caption {
+	grid-area: level-caption;
+	background: linear-gradient(360deg, #f63d04 33%, #f45d2e 66%, #fc784f);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 .greeting__text {
