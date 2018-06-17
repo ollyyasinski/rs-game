@@ -4,7 +4,7 @@
 
 .monster-container{
     height: 66vh;
-    min-width: 22vh;
+    min-width: 37vh;
     display: grid;
     grid-template: "monster-head" 20vh "monster-body" 19vh "monster-legs" 24vh;
     background-position: center;
