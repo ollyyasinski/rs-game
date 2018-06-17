@@ -812,7 +812,7 @@ class Helpers {
   }
   setVoiceGender(reading, gender) {
     voices = synth.getVoices();
-    (gender === 'female') ? reading.voice = _.find(voices, (o) => { return o.voiceURI === "Google UK English Female"; }) : _.find(voices, (o) => { return o.voiceURI === "Google UK English Male"; });
+    (gender === 'female') ? reading.voice = _.find(voices, (o) => { return o.voiceURI === "Google UK English Female"; }) : reading.voice = _.find(voices, (o) => { return o.voiceURI === "Google UK English Male"; });
   }
   createReadableText(text) {
     let readableText = new SpeechSynthesisUtterance(text);
@@ -921,7 +921,7 @@ class Tasks { // дополнитльные (рандомные) задания
   }
   putInRightOrder() {
     let rules = `Put code parts in the right order`;
-    let res = ddQuestions; 
+    let res = ddQuestions;
     console.log(res);
     let index = new Helpers().randomNumber(res.length); // генерируем рандомный индекс
     let answer = res[index]; // получаем массив с ответом
@@ -1105,9 +1105,9 @@ class giveTask { // вывод вопросов на экран
                         <li class="default" id="id_7">${task[6]}</li>
                         <li class="default" id="id_7">${task[7]}</li>
                         <li class="default" id="id_7">${task[8]}</li>
-                      </ul>`;                
+                      </ul>`;
     taskField.innerHTML = `<input type="button" class='btn task-field-btn' value="Answer">`;
-    answerButtom = document.querySelector('.task-field-btn');    
+    answerButtom = document.querySelector('.task-field-btn');
     description.innerHTML = rules;
     result = new checkAnswer(answer);
     $(function () {
@@ -1115,7 +1115,7 @@ class giveTask { // вывод вопросов на экран
     });
     answerButtom.addEventListener('click', result.checkDroppedAnswer);
 
-    
+
   }
   showTrueFalseTask(rules, task, answer) {
     taskField.innerHTML = `<label class='options-label'><input type='radio' class='task__form_options' name='answer' value='True'>True</label>
