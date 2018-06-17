@@ -220,7 +220,7 @@ nav {
 }
 
 .game-background-mirror {
-	grid-template: ". . . . . ." ". . . . hero-mirror .";
+	grid-template: "level level level level level level" ". . . . hero-mirror .";
 }
 
 .door {

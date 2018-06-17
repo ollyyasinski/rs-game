@@ -48,11 +48,6 @@
     margin-left: 15px;
 }
 
-.options {
-    grid-template: "task-task-content" 40% "task-field" 60%;
-    margin-left: 15px;
-}
-
 .rules-list {
     display: inline-block;
 }
