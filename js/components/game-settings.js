@@ -1,10 +1,10 @@
 import { CLIP_PXS, MOVE_LENGTH, SOUND_LEVELS } from "../consts/slider_const";
 import { OFFICE_COLORS } from "../consts/const";
-import { SIDE_NAV_HTML, OFFICE_SETTINGS_HTML, SOUND_SETTINGS_HTML, PLAY_AGAIN_BTN_HTML, RULES_HTML } from "../consts/html_consts.js";
-import { ResultsTable } from "../components/game-results";
-import { Helpers } from "../helpers/helpers";
-import { selectedOffice } from "../script";
-import { gameBackground } from '../components/offices';
+import { SIDE_NAV_HTML, OFFICE_SETTINGS_HTML, SOUND_SETTINGS_HTML, PLAY_AGAIN_BTN_HTML, RULES_HTML } from "../consts/html_consts";
+import { ResultsTable } from "./game-results";
+import { Helpers } from "./helpers";
+import { selectedOffice } from "./create-page";
+import { gameBackground } from './offices';
 
 let gameColor = OFFICE_COLORS[0],
     volume = 1,
