@@ -1,8 +1,8 @@
-import { RESULTS_TABLE_HTML } from "../consts/html_consts.js";
+import { RESULTS_TABLE_HTML } from "../consts/html_consts";
 
 class ResultsTable {
     constructor() {
-        this.bestResults = _.keys(localStorage).reduce((obj, str) => {
+        this.bestResults = Object.keys(localStorage).reduce((obj, str) => {
             obj[str] = localStorage.getItem(str);
             return obj
         }, {});
@@ -14,11 +14,9 @@ class ResultsTable {
                 this.bestResultsSortedArray.push([result, this.bestResults[result]]);
             }
         }
-        
         this.bestResultsSortedArray.sort((a, b) => {
             return b[1].localeCompare(a[1]);
         });
-
         this.bestResultsSortedArray = this.bestResultsSortedArray.slice(0, 10);
     };
     createResultsTable(bestResultsSortedArray) {

@@ -1,12 +1,12 @@
 [
-	["../assets/celebritiesTask/1.png", ["Steven Jobs", "Steven Jops", "Stephan Jops", "Stephan Jobs"], "Steven Jobs"],
-	["../assets/celebritiesTask/2.png", ["Mark Tsuckerberg", "Mark Zuckerberg", "Marc Zuckerberg", "Marck Zuckerberg"], "Mark Zuckerberg"],
-	["../assets/celebritiesTask/3.png", ["Bil Gates", "William Geith", "William Gates", "Bill Gaytes"], "William Gates"],
-	["../assets/celebritiesTask/4.png", ["Lawrence Page", "Larry Paige", "Lawrence Paige", "Laurence Page"], "Lawrence Page"],
-	["../assets/celebritiesTask/5.png", ["Brendan Aich", "Brendone Eih", "Brendan Eih", "Brendan Eich"], "Brendan Eich"],
-	["../assets/celebritiesTask/6.png", ["James Gossling", "James Goslling", "James Gosling", "James Josling"], "James Gosling"],
-	["../assets/celebritiesTask/7.png", ["Jack Dorsey", "Jack Dorsy", "Jack Darsy", "James Dorsey"], "Jack Dorsey"],
-	["../assets/celebritiesTask/8.png", ["Timothy Bernerd-Lee", "Timothy Berners-Lee", "Timothy Barners-Lee", "Timothy Berners-Ley"], "Timothy Berners-Lee"],
-	["../assets/celebritiesTask/9.png", ["Gudo van Rossum", "Guido van Rossam", "Guido van Rossum", "Guido van Rassum"], "Guido van Rossum"],
-	["../assets/celebritiesTask/10.png", ["Barne Stroustrop", "Bjarne Straustrup", "Barne Stroustrup", "Bjarne Stroustrup"], "Bjarne Stroustrup"]
+	["~/../assets/celebritiesTask/1.png", ["Steven Jobs", "Steven Jops", "Stephan Jops", "Stephan Jobs"], "Steven Jobs"],
+	["~/../assets/celebritiesTask/2.png", ["Mark Tsuckerberg", "Mark Zuckerberg", "Marc Zuckerberg", "Marck Zuckerberg"], "Mark Zuckerberg"],
+	["~/../assets/celebritiesTask/3.png", ["Bil Gates", "William Geith", "William Gates", "Bill Gaytes"], "William Gates"],
+	["~/../assets/celebritiesTask/4.png", ["Lawrence Page", "Larry Paige", "Lawrence Paige", "Laurence Page"], "Lawrence Page"],
+	["~/../assets/celebritiesTask/5.png", ["Brendan Aich", "Brendone Eih", "Brendan Eih", "Brendan Eich"], "Brendan Eich"],
+	["~/../assets/celebritiesTask/6.png", ["James Gossling", "James Goslling", "James Gosling", "James Josling"], "James Gosling"],
+	["~/../assets/celebritiesTask/7.png", ["Jack Dorsey", "Jack Dorsy", "Jack Darsy", "James Dorsey"], "Jack Dorsey"],
+	["~/../assets/celebritiesTask/8.png", ["Timothy Bernerd-Lee", "Timothy Berners-Lee", "Timothy Barners-Lee", "Timothy Berners-Ley"], "Timothy Berners-Lee"],
+	["~/../assets/celebritiesTask/9.png", ["Gudo van Rossum", "Guido van Rossam", "Guido van Rossum", "Guido van Rassum"], "Guido van Rossum"],
+	["~/../assets/celebritiesTask/10.png", ["Barne Stroustrop", "Bjarne Straustrup", "Barne Stroustrup", "Bjarne Stroustrup"], "Bjarne Stroustrup"]
 ]

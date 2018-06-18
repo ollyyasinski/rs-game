@@ -1,0 +1,71 @@
+.hero-health__wrapper, .monster-health__wrapper {
+    position: relative;
+    width: 200px;
+    border: 2px solid black;
+    height: 20px;
+    margin: -40px auto 0;
+    border-radius: 5px;
+}
+
+.hero-health-scale, .monster-health-scale {
+    background: linear-gradient(90deg, #ff0000, #ff5e5e);
+    border-radius: 2px;
+    text-align: center;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    color: white;
+    transition: .9s;
+}
+
+.monster-health-scale {
+	background: linear-gradient(90deg, #ff5e5e, #ff0000);
+	right: 0;
+}
+
+.hero-shield, .monster-shield {
+    position: absolute;
+    margin-top: -20px;
+    width: 100px;
+    height: 18px;
+    color: white;
+    padding-top: 2px;
+    padding: 3px 10px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background: linear-gradient(90deg, #7ec936, #a1ff45);
+}
+
+.monster-shield {
+    background: linear-gradient(90deg, #a1ff45, #7ec936);
+    right: -2px;
+}
+
+.hero-shield {
+    left: -2px;
+}
+
+.hero-super {
+    text-align: center;
+    height: 70%;
+    position: relative;
+    width: calc(100% + 2px);
+    margin-top: 16px;
+    color: white;
+    border: 2px solid orange;
+    border-radius: 3px;
+    border-top: 2px solid black;
+}
+
+.hero-super_scale {
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(90deg, #fffb93, #fff836);
+    border-radius: 1px;
+    transition: .9s;
+}
+
+.super__full {
+    border: 2px solid #ffcc00;
+}

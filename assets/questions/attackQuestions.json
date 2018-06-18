@@ -1,5 +1,4 @@
 {
-    "rules": "<span>Read the tasks carefully!</span><ul>Your answer may be:<li class='rules-list'>1. number (1, 2.1)</li><li class='rules-list'>2. string (more than one word is possible)</li><li class='rules-list'>3. boolean (true/false)</li><li class='rules-list'>4. array ([1,2,3], [[1,2],[3,4]])</li></ul><span>There is not case sensitivity. Error is possible answer</span>",
     "javaScript": [
         [
             "console.log(NaN == NaN);<br><br>The output will be:",
@@ -73,7 +72,7 @@
         ],
         [
             "div{<br>width: 0;<br>height: 0;<br>border-left: 150px solid transparent;<br>border-right: 150px solid transparent;<br>border-top: 150px solid blue;<br>}<br><br>What the block will look like:",
-            "triangle'"
+            "triangle"
         ],
         [
             "table{<br>border-collapse: separate;<br>border-spacing: 10px 20px;<br>}<br><br>How many px will be between the columns:",
