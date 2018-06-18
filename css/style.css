@@ -8,6 +8,8 @@
 @import "../css/side-nav.css";
 @import "../css/volume-slider.css";
 @import "../css/menu-modals.css";
+@import "../css/scales.css";
+
 * {
 	margin: 0;
 	padding: 0;
@@ -239,14 +241,14 @@ nav {
 }
 
 .door-left {
-	background-image: url("../assets/img/office-background/doors/door-left.png");
+	background-image: url("~/../assets/img/office-background/doors/door-left.png");
 	transform-origin: left;
 	left: 4.2%;
 	width: 6.35%;
 }
 
 .door-right {
-	background-image: url("../assets/img/office-background/doors/door-right.png");
+	background-image: url("~/../assets/img/office-background/doors/door-right.png");
 	transform-origin: right;
 	right: 3.6%;
 	width: 6.59%;
@@ -265,30 +267,6 @@ nav {
 	transition: .5s linear;
 }
 
-.hero-health__wrapper, .monster-health__wrapper {
-    position: relative;
-    width: 200px;
-    border: 2px solid black;
-    height: 20px;
-    margin: -40px auto 0;
-    border-radius: 5px;
-}
-
-.hero-health-scale, .monster-health-scale {
-    background: linear-gradient(90deg, #ff0000, #ff5e5e);
-    border-radius: 2px;
-    text-align: center;
-    height: 100%;
-    position: absolute;
-    width: 100%;
-    color: white;
-    transition: .9s;
-}
-
-.monster-health-scale {
-	background: linear-gradient(90deg, #ff5e5e, #ff0000);
-}
-
 .showSpells {
 	display: block;
 }
@@ -297,32 +275,6 @@ nav {
 	display: block;
 	margin: 40px auto 20px;
 	cursor: pointer;
-}
-
-.hero-shield, .monster-shield {
-	position: absolute;
-    margin-top: -20px;
-    width: 100px;
-    height: 18px;
-    color: white;
-    padding-top: 2px;
-    padding: 3px 10px;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    background: linear-gradient(90deg, #7ec936, #a1ff45);
-}
-
-.monster-shield {
-	background: linear-gradient(90deg, #a1ff45, #7ec936);
-}
-
-.hero-shield {
-	left: -2px;
-}
-
-.monster-shield {
-	right: -2px;
 }
 
 .answer {
@@ -347,30 +299,6 @@ nav {
 	background: linear-gradient(360deg, #be0d0d 33%, #e32121 66%, #fa4242);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-}
-
-.hero-super {
-    text-align: center;
-    height: 70%;
-    position: relative;
-    width: calc(100% + 2px);
-    margin-top: 16px;
-    color: white;
-    border: 2px solid orange;
-    border-radius: 3px;
-    border-top: 2px solid black;
-}
-
-.hero-super_scale {
-	position: absolute;
-    height: 100%;
-    background: linear-gradient(90deg, #fffb93, #fff836);
-    border-radius: 1px;
-    transition: .9s;
-}
-
-.super__full {
-	border: 2px solid #ffcc00;
 }
 
 .options-label {
@@ -409,10 +337,17 @@ nav {
 	float: right;
 }
 
+.new-play-link {
+	text-decoration: none;
+}
+
+.new-play-link:hover {
+	text-decoration: none;
+}
+
 @font-face {
 	font-family: "Gwent";
 	font-weight: bold;
 	font-style: normal;
-	src: url("../fonts/gwent/GWENT-ExtraBold.eot");
-	src: url("../fonts/gwent/GWENT-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../fonts/GWENT-ExtraBold.ttf") format("truetype");
+	src: url("~/../fonts/GWENT-ExtraBold.ttf") format("truetype");
 }

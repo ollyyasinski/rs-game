@@ -209,7 +209,9 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
 </div>`,
 
   PLAY_AGAIN_BTN_HTML = `<div class="menu-modal-submit-wrapper">
-                          <button type="button" class="btn btn-danger menu-btn" id="playAgainBtn">Play Again</button>
+                          <a href="https://anleonovich.github.io/Final-Game/" class="new-play-link">
+                            <button type="button" class="btn btn-danger menu-btn" id="playAgainBtn">Play Again</button>
+                          </a>
                         </div>`,
 
   RULES_HTML = `<div class="menu-modal">
@@ -221,7 +223,7 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
       </div>
     <div class="menu-modal-section">
       <div class='rules-wrapper'>
-        <p>In this game you are a programmer trying to get a job in the 'Company name'.</p>
+        <p>In this game you are a programmer trying to get a job in the 'We Will Hack You Inc.'.</p>
         <p>You need to complete 5 levels to win. In each level you will come across a "monster" who will test your knowledge in some programming language.</p>
         <p>Use spells to inflict damage or to protect and heal yourself.</p>
         <p>After choosing a spell, you will be given a task. The spell will apply only if your answer is correct. Don't forget to read tasks rules carefully.</p>

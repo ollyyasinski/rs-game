@@ -14,7 +14,7 @@
 }
 
 .task-modal-content {
-    background-image: url("../assets/img/extras/white-board.png");
+    background-image: url("~/../assets/img/extras/white-board.png");
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
@@ -37,11 +37,6 @@
 .countTask {
     grid-template: "task-task-content" 30% "task-field" 70%;
 }
-
-/*.task-caption {
-    grid-area: task-caption;
-    margin-top: 7%;
-}*/
 
 .rules-list {
     display: inline-block;
