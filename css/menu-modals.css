@@ -13,7 +13,7 @@
 }
 
 .menu-modal-content-wrapper {
-    background-image: url("../assets/img/extras/white-board.png");
+    background-image: url("~/../assets/img/extras/white-board.png");
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
@@ -105,7 +105,7 @@
 }
 
 .office-option {
-    background-image: url("../assets/img/office-background/green-offices/office-1.png");
+    background-image: url("~/../assets/img/office-background/green-offices/office-1.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;

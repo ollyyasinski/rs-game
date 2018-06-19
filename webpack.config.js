@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
 	devtool: 'source-map',
@@ -6,7 +7,7 @@ module.exports = {
 	output: {
 		path: path.join(__dirname, 'build'),
 		filename: 'bundle.js',
-		publicPath: '/build/'
+		publicPath: './build/'
 	},
 	module: {
 		rules: [
@@ -36,5 +37,11 @@ module.exports = {
 				]
 			}
 		]
-	}
+	},
+	plugins: [
+		new webpack.ProvidePlugin({
+			$: 'jquery',
+			jQuery: 'jquery'
+		})
+	]
 }

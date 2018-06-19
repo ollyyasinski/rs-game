@@ -1,5 +1,4 @@
 {
-    "rules": "<span>Write the name of the function/keyword/other. Don't use () for functions!</span><ul>Use the following characters:<li>1. <></li><li>2. :</li><li>3. -</li></ul>",
     "javaScript": [
         [
             "The method used to remove the last element from an array and return that element.",
