@@ -31,6 +31,12 @@ class Office {
             addGameBody();
         }
     };
+    addHero(hero, mirror) {
+        if (mirror) {
+            $(".hero-container").addClass(hero).addClass("hero-container-mirror");
+        }
+        $(".hero-container").addClass(hero);
+    }
 }
 
 export { Office, gameBackground };

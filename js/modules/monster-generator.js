@@ -1,4 +1,4 @@
-import { Helpers } from './helpers'
+import { addRandomClass } from './helpers'
 import { ROLE_ARRAY, NAME_ARRAY , SECOND_NAME_ARRAY } from '../consts/monster_consts'
 
 export class MonsterGenerator {
@@ -8,9 +8,9 @@ export class MonsterGenerator {
     this.legs = legs;
   };
   generateMonster(headArray, bodyArray, legsArray) {
-    new Helpers().addRandomClass(this.head, headArray);
-    new Helpers().addRandomClass(this.body, bodyArray);
-    new Helpers().addRandomClass(this.legs, legsArray);
+    addRandomClass(this.head, headArray);
+    addRandomClass(this.body, bodyArray);
+    addRandomClass(this.legs, legsArray);
     new NameGenerator(ROLE_ARRAY, NAME_ARRAY, SECOND_NAME_ARRAY).showMonsterName();
   }
 }
@@ -22,9 +22,9 @@ class NameGenerator {
     this.surname = nameOptionsArray3;
   };
   generateRandomName() {
-    return this.position[new Helpers().randomNumber(this.position.length)] + ' ' +
-      this.name[new Helpers().randomNumber(this.name.length)] + ' ' +
-      this.surname[new Helpers().randomNumber(this.surname.length)];
+    return this.position[_.random(0, this.position.length - 1, 0)] + ' ' +
+      this.name[_.random(0, this.name.length - 1, 0)] + ' ' +
+      this.surname[_.random(0, this.surname.lengt - 1, 0)];
   };
   showMonsterName() {
     let monsterRandomName = this.generateRandomName();

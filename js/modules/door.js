@@ -1,3 +1,4 @@
+
 let synth = window.speechSynthesis;
 
 export class Door {

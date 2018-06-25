@@ -234,10 +234,17 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
       </div>
     </div>
   </div>
-</div>`;
+</div>`,
+
+  SIMPLE_TASK_HTML = `<input type="text" class='task__form_answer' autofocus>
+<input type="button" class='btn task-field-btn' value="Answer" id="answerBtn">`,
+
+  LISTEN_BTN_HTML = `<input type="button" class='btn' id="audioBtn" value= "Click to listen">`,
+
+  ANSWER_BTN_HTML = `<input type="button" class='btn task-field-btn' value="Answer" id="answerBtn">`;
 
 
 export {
   LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML, SIDE_NAV_HTML, OFFICE_SETTINGS_HTML,
-  RESULTS_TABLE_HTML, SOUND_SETTINGS_HTML, PLAY_AGAIN_BTN_HTML, RULES_HTML
+  RESULTS_TABLE_HTML, SOUND_SETTINGS_HTML, PLAY_AGAIN_BTN_HTML, RULES_HTML, SIMPLE_TASK_HTML, LISTEN_BTN_HTML, ANSWER_BTN_HTML
 };
