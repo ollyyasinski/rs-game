@@ -1,7 +1,7 @@
-import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH } from './../consts/const'
+import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, ATTACK_SOUNDS, HEAL_SOUNDS, SHILED_SOUNDS } from '../consts/attack_consts'
 import { monster, player, level } from './create-page';
 import { levelResults } from './level-results'
-import { Helpers } from './helpers'
+import { randomArrayElem } from './helpers'
 import { showSpell } from './show-spell'
 
 export class monsterAttack {
@@ -13,11 +13,11 @@ export class monsterAttack {
     if (monster.health < (100 + 20 * level)) {
       this.spells.push('heal');
     };
-    let spell = this.spells[new Helpers().randomNumber(this.spells.length)];
+    let spell = this.spells[_.random(0, this.spells.length - 1)];
     setTimeout(this[spell], 1000);
   }
   attack() {
-    let audio = new Audio(`~/../assets/sounds/attack/${new Helpers().randomNumber(9)}.mp4`);
+    let audio = new Audio(`~/../assets/sounds/attack/${randomArrayElem(ATTACK_SOUNDS)}.mp4`);
     audio.play();
     new showSpell().attack('hero');
     if (!player.shield) {
@@ -52,7 +52,7 @@ export class monsterAttack {
     }
   }
   shield() {
-    let audio = new Audio(`~/../assets/sounds/shield/${new Helpers().randomNumber(5)}.mp4`);
+    let audio = new Audio(`~/../assets/sounds/shield/${randomArrayElem(SHILED_SOUNDS)}.mp4`);
     audio.play();
     monster.shield += SHIELD_POWER;
     document.querySelector('.monster-shield__number').innerHTML = monster.shield;
@@ -62,7 +62,7 @@ export class monsterAttack {
     }, 2500);
   }
   heal() {
-    let audio = new Audio(`~/../assets/sounds/heal/${new Helpers().randomNumber(7)}.mp4`);
+    let audio = new Audio(`~/../assets/sounds/heal/${randomArrayElem(HEAL_SOUNDS)}.mp4`);
     audio.play();
     monster.health += HEAL_POWER;
     if (monster.health > (100 + 20 * level)) {

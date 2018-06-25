@@ -1,3 +1,7 @@
+import { Spells } from './spells';
+
+let spell, modal;
+
 export class showSpell {
   constructor() { }
   attack(who) {
@@ -82,4 +86,23 @@ export class showSpell {
       image.style.top = 0;
     }, 1000);
   }
+  showNotSuperSpell() {
+    document.querySelector('.spells').classList.toggle('showSpells');
+    modal = document.getElementById('taskModal');
+    modal.style.display = 'block';
+    new Spells()[spell]();
+  }
+  showSpellsCyrcle() {
+    let magicArray = $('.spell').toArray();
+    magicArray.forEach(div => {
+      $(div).click(e => {
+        spell = e.target.classList[1];
+        if (spell !== 'super') {
+          new showSpell().showNotSuperSpell();
+        }
+      });
+    });
+  }
 }
+
+export { spell, modal};

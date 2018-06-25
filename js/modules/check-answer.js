@@ -1,5 +1,5 @@
 import { result } from './give-task'
-import { Helpers } from './helpers'
+import { showIfAnswerCorrect, showIfAnswerWrong } from './helpers'
 
 let answerArray = [];
 
@@ -11,26 +11,26 @@ export class checkAnswer {
     let answer = document.querySelector('.task__form_answer').value.replace(/(^\s*)|(\s*)$/g, '').toLowerCase();
     if (typeof result.result === 'string') {
       if (answer === result.result) {
-        new Helpers().showIfAnswerCorrect();
+        showIfAnswerCorrect();
       } else {
-        new Helpers().showIfAnswerWrong();
+        showIfAnswerWrong();
       }
     }
     if (typeof result.result === 'object') {
       for (let i in result.result) {
         if (result.result[i].toLowerCase() === answer) {
-          return new Helpers().showIfAnswerCorrect();
+          return showIfAnswerCorrect();
         }
       }
-      return new Helpers().showIfAnswerWrong();
+      return showIfAnswerWrong();
     }
   }
   checkSelectedAnswer() {
     let answer = taskField.querySelector(':checked') || '';
     if (answer.value === result.result) {
-      new Helpers().showIfAnswerCorrect();
+      showIfAnswerCorrect();
     } else {
-      new Helpers().showIfAnswerWrong();
+      showIfAnswerWrong();
     }
   }
   checkDroppedAnswer() {
@@ -40,10 +40,21 @@ export class checkAnswer {
     });
     if (_.isEqual(answerArray, result.result)) {
       answerArray = [];
-      new Helpers().showIfAnswerCorrect();
+      showIfAnswerCorrect();
     } else {
       answerArray = [];
-      new Helpers().showIfAnswerWrong();
+      showIfAnswerWrong();
+    }
+  }
+  submitAnswer(selector, check, key) {
+    if (key) {
+      $(selector).keypress(e => {
+        if (e.which == 13) {
+          check();
+        }
+      })
+    } else {
+      $(selector).click(check);
     }
   }
 }

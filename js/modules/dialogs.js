@@ -1,5 +1,5 @@
 import { player, level, levelLanguage, monster } from './create-page';
-import { Helpers } from './helpers'
+import { randomArrayElem, createReadableText, setVoiceGender } from './helpers'
 import { SideNav } from './game-settings'
 import { lose } from './level-results'
 
@@ -72,6 +72,13 @@ export class Dialogs {
     let arr = [`Hello, ${player.name}! My "monsters" have tested you well, right? But now we know for sure that you are worthy to become a part of our company! Welcome and good luck in your future work!`];
     return arr;
   }
+  selectMonsterPhrase() {
+    let monstersPhrases = this.monstersPhrasesLevelStart();
+    if (level === 5) {
+      monstersPhrases = this.monstersPhrasesFinal();
+    }
+    return randomArrayElem(monstersPhrases);
+  }
 }
 
 export class dialogActions {
@@ -87,8 +94,8 @@ export class dialogActions {
     document.getElementById('message').innerHTML = '';
     let ele = document.getElementById(id),
       txt = text.join("").split("");
-    let readDialogText = new Helpers().createReadableText(text);
-    new Helpers().setVoiceGender(readDialogText, gender);
+    let readDialogText = createReadableText(text);
+   setVoiceGender(readDialogText, gender);
 
     synth.speak(readDialogText);
     let interval = setInterval(function () {
@@ -103,7 +110,7 @@ export class dialogActions {
     synth.cancel();
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
-    if ( monster !== undefined ) {
+    if (monster !== undefined) {
       if (level && player.health !== 0 && monster.health !== 0) {
         document.querySelector('.spells').classList.toggle('showSpells');
       }
@@ -111,5 +118,10 @@ export class dialogActions {
     if (level === 'boss' || lose === true) {
       new SideNav().showResults(true);
     }
+  }
+  showTimeoutDialog(dialogText, timeout, gender) {
+    setTimeout(() => {
+      new dialogActions().showDialog(dialogText, gender);
+    }, timeout);
   }
 }
