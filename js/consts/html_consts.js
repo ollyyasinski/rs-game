@@ -1,7 +1,7 @@
 const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
 <div class="game-background">
 <nav>
-  <div class="humburger-btn-wrapper" id="humbergerBtn">
+  <div class="humburger-btn-wrapper" id="humbergerBtn" tabindex="0">
     <div class="humburger-btn-line"></div>
     <div class="humburger-btn-line"></div>
     <div class="humburger-btn-line"></div>
@@ -107,40 +107,41 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
   </ul>
 </div>`,
 
-  OFFICE_SETTINGS_HTML = `<div class="menu-modal" role="dialog" aria-labelledby="office-settings-dialog">
+  SIDE_NAV_MODAL_HTML = `<div class="menu-modal" role="dialog" aria-labelledby="office-settings-dialog">
   <div class="menu-modal-content-wrapper">
     <div class="menu-modal-content">
       <div class="menu-modal-caption">
-        <btn class="close-btn menu-close-btn" id="closeOffices" tabindex="0">&#10006;</btn>
-        <h1>Select Office Color</h1>
-      </div>
-      <div class="menu-modal-section">
-        <div class="offices-grid">
-          <div class="offices-row-1">
-            <div class="office-option office-option-1-1 selected" tabindex="0"></div>
-            <div class="office-option office-option-1-2" tabindex="0"></div>
-            <div class="office-option office-option-1-3" tabindex="0"></div>
-            <div class="office-option office-option-1-4" tabindex="0"></div>
-          </div>
-          <div class="offices-row-2">
-            <div class="office-option office-option-2-1" tabindex="0"></div>
-            <div class="office-option office-option-2-2" tabindex="0"></div>
-            <div class="office-option office-option-2-3" tabindex="0"></div>
-        </div>
-      </div>
-      <div class="menu-modal-submit-wrapper">
-        <button type="button" class="btn btn-danger menu-btn" id="saveOfficeBtn">Save</button>
+        <btn class="close-btn menu-close-btn" id="closeMenuModal" tabindex="0">&#10006;</btn>
+        <h1></h1>
       </div>
     </div>
   </div>
-</div>
-<div class=“dialog-overlay”></div>`,
+</div>`,
+
+  OFFICE_SELECTOR_HTML = `<div class="menu-modal-section">
+      <div class="offices-grid">
+        <div class="offices-row-1">
+          <div class="office-option office-option-1-1 selected" tabindex="0"></div>
+          <div class="office-option office-option-1-2" tabindex="0"></div>
+          <div class="office-option office-option-1-3" tabindex="0"></div>
+          <div class="office-option office-option-1-4" tabindex="0"></div>
+        </div>
+        <div class="offices-row-2">
+          <div class="office-option office-option-2-1" tabindex="0"></div>
+          <div class="office-option office-option-2-2" tabindex="0"></div>
+          <div class="office-option office-option-2-3" tabindex="0"></div>
+      </div>
+    </div>
+    <div class="menu-modal-submit-wrapper">
+      <button type="button" class="btn btn-danger menu-btn" id="saveOfficeBtn">Save</button>
+    </div>
+  </div>`,
 
   RESULTS_TABLE_HTML = `<div class="menu-modal">
   <div class="menu-modal-content-wrapper">
     <div class="menu-modal-content">
       <div class="menu-modal-caption">
-        <btn class="close-btn menu-close-btn" id="closeResults">&#10006;</btn>
+        <btn class="close-btn menu-close-btn" id="closeMenuModal">&#10006;</btn>
         <h1>Best Results</h1>
       </div>
       <div class="menu-modal-section result-modal-content">                                
@@ -163,7 +164,7 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
 <div class="menu-modal-content-wrapper">
   <div class="menu-modal-content">
   <div class="menu-modal-caption">
-  <btn class="close-btn menu-close-btn" id="closeSound">&#10006;</btn>
+  <btn class="close-btn menu-close-btn" id="closeMenuModal">&#10006;</btn>
   <h1>Sound Settings</h1>
 </div>
     <div class="menu-modal-section">
@@ -219,7 +220,7 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
   <div class="menu-modal-content-wrapper">
     <div class="menu-modal-content">
       <div class="menu-modal-caption">
-        <btn class="close-btn menu-close-btn" id="closeSound">&#10006;</btn>
+        <btn class="close-btn menu-close-btn" id="closeMenuModal">&#10006;</btn>
         <h1>Rules</h1>
       </div>
     <div class="menu-modal-section">
@@ -246,6 +247,6 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
 
 
 export {
-  LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML, SIDE_NAV_HTML, OFFICE_SETTINGS_HTML,
+  LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML, SIDE_NAV_HTML, SIDE_NAV_MODAL_HTML, OFFICE_SELECTOR_HTML,
   RESULTS_TABLE_HTML, SOUND_SETTINGS_HTML, PLAY_AGAIN_BTN_HTML, RULES_HTML, SIMPLE_TASK_HTML, LISTEN_BTN_HTML, ANSWER_BTN_HTML
 };

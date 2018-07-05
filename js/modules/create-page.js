@@ -1,4 +1,4 @@
-import { createPlayer, selectElement, chooseLanguage, randomArrayElem, createBattle } from './helpers'
+import { createPlayer, selectElementByClick, chooseLanguage, randomArrayElem, createBattle } from './helpers'
 import { Dialogs, dialogActions } from './dialogs'
 import { Office } from './offices'
 import { SideNav } from './game-settings'
@@ -24,7 +24,7 @@ export class createPage {
   greeting() {
     let charactersArray = $('.greeting__profile_character-item-wrapper').toArray();
     charactersArray.forEach(div => {
-      $(div).click(selectElement);
+      $(div).click(selectElementByClick);
       $(div).keypress(e => {
         if (e.which === 13) {
           let current = $('.selected');

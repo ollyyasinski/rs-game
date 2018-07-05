@@ -23,7 +23,7 @@ let createPlayer = () => {
   return player;
 };
 
-let selectElement = e => {
+let selectElementByClick = e => {
   let current = $('.selected'),
     elem = $(e.target);
   if (current) {
@@ -33,6 +33,15 @@ let selectElement = e => {
     elem = elem.parent();
   };
   elem.addClass('selected');
+};
+
+let selectElementByEnter = (option) => {
+  let current = $('.selected');
+
+  if (current) {
+    current.removeClass('selected');
+  }
+  $(option).addClass('selected');
 };
 
 let chooseLanguage = (languages) => {
@@ -228,7 +237,7 @@ let randomTasksArray = () => {
 }
 
 export {
-  blitzCount, blitzPower, createPlayer, selectElement, chooseLanguage, randomArrayElem, addRandomClass,
+  blitzCount, blitzPower, createPlayer, selectElementByClick, selectElementByEnter, chooseLanguage, randomArrayElem, addRandomClass,
   createBattle, roundToTwenty, showIfAnswerCorrect, showIfAnswerWrong, generateRandomObjProperty, setVoiceGender,
   createReadableText, unblockSuperAttack, blockSuperAttack, superClick, randomTasksArray
 }
