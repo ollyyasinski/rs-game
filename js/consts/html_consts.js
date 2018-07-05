@@ -68,18 +68,18 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
 
   RIGHT_DOOR_PAGE_HTML = `<div class="game-background game-background-mirror">
 <nav>
-    <div class="humburger-btn-wrapper" id="humbergerBtn">
+    <div class="humburger-btn-wrapper" id="humbergerBtn" tabindex="3">
         <div class="humburger-btn-line"></div>
         <div class="humburger-btn-line"></div>
         <div class="humburger-btn-line"></div>
     </div>
 </nav>
-<div class="door door-right door-right-reception"></div>
+<div class="door door-right door-right-reception" tabindex="2"></div>
 <div class="hero-container"></div>
 </div>
 <div class='dialog' id='dialog'>
 <p class='dialog__message' id='message'></p>
-<button type="button" class="dialog__button" id='dialogButton'>Start</button>
+<button type="button" class="dialog__button" id='dialogButton' tabindex="1">Start</button>
 </div>`,
 
   LEFT_DOOR_PAGE_HTML = `<div class="game-background">
@@ -94,38 +94,38 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
   <div class="hero-container"></div>
   <div class='dialog' id='dialog'>
     <p class='dialog__message' id='message'></p>
-    <button type="button" class="dialog__button" id='dialogButton'>Start</button>
+    <button type="button" class="dialog__button" id='dialogButton'>Close</button>
   </div>`,
 
   SIDE_NAV_HTML = `<div class="sidenav">
-  <btn class="close-btn" id="closeBtn">&#10006;</btn>
+  <btn class="close-btn" id="closeBtn" tabindex="0">&#10006;</btn>
   <ul class="sidenav-list">
-    <li id="officeColors">Office Colors</li>
-    <li id="soundSettings">Sound</li>
-    <li id="bestResults">Best Results</li>
-    <li id="rules">Rules</li>
+    <li id="officeColors" tabindex="0">Office Colors</li>
+    <li id="soundSettings" tabindex="0">Sound</li>
+    <li id="bestResults" tabindex="0">Best Results</li>
+    <li id="rules" tabindex="0">Rules</li>
   </ul>
 </div>`,
 
-  OFFICE_SETTINGS_HTML = `<div class="menu-modal">
+  OFFICE_SETTINGS_HTML = `<div class="menu-modal" role="dialog" aria-labelledby="office-settings-dialog">
   <div class="menu-modal-content-wrapper">
     <div class="menu-modal-content">
       <div class="menu-modal-caption">
-        <btn class="close-btn menu-close-btn" id="closeOffices">&#10006;</btn>
+        <btn class="close-btn menu-close-btn" id="closeOffices" tabindex="0">&#10006;</btn>
         <h1>Select Office Color</h1>
       </div>
       <div class="menu-modal-section">
         <div class="offices-grid">
           <div class="offices-row-1">
-            <div class="office-option office-option-1-1 selected"></div>
-            <div class="office-option office-option-1-2"></div>
-            <div class="office-option office-option-1-3"></div>
-            <div class="office-option office-option-1-4"></div>
+            <div class="office-option office-option-1-1 selected" tabindex="0"></div>
+            <div class="office-option office-option-1-2" tabindex="0"></div>
+            <div class="office-option office-option-1-3" tabindex="0"></div>
+            <div class="office-option office-option-1-4" tabindex="0"></div>
           </div>
           <div class="offices-row-2">
-            <div class="office-option office-option-2-1"></div>
-            <div class="office-option office-option-2-2"></div>
-            <div class="office-option office-option-2-3"></div>
+            <div class="office-option office-option-2-1" tabindex="0"></div>
+            <div class="office-option office-option-2-2" tabindex="0"></div>
+            <div class="office-option office-option-2-3" tabindex="0"></div>
         </div>
       </div>
       <div class="menu-modal-submit-wrapper">
@@ -133,7 +133,8 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
       </div>
     </div>
   </div>
-</div>`,
+</div>
+<div class=“dialog-overlay”></div>`,
 
   RESULTS_TABLE_HTML = `<div class="menu-modal">
   <div class="menu-modal-content-wrapper">

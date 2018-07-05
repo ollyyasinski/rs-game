@@ -17,7 +17,7 @@ let player, selectedOffice, levelLanguage, monster;
 let attackQuestions, shieldQuestions, healQuestions;
 
 let synth = window.speechSynthesis,
-  level = 0;
+  level = 1;
 
 export class createPage {
   constructor() { }
@@ -25,6 +25,15 @@ export class createPage {
     let charactersArray = $('.greeting__profile_character-item-wrapper').toArray();
     charactersArray.forEach(div => {
       $(div).click(selectElement);
+      $(div).keypress(e => {
+        if (e.which === 13) {
+          let current = $('.selected');
+          if (current) {
+            current.removeClass('selected');
+          }
+          $(div).addClass('selected');
+        }
+      })
     })
     $('#startGame').click(new createPage().reception);
   }

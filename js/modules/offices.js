@@ -24,6 +24,19 @@ class Office {
             main.classList.add('wrapper__reception');
             main.innerHTML = RIGHT_DOOR_PAGE_HTML;
             addGameBody();
+
+            $('#dialogButton').focus();
+            $('#dialogButton').keypress(e => {
+                if (e.which == 13) {
+                    $('.door').focus();
+                    $('#dialog').remove();
+                }
+            });
+            $('#dialogButton').click(() => {
+                $('.door').focus();
+                $('#dialog').remove();
+            });
+
             new Door($(".door-right")).openDoor();
         } else {
             main.classList.add('wrapper__reception');

@@ -9,10 +9,13 @@
 @import "../css/volume-slider.css";
 @import "../css/menu-modals.css";
 @import "../css/scales.css";
-
 * {
 	margin: 0;
 	padding: 0;
+}
+
+*:focus, .greeting__profile_button:focus, .dialog__button:focus, .door-right-reception:focus {
+	outline: 2px solid #76fbed;
 }
 
 body {
@@ -137,6 +140,7 @@ body {
 	cursor: pointer;
 }
 
+
 .selected {
 	border: 2px solid #76fbed;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 1);
@@ -233,8 +237,8 @@ nav {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: 100% auto;
-	position: absolute;
-	height: 100%;
+	position: fixed;
+	height: 640px;
 	top: 2.6%;
 	transition: 1s transform linear;
 	cursor: pointer;

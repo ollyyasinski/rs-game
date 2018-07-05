@@ -228,7 +228,7 @@ let randomTasksArray = () => {
 }
 
 export {
-  blitzCount, blitzPowerm, createPlayer, selectElement, chooseLanguage, randomArrayElem, addRandomClass,
+  blitzCount, blitzPower, createPlayer, selectElement, chooseLanguage, randomArrayElem, addRandomClass,
   createBattle, roundToTwenty, showIfAnswerCorrect, showIfAnswerWrong, generateRandomObjProperty, setVoiceGender,
   createReadableText, unblockSuperAttack, blockSuperAttack, superClick, randomTasksArray
 }

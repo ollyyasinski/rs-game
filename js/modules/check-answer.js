@@ -51,6 +51,7 @@ export class checkAnswer {
       $(selector).keypress(e => {
         if (e.which == 13) {
           check();
+          $(selector).blur();
         }
       })
     } else {

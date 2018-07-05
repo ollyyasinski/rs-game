@@ -38,6 +38,11 @@
     transition: 0.3s;
 }
 
+.close-btn {
+    margin: 14px 8px 14px 32px;
+    padding: 2px;
+}
+
 .sidenav-list li:hover, .close-btn:hover {
     color: #0D61BC;
     cursor: pointer;

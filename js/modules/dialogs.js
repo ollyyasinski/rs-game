@@ -95,7 +95,7 @@ export class dialogActions {
     let ele = document.getElementById(id),
       txt = text.join("").split("");
     let readDialogText = createReadableText(text);
-   setVoiceGender(readDialogText, gender);
+    setVoiceGender(readDialogText, gender);
 
     synth.speak(readDialogText);
     let interval = setInterval(function () {
@@ -109,7 +109,7 @@ export class dialogActions {
   closeDialog() {
     synth.cancel();
     let dialogWrapper = document.getElementById('dialog');
-    dialogWrapper.classList.toggle('dialog-active');
+    // dialogWrapper.classList.toggle('dialog-active');
     if (monster !== undefined) {
       if (level && player.health !== 0 && monster.health !== 0) {
         document.querySelector('.spells').classList.toggle('showSpells');

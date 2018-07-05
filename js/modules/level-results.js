@@ -1,7 +1,7 @@
 import { monster, player, createPage } from './create-page';
 import { Dialogs, dialogActions } from './dialogs'
 import { Door } from './door';
-import { Helpers } from './helpers'
+import { randomArrayElem } from './helpers'
 import { SideNav } from './game-settings'
 
 let lose;
@@ -19,7 +19,7 @@ export class levelResults {
 
     let monstersPhrases = new Dialogs().monstersPhrasesLevelWin();
     setTimeout(function () {
-      let dialogText = new Helpers().randomArrayElem(monstersPhrases);
+      let dialogText = randomArrayElem(monstersPhrases);
       new dialogActions().showDialog([dialogText]);
     }, 500);
 
@@ -34,7 +34,7 @@ export class levelResults {
 
     let monstersPhrases = new Dialogs().monstersPhrasesLevelLose();
     setTimeout(function () {
-      let dialogText = new Helpers().randomArrayElem(monstersPhrases);
+      let dialogText = randomArrayElem(monstersPhrases);
       new dialogActions().showDialog([dialogText]);
     }, 500);
   }

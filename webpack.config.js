@@ -9,6 +9,11 @@ module.exports = {
 		filename: 'bundle.js',
 		publicPath: './build/'
 	},
+	// devServer: {
+	// 	publicPath: "/",
+	// 	contentBase: "./public",
+	// 	hot: true
+	// },
 	module: {
 		rules: [
 			{
