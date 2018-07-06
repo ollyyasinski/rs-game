@@ -1,5 +1,5 @@
 import { LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML } from "../consts/html_consts";
-import { gameColor } from "./game-settings";
+import { gameColor } from "./game-settings/game-settings";
 import { Door } from './door';
 
 let main = document.querySelector('main'),

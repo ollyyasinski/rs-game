@@ -68,18 +68,18 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
 
   RIGHT_DOOR_PAGE_HTML = `<div class="game-background game-background-mirror">
 <nav>
-    <div class="humburger-btn-wrapper" id="humbergerBtn" tabindex="3">
+    <div class="humburger-btn-wrapper" id="humbergerBtn" tabindex="0">
         <div class="humburger-btn-line"></div>
         <div class="humburger-btn-line"></div>
         <div class="humburger-btn-line"></div>
     </div>
 </nav>
-<div class="door door-right door-right-reception" tabindex="2"></div>
+<div class="door door-right door-right-reception" tabindex="0"></div>
 <div class="hero-container"></div>
 </div>
 <div class='dialog' id='dialog'>
 <p class='dialog__message' id='message'></p>
-<button type="button" class="dialog__button" id='dialogButton' tabindex="1">Start</button>
+<button type="button" class="dialog__button" id='dialogButton' tabindex="0">Start</button>
 </div>`,
 
   LEFT_DOOR_PAGE_HTML = `<div class="game-background">
@@ -137,14 +137,7 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
     </div>
   </div>`,
 
-  RESULTS_TABLE_HTML = `<div class="menu-modal">
-  <div class="menu-modal-content-wrapper">
-    <div class="menu-modal-content">
-      <div class="menu-modal-caption">
-        <btn class="close-btn menu-close-btn" id="closeMenuModal">&#10006;</btn>
-        <h1>Best Results</h1>
-      </div>
-      <div class="menu-modal-section result-modal-content">                                
+  RESULTS_TABLE_HTML = `<div class="menu-modal-section result-modal-content">                                
       <table>
           <thead>
               <tr class="table-header">
@@ -155,31 +148,22 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
           </thead>
           <tbody id="resultsTable">
           </tbody>
-      </table>                              
-      </div>
-    </div>
-  </div>`,
+      </table>`,
 
-  SOUND_SETTINGS_HTML = `<div class="menu-modal">
-<div class="menu-modal-content-wrapper">
-  <div class="menu-modal-content">
-  <div class="menu-modal-caption">
-  <btn class="close-btn menu-close-btn" id="closeMenuModal">&#10006;</btn>
-  <h1>Sound Settings</h1>
-</div>
+  SOUND_SETTINGS_HTML = `
     <div class="menu-modal-section">
       <div class="sound-grid">
         <div class="volume-column">
           <div class="sound-wrapper">
             <div class="map-slider">
               <div class="buttons">
-                <span class="fa fa-plus" id="volumePlusBtn"></span>
+                <span class="fa fa-plus" id="volumePlusBtn" tabindex="0"></span>
                 <div class="drag-line">
                   <div class="line" id="volumeLine"></div> 
                   <div class="draggable-button" id="volumeBtn"></div>   
                 </div>
                 <div class="draggable-buton" id="volumeBtn"></div>   
-                <span class="fa fa-minus" id="volumeMinusBtn"></span>
+                <span class="fa fa-minus" id="volumeMinusBtn" tabindex="0"></span>
               </div>
             </div>
           </div>
@@ -189,13 +173,13 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
           <div class="sound-wrapper">
             <div class="map-slider">
               <div class="buttons">
-                <span class="fa fa-plus" id="speedPlusBtn"></span>
+                <span class="fa fa-plus" id="speedPlusBtn" tabindex="0"></span>
                 <div class="drag-line">
                   <div class="line" id="speedLine"></div> 
                   <div class="draggable-button" id="speedBtn"></div>   
                 </div>
                 <div class="draggable-buton" id="speedBtn"></div>   
-                <span class="fa fa-minus" id="speedMinusBtn"></span>
+                <span class="fa fa-minus" id="speedMinusBtn" tabindex="0"></span>
               </div>
             </div>
           </div>
@@ -206,9 +190,7 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
     <div class="menu-modal-submit-wrapper">
       <button type="button" class="btn btn-danger menu-btn" id="saveSoundBtn">Save</button>
     </div>
-  </div>
-</div>
-</div>`,
+  </div>`,
 
   PLAY_AGAIN_BTN_HTML = `<div class="menu-modal-submit-wrapper">
                           <a href="https://anleonovich.github.io/Final-Game/" class="new-play-link">
@@ -216,14 +198,7 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
                           </a>
                         </div>`,
 
-  RULES_HTML = `<div class="menu-modal">
-  <div class="menu-modal-content-wrapper">
-    <div class="menu-modal-content">
-      <div class="menu-modal-caption">
-        <btn class="close-btn menu-close-btn" id="closeMenuModal">&#10006;</btn>
-        <h1>Rules</h1>
-      </div>
-    <div class="menu-modal-section">
+  RULES_HTML = `<div class="menu-modal-section">
       <div class='rules-wrapper'>
         <p>In this game you are a programmer trying to get a job in the 'We Will Hack You Inc.'.</p>
         <p>You need to complete 5 levels to win. In each level you will come across a "monster" who will test your knowledge in some programming language.</p>
@@ -234,9 +209,7 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
         <p>Use the doors to go to new levels.</p>
         <p>Good luck!</p>
       </div>
-    </div>
-  </div>
-</div>`,
+    </div>`,
 
   SIMPLE_TASK_HTML = `<input type="text" class='task__form_answer' autofocus>
 <input type="button" class='btn task-field-btn' value="Answer" id="answerBtn">`,

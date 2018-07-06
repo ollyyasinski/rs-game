@@ -1,7 +1,7 @@
 import { createPlayer, selectElementByClick, chooseLanguage, randomArrayElem, createBattle } from './helpers'
 import { Dialogs, dialogActions } from './dialogs'
 import { Office } from './offices'
-import { SideNav } from './game-settings'
+import { SideNav } from './game-settings/game-settings'
 import { languages, offices, soundLevels } from "../variables/arrays";
 import { MonsterGenerator } from './monster-generator'
 import { Monster } from './monster-object'
@@ -44,12 +44,14 @@ export class createPage {
     $('body').css('overflow', 'hidden');
 
     let reception = new Office(selectedOffice, 'right'),
-      dialogText = new Dialogs().instructions();
+      dialogText = new Dialogs().instructions(),
+      nextFocusableEl = "door-right";
+
 
     reception.createOffice();
     reception.addHero(player.character, true);
 
-    new SideNav().createSideNav();
+    new SideNav(nextFocusableEl).createSideNav();
     new dialogActions().showTimeoutDialog(dialogText, 100, 'female');
 
     $('.door-right').click(() => {
@@ -57,6 +59,12 @@ export class createPage {
       setTimeout(new createPage().level, 1500);
     });
 
+    $('.door-right').keypress(e => {
+      if (e.which === 13) {
+        synth.cancel();
+        setTimeout(new createPage().level, 1500);
+      }
+    })
   }
 
   level() {

@@ -1,4 +1,5 @@
 import { SIDE_NAV_MODAL_HTML } from "../consts/html_consts";
+import { createCircleTabNav, createCircleShiftTabNav } from "./helpers";
 
 class SideNavModal {
     constructor(focusedElBeforeOpen, title) {
@@ -17,24 +18,6 @@ class SideNavModal {
         $(GAME_BGD).append(SIDE_NAV_MODAL_HTML);
         $(TITLE_EL).append(this.title);
         $(this.contentWrapper).append(content);
-
-        let createCircleTabNav = (lastFocusableEl, firstFocusableEl) => {
-            $(lastFocusableEl).keydown(e => {
-                if (e.which === 9) {
-                    e.preventDefault();
-                    firstFocusableEl.focus();
-                }
-            });
-        };
-
-        let createCircleShiftTabNav = (lastFocusableEl, firstFocusableEl) => {
-            $(firstFocusableEl).keydown(e => {
-                if (e.shiftKey && e.keyCode === 9) {
-                    e.preventDefault();
-                    lastFocusableEl.focus();
-                }
-            });
-        };
 
         let focusableEls = $(this.modalClass).find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), btn:not([disabled]), [tabindex="0"]'),
             firstFocusableEl = focusableEls[0],

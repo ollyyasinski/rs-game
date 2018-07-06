@@ -7,7 +7,7 @@ import { modal, spell } from './show-spell';
 import { monsterAttack } from './monster-attack';
 import { doSpell } from './do-spell';
 import { Spells } from './spells'
-import { volume, rate } from './game-settings'
+import { volume, rate } from './game-settings/sound-slider/sound-selector'
 
 let blitzCount = false;
 let blitzPower = 0;
@@ -236,8 +236,26 @@ let randomTasksArray = () => {
   return arr;
 }
 
+let createCircleTabNav = (lastFocusableEl, firstFocusableEl) => {
+  $(lastFocusableEl).keydown(e => {
+    if (e.which === 9) {
+      e.preventDefault();
+      firstFocusableEl.focus();
+    }
+  });
+};
+
+let createCircleShiftTabNav = (lastFocusableEl, firstFocusableEl) => {
+  $(firstFocusableEl).keydown(e => {
+    if (e.shiftKey && e.keyCode === 9) {
+      e.preventDefault();
+      lastFocusableEl.focus();
+    }
+  });
+};
+
 export {
   blitzCount, blitzPower, createPlayer, selectElementByClick, selectElementByEnter, chooseLanguage, randomArrayElem, addRandomClass,
   createBattle, roundToTwenty, showIfAnswerCorrect, showIfAnswerWrong, generateRandomObjProperty, setVoiceGender,
-  createReadableText, unblockSuperAttack, blockSuperAttack, superClick, randomTasksArray
+  createReadableText, unblockSuperAttack, blockSuperAttack, superClick, randomTasksArray, createCircleTabNav, createCircleShiftTabNav
 }

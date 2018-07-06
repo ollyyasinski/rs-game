@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 
 module.exports = {
 	devtool: 'source-map',
@@ -47,6 +49,10 @@ module.exports = {
 		new webpack.ProvidePlugin({
 			$: 'jquery',
 			jQuery: 'jquery'
+		}),
+		new HtmlWebpackPlugin({
+			template: "./index.html",
+			filename: "./index.html"
 		})
 	]
 }

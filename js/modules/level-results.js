@@ -2,7 +2,7 @@ import { monster, player, createPage } from './create-page';
 import { Dialogs, dialogActions } from './dialogs'
 import { Door } from './door';
 import { randomArrayElem } from './helpers'
-import { SideNav } from './game-settings'
+import { SideNav } from './game-settings/game-settings'
 
 let lose;
 

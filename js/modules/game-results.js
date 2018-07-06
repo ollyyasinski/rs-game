@@ -1,4 +1,5 @@
 import { RESULTS_TABLE_HTML } from "../consts/html_consts";
+import { SideNavModal } from "./side-nav-modal";
 
 class ResultsTable {
     constructor() {
@@ -7,6 +8,7 @@ class ResultsTable {
             return obj
         }, {});
         this.bestResultsSortedArray = [];
+        this.title = "Best Results"
     };
     createSortedResults() {
         for (let result in this.bestResults) {
@@ -19,8 +21,8 @@ class ResultsTable {
         });
         this.bestResultsSortedArray = this.bestResultsSortedArray.slice(0, 10);
     };
-    createResultsTable(bestResultsSortedArray) {
-        $(".game-background").append(RESULTS_TABLE_HTML);
+    createResultsTable(focusedElBeforeOpen, bestResultsSortedArray) {
+        new SideNavModal(focusedElBeforeOpen, this.title).createSideNavModal(RESULTS_TABLE_HTML);
 
         let resultsTable = $("#resultsTable");
 
@@ -44,10 +46,18 @@ class ResultsTable {
             resultRow.append(noResults.html("No Results Yet"));
             resultsTable.append(resultRow);
         }
-    };
-    showResults() {
+    }
+
+    showResults(focusedElBeforeOpen, btn) {
         this.createSortedResults();
-        this.createResultsTable(this.bestResultsSortedArray);
+        this.createResultsTable(focusedElBeforeOpen, this.bestResultsSortedArray);
+
+        if (btn) {
+            this.addPlayAgainBtn();
+        }
+    }
+    addPlayAgainBtn() {
+        $(".menu-modal-content").append(PLAY_AGAIN_BTN_HTML);
     }
 }
 
