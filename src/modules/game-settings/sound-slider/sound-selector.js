@@ -1,6 +1,6 @@
 import { CLIP_PXS, MOVE_LENGTH, SOUND_LEVELS } from "../../../consts/slider_const";
 import { roundToTwenty } from "../../helpers";
-import { SideNavModal } from "../../side-nav-modal";
+import { SideNavModal } from "../../modal-window/side-nav-modal";
 import { SOUND_SETTINGS_HTML } from "../../../consts/html_consts";
 
 let volume = 1,

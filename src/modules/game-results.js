@@ -1,5 +1,5 @@
 import { RESULTS_TABLE_HTML } from "../consts/html_consts";
-import { SideNavModal } from "./side-nav-modal";
+import { SideNavModal } from "./modal-window/side-nav-modal";
 
 class ResultsTable {
     constructor() {

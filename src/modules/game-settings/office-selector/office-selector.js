@@ -1,5 +1,5 @@
 import { selectElementByClick, selectElementByEnter } from "../../helpers";
-import { SideNavModal } from "../../side-nav-modal";
+import { SideNavModal } from "../../modal-window/side-nav-modal";
 import { OFFICE_SELECTOR_HTML } from "../../../consts/html_consts";
 import { OFFICE_COLORS } from "../../../consts/office_consts";
 import { selectedOffice } from "../../create-page";

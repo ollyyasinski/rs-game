@@ -4,23 +4,24 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 module.exports = {
-	devtool: 'source-map',
+	// devtool: 'source-map',
 	entry: './js/script.js',
-	output: {
-		path: path.join(__dirname, 'build'),
-		filename: 'bundle.js',
-		publicPath: './build/'
-	},
+	// output: {
+	// 	path: path.join(__dirname, 'build'),
+	// 	filename: 'bundle.js',
+	// 	publicPath: './build/'
+	// },
 	// devServer: {
-	// 	publicPath: "/",
-	// 	contentBase: "./public",
+	// publicPath: "./build/",
+	// 	contentBase: path.join(__dirname, '/'),
+	// 	watchContentBase: true,
 	// 	hot: true
 	// },
 	module: {
 		rules: [
 			{
 				test: /\.(jpg|png)$/,
-				loader: 'file-loader?name=/fonts/[name].[ext]'
+				loader: 'file-loader?name=/assets/img/**/[name].[ext]'
 			},
 			{
 				test: /\.(eot|svg|ttf|woff|woff2)$/,
@@ -39,8 +40,14 @@ module.exports = {
 				use: [
 					{
 						loader: 'babel-loader'
-						//preserts: ["env"] 
 					}
+				]
+			},
+			{
+				test: /\.html$/,
+				use: [{
+					loader: "html-loader"
+				}
 				]
 			}
 		]

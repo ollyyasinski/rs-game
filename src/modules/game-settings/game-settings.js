@@ -3,7 +3,7 @@ import { gameColor } from "../game-settings/office-selector/office-selector";
 import { SIDE_NAV_HTML, RULES_HTML } from "../../consts/html_consts";
 import { OfficeSelector } from "../game-settings/office-selector/office-selector";
 import { SoundSettings } from "../game-settings/sound-slider/sound-selector";
-import { SideNavModal } from "../side-nav-modal";
+import { SideNavModal } from "../modal-window/side-nav-modal";
 import { createCircleTabNav, createCircleShiftTabNav } from "../helpers";
 
 const GAME_BGD = ".game-background";

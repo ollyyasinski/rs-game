@@ -94,6 +94,8 @@ export class showSpell {
   }
   showSpellsCyrcle() {
     let magicArray = $('.spell').toArray();
+    magicArray[0].focus();
+    console.log(magicArray[0]);
     magicArray.forEach(div => {
       $(div).click(e => {
         spell = e.target.classList[1];
@@ -101,8 +103,17 @@ export class showSpell {
           new showSpell().showNotSuperSpell();
         }
       });
+
+      $(div).keypress(e => {
+        if (e.which === 13) {
+          spell = e.target.classList[1];
+          if (spell !== 'super') {
+            new showSpell().showNotSuperSpell();
+          }
+        }
+      })
     });
   }
 }
 
-export { spell, modal};
+export { spell, modal };

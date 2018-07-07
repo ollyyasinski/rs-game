@@ -17,7 +17,7 @@ let player, selectedOffice, levelLanguage, monster;
 let attackQuestions, shieldQuestions, healQuestions;
 
 let synth = window.speechSynthesis,
-  level = 1;
+  level = 0;
 
 export class createPage {
   constructor() { }
@@ -35,7 +35,7 @@ export class createPage {
         }
       })
     })
-    $('#startGame').click(new createPage().reception);
+    // $('#startGame').click(new createPage().reception);
   }
 
   reception() {

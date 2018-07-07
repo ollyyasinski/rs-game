@@ -89,6 +89,7 @@ export class dialogActions {
     let dialogButton = document.getElementById('dialogButton');
     dialogButton.addEventListener('click', new dialogActions().closeDialog);
     new dialogActions().writeDialogText('message', text, 60, gender);
+    dialogButton.focus();
   }
   writeDialogText(id, text, speed, gender) {
     document.getElementById('message').innerHTML = '';
@@ -109,7 +110,7 @@ export class dialogActions {
   closeDialog() {
     synth.cancel();
     let dialogWrapper = document.getElementById('dialog');
-    // dialogWrapper.classList.toggle('dialog-active');
+    dialogWrapper.classList.toggle('dialog-active');
     if (monster !== undefined) {
       if (level && player.health !== 0 && monster.health !== 0) {
         document.querySelector('.spells').classList.toggle('showSpells');

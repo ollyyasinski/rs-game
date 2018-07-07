@@ -8,11 +8,11 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
   </div>
 </nav>
   <ul class='spells'>
-    <li class='spell attack'><p class='spell_wrapper'><span class='spell__name'>Attack</span><span class='spell__description'>40 damage to monster</span></li>
-    <li class='spell shield'><p class='spell_wrapper'><span class='spell__name'>Shield</span><span class='spell__description'>+50 to your defense (absorbs damage)</span></li>
-    <li class='spell heal'><p class='spell_wrapper'><span class='spell__name'>Heal</span><span class='spell__description'>+30 to your health</span></li>
-    <li class='spell blitzAttack'><p class='spell_wrapper'><span class='spell__name'>Blitz Attack</span><span class='spell__description'>3 tasks, each gives +20 to your attack power (max is 60)</span></li>
-    <li class='spell super blockSuper'><p class='spell_wrapper'><span class='spell__name'>Super Attack</span><span class='spell__description'>60 damage to monster. Available when the yellow scale is full</span></li>
+    <li class='spell attack' tabindex="0"><p class='spell_wrapper'><span class='spell__name'>Attack</span><span class='spell__description'>40 damage to monster</span></li>
+    <li class='spell shield' tabindex="0"><p class='spell_wrapper'><span class='spell__name'>Shield</span><span class='spell__description'>+50 to your defense (absorbs damage)</span></li>
+    <li class='spell heal' tabindex="0"><p class='spell_wrapper'><span class='spell__name'>Heal</span><span class='spell__description'>+30 to your health</span></li>
+    <li class='spell blitzAttack' tabindex="0"><p class='spell_wrapper'><span class='spell__name'>Blitz Attack</span><span class='spell__description'>3 tasks, each gives +20 to your attack power (max is 60)</span></li>
+    <li class='spell super blockSuper' tabindex="0"><p class='spell_wrapper'><span class='spell__name'>Super Attack</span><span class='spell__description'>60 damage to monster. Available when the yellow scale is full</span></li>
   <li class='tips-background'></li>
   </ul>
   <div class="door door-left"></div>
@@ -62,7 +62,7 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
   </div>                      
   <div class='dialog' id = dialog>
     <p class='dialog__message' id='message'></p>
-    <button type="button" class="dialog__button" id = 'dialogButton'>Close</button>
+    <button type="button" class="dialog__button" id = 'dialogButton' tabindex="1">Close</button>
   </div>
 </div>`,
 
@@ -107,18 +107,7 @@ const LEVEL_HTML = `<div class = "background-opacity-wrapper"> </div>
   </ul>
 </div>`,
 
-  SIDE_NAV_MODAL_HTML = `<div class="menu-modal" role="dialog" aria-labelledby="office-settings-dialog">
-  <div class="menu-modal-content-wrapper">
-    <div class="menu-modal-content">
-      <div class="menu-modal-caption">
-        <btn class="close-btn menu-close-btn" id="closeMenuModal" tabindex="0">&#10006;</btn>
-        <h1></h1>
-      </div>
-    </div>
-  </div>
-</div>`,
-
-  OFFICE_SELECTOR_HTML = `<div class="menu-modal-section">
+OFFICE_SELECTOR_HTML = `<div class="menu-modal-section">
       <div class="offices-grid">
         <div class="offices-row-1">
           <div class="office-option office-option-1-1 selected" tabindex="0"></div>

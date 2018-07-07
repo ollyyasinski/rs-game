@@ -1,5 +1,6 @@
-import { SIDE_NAV_MODAL_HTML } from "../consts/html_consts";
-import { createCircleTabNav, createCircleShiftTabNav } from "./helpers";
+import { createCircleTabNav, createCircleShiftTabNav } from "../helpers";
+import './side-nav-modal.css';
+const SIDE_NAV_MODAL_HTML = require('./side-nav-modal.html');
 
 class SideNavModal {
     constructor(focusedElBeforeOpen, title) {
@@ -13,7 +14,7 @@ class SideNavModal {
     }
     createSideNavModal(content) {
         const GAME_BGD = ".game-background";
-        const TITLE_EL = "h1";
+        const TITLE_EL = "#modalTitle";
 
         $(GAME_BGD).append(SIDE_NAV_MODAL_HTML);
         $(TITLE_EL).append(this.title);
