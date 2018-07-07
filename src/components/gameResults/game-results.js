@@ -1,7 +1,7 @@
-import { RESULTS_TABLE_HTML } from "../consts/html_consts";
-import { ModalWindow } from "../components/modalWindow/modalWindow";
+import { ModalWindow } from '../modalWindow/modalWindow';
+const RESULTS_TABLE_HTML = require('./game-results')
 
-class ResultsTable {
+export class ResultsTable {
     constructor() {
         this.bestResults = Object.keys(localStorage).reduce((obj, str) => {
             obj[str] = localStorage.getItem(str);
@@ -60,5 +60,3 @@ class ResultsTable {
         $(".menu-modal-content").append(PLAY_AGAIN_BTN_HTML);
     }
 }
-
-export { ResultsTable };

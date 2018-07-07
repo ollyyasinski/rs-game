@@ -2,7 +2,7 @@ import {
   ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH, SUPER_ATTACK_POWER, ATTACK_SOUNDS, HEAL_SOUNDS, SHILED_SOUNDS
 } from '../consts/attack_consts'
 import { randomArrayElem, unblockSuperAttack, blockSuperAttack, blitzPower } from './helpers'
-import { monster, player, level } from './create-page'
+import { monster, player, level } from '../screens/levels/levels'
 import { showSpell } from './show-spell'
 import { monsterAttack } from './monster-attack'
 import { levelResults } from './level-results'

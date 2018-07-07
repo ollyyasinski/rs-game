@@ -2,8 +2,8 @@ import { selectElementByClick, selectElementByEnter } from "../../helpers";
 import { ModalWindow } from "../../../components/modalWindow/modalWindow";
 import { OFFICE_SELECTOR_HTML } from "../../../consts/html_consts";
 import { OFFICE_COLORS } from "../../../consts/office_consts";
-import { selectedOffice } from "../../create-page";
-import { gameBackground } from '../../offices';
+import { selectedOffice } from "../../../screens/levels/levels";
+import { gameBackground } from '../../../components/office/office';
 
 let gameColor = OFFICE_COLORS[0];
 

@@ -1,7 +1,8 @@
-import { player, level, levelLanguage, monster } from './create-page';
+import { player } from '../screens/reception/reception';
 import { randomArrayElem, createReadableText, setVoiceGender } from './helpers'
 import { SideNav } from './game-settings/game-settings'
-import { lose } from './level-results'
+import { lose } from './level-results';
+import { level, levelLanguage, monster } from '../screens/levels/levels';
 
 let synth = window.speechSynthesis;
 

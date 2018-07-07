@@ -1,4 +1,4 @@
-import { ResultsTable } from "../game-results";
+import { ResultsTable } from "../../components/gameResults/game-results";
 import { gameColor } from "../game-settings/office-selector/office-selector";
 import { SIDE_NAV_HTML, RULES_HTML } from "../../consts/html_consts";
 import { OfficeSelector } from "../game-settings/office-selector/office-selector";

@@ -1,0 +1,4 @@
+.doorOpened {
+	transform: rotateY(90deg);
+	transition: .5s linear;
+}

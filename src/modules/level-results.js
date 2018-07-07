@@ -1,8 +1,8 @@
-import { monster, player, createPage } from './create-page';
+import { monster, player, createPage, Level } from '../screens/levels/levels';
 import { Dialogs, dialogActions } from './dialogs'
-import { Door } from './door';
+import { Door } from '../components/office/door/door';
 import { randomArrayElem } from './helpers'
-import { SideNav } from './game-settings/game-settings'
+import { GameEnd } from '../screens/gameEnd/gameEnd';
 
 let lose;
 
@@ -24,9 +24,9 @@ export class levelResults {
     }, 500);
 
     new Door($(".door-right")).openDoor();
-    document.querySelector('.door-right').addEventListener('click', function () { setTimeout(new createPage().level, 1500); });
+    document.querySelector('.door-right').addEventListener('click', function () { setTimeout(new Level().createLevelPage(), 1500); });
     new Door($(".door-left")).openDoor();
-    document.querySelector('.door-left').addEventListener('click', function () { setTimeout(new createPage().level, 1500); });
+    document.querySelector('.door-left').addEventListener('click', function () { setTimeout(new Level().createLevelPage(), 1500); });
   }
   lose() {
     lose = true;
@@ -49,9 +49,9 @@ export class levelResults {
     }, 500);
 
     new Door($(".door-right")).openDoor();
-    document.querySelector('.door-right').addEventListener('click', function () { setTimeout(new createPage().endGame, 1500); });
+    document.querySelector('.door-right').addEventListener('click', function () { setTimeout(new GameEnd().createGameEndScreen(), 1500); });
     new Door($(".door-left")).openDoor();
-    document.querySelector('.door-left').addEventListener('click', function () { setTimeout(new createPage().endGame, 1500); });
+    document.querySelector('.door-left').addEventListener('click', function () { setTimeout(new GameEnd().createGameEndScreen(), 1500); });
 
   }
 }

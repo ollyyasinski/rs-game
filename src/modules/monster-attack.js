@@ -1,5 +1,5 @@
 import { ATTACK_POWER, SHIELD_POWER, HEAL_POWER, ATTACK_SOUNDS, HEAL_SOUNDS, SHILED_SOUNDS } from '../consts/attack_consts'
-import { monster, player, level } from './create-page';
+import { monster, player, level } from '../screens/levels/levels';
 import { levelResults } from './level-results'
 import { randomArrayElem } from './helpers'
 import { showSpell } from './show-spell'

@@ -1,4 +1,4 @@
-import { attackQuestions, shieldQuestions, healQuestions, levelLanguage } from './create-page';
+import { attackQuestions, shieldQuestions, healQuestions, levelLanguage } from '../screens/levels/levels';
 import { randomTasksArray, randomArrayElem } from './helpers'
 import { modal } from './show-spell';
 import { giveTask } from './give-task'

@@ -7,5 +7,9 @@ require('jquery-ui/ui/widgets/draggable');
 require('jquery-ui/ui/disable-selection');
 import _ from 'lodash';
 
-import { createPage } from './modules/create-page';
-new createPage().greeting();
+// import { createPage } from './modules/create-page';
+// new createPage().greeting();
+
+// const HTML = require('./screens/home/index.html');
+import { HomeScreen } from './screens/home/homeScreen';
+new HomeScreen().createHomeScreen();

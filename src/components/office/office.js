@@ -1,6 +1,9 @@
-import { LEVEL_HTML, RIGHT_DOOR_PAGE_HTML, LEFT_DOOR_PAGE_HTML } from "../consts/html_consts";
-import { gameColor } from "./game-settings/game-settings";
-import { Door } from './door';
+import { gameColor } from "../../modules/game-settings/game-settings";
+import { Door } from './door/door';
+
+const TWO_DOOR_OFFICE_HTML = require('./officeHtmls/twoDoorOffice.html');
+const LEFT_DOOR_OFFICE_HTML = require('./officeHtmls/leftDoorOffice.html');
+const RIGHT_DOOR_OFFICE_HTML = require('./officeHtmls/rightDoorOffice.html');
 
 let main = document.querySelector('main'),
     gameBackground;
@@ -17,12 +20,12 @@ class Office {
             gameBackground.css('background-image', `url("assets/img/office-background/${gameColor}-offices/${this.background}.png")`);
         }
         if (this.doors === 2) {
-            main.innerHTML = LEVEL_HTML;
+            main.innerHTML = TWO_DOOR_OFFICE_HTML;
             $("nav").append(`<h1 class='level__caption'>Level ${level} - ${levelLanguage}</h1>`);
             addGameBody();
         } else if (this.doors === "right") {
             main.classList.add('wrapper__reception');
-            main.innerHTML = RIGHT_DOOR_PAGE_HTML;
+            main.innerHTML = RIGHT_DOOR_OFFICE_HTML;
             addGameBody();
 
             $('#dialogButton').focus();
@@ -40,7 +43,7 @@ class Office {
             new Door($(".door-right")).openDoor();
         } else {
             main.classList.add('wrapper__reception');
-            main.innerHTML = LEFT_DOOR_PAGE_HTML;
+            main.innerHTML = LEFT_DOOR_OFFICE_HTML;
             addGameBody();
         }
     };
