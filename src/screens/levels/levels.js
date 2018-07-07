@@ -2,16 +2,16 @@ import { chooseLanguage, randomArrayElem, createBattle } from '../../components/
 import { Dialogs, dialogActions } from '../../components/dialogs/dialogs';
 import { Office } from '../../components/office/office';
 import { SideNav } from '../../components/gameSettings/gameSettings';
-import { languages, offices } from "../../variables/arrays";
+import { languages, offices } from "./consts/levelConsts";
 import { MonsterGenerator } from '../../components/monster-generator/monsterGenerator';
 import { Monster } from '../../screens/levels/monster-object';
 import { showSpell } from '../../components/spells/show-spell';
 import { MONSTER_HEAD_ARRAY, MONSTER_BODY_ARRAY, MONSTER_LEGS_ARRAY } from '../../components/monster-generator/consts/monster_consts';
 import { player } from '../reception/reception';
 
-import aQ from '../../../assets/questions/attackQuestions.json'
-import sQ from '../../../assets/questions/shieldQuestions.json'
-import hQ from '../../../assets/questions/healQuestions.json'
+import aQ from './questions/attackQuestions.json'
+import sQ from './questions/shieldQuestions.json'
+import hQ from './questions/healQuestions.json'
 
 let selectedOffice, levelLanguage, monster;
 let attackQuestions, shieldQuestions, healQuestions;

@@ -2,7 +2,7 @@ import { englishVocab, audioVocabulary } from './tasks';
 import { checkAnswer } from './check-answer'
 import { setVoiceGender } from "../helpers/helpers";
 
-import { SIMPLE_TASK_HTML, LISTEN_BTN_HTML, ANSWER_BTN_HTML } from '../../consts/html_consts';
+import { SIMPLE_TASK_HTML, LISTEN_BTN_HTML, ANSWER_BTN_HTML } from './consts/taskConsts';
 
 let result,
   synth = window.speechSynthesis;

@@ -1,5 +1,6 @@
 import { ModalWindow } from '../modalWindow/modalWindow';
 import './resultsTable.css';
+import { PLAY_AGAIN_BTN_HTML } from './consts/gameResultsConsts';
 
 const RESULTS_TABLE_HTML = require('./resultsTable.html');
 

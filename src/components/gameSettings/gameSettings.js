@@ -1,10 +1,12 @@
 import { ResultsTable } from "../gameResults/gameResults";
-import { SIDE_NAV_HTML, RULES_HTML } from "../../consts/html_consts";
+import { RULES_HTML } from "./consts/gameSettingsConsts";
 import { OfficeSelector, gameColor } from "../officeSelector/officeSelector";
 import { SoundSelectors } from "../soundSliders/soundSelectors";
 import { ModalWindow } from "../modalWindow/modalWindow";
 import { createCircleTabNav, createCircleShiftTabNav } from "../helpers/helpers";
+import './gameSettings.css';
 
+const SIDE_NAV_HTML = require('./gameSettings.html');
 const GAME_BGD = ".game-background";
 
 class SideNav {
