@@ -139,48 +139,6 @@ OFFICE_SELECTOR_HTML = `<div class="menu-modal-section">
           </tbody>
       </table>`,
 
-  SOUND_SETTINGS_HTML = `
-    <div class="menu-modal-section">
-      <div class="sound-grid">
-        <div class="volume-column">
-          <div class="sound-wrapper">
-            <div class="map-slider">
-              <div class="buttons">
-                <span class="fa fa-plus" id="volumePlusBtn" tabindex="0"></span>
-                <div class="drag-line">
-                  <div class="line" id="volumeLine"></div> 
-                  <div class="draggable-button" id="volumeBtn"></div>   
-                </div>
-                <div class="draggable-buton" id="volumeBtn"></div>   
-                <span class="fa fa-minus" id="volumeMinusBtn" tabindex="0"></span>
-              </div>
-            </div>
-          </div>
-          <h2 class="sound-caption">Select volume level for a game</h2>
-        </div>
-        <div class="speed-column">
-          <div class="sound-wrapper">
-            <div class="map-slider">
-              <div class="buttons">
-                <span class="fa fa-plus" id="speedPlusBtn" tabindex="0"></span>
-                <div class="drag-line">
-                  <div class="line" id="speedLine"></div> 
-                  <div class="draggable-button" id="speedBtn"></div>   
-                </div>
-                <div class="draggable-buton" id="speedBtn"></div>   
-                <span class="fa fa-minus" id="speedMinusBtn" tabindex="0"></span>
-              </div>
-            </div>
-          </div>
-          <h2 class="sound-caption">Select speech speed for a game</h2>
-        </div>
-      </div>
-    </div>
-    <div class="menu-modal-submit-wrapper">
-      <button type="button" class="btn btn-danger menu-btn" id="saveSoundBtn">Save</button>
-    </div>
-  </div>`,
-
   PLAY_AGAIN_BTN_HTML = `<div class="menu-modal-submit-wrapper">
                           <a href="https://anleonovich.github.io/Final-Game/" class="new-play-link">
                             <button type="button" class="btn btn-danger menu-btn" id="playAgainBtn">Play Again</button>

@@ -1,5 +1,5 @@
 import { selectElementByClick, selectElementByEnter } from "../../helpers";
-import { SideNavModal } from "../../modal-window/side-nav-modal";
+import { ModalWindow } from "../../../components/modalWindow/modalWindow";
 import { OFFICE_SELECTOR_HTML } from "../../../consts/html_consts";
 import { OFFICE_COLORS } from "../../../consts/office_consts";
 import { selectedOffice } from "../../create-page";
@@ -35,12 +35,12 @@ export class OfficeSelector {
 
             gameColor = selectedBgd.match(colorRegExp)[0];
             gameBackground.css(bgdImg, selectedBgd);
-            new SideNavModal(focusedElBeforeOpen).closeModal();
+            new ModalWindow(focusedElBeforeOpen).closeModal();
         })
     }
 
     showOfficeSelector(focusedElBeforeOpen) {
-        new SideNavModal(focusedElBeforeOpen, this.title).createSideNavModal(OFFICE_SELECTOR_HTML);
+        new ModalWindow(focusedElBeforeOpen, this.title).createSideNavModal(OFFICE_SELECTOR_HTML);
 
         let officesArray = $(".office-option").toArray();
 

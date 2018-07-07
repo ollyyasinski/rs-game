@@ -1,5 +1,5 @@
 import { RESULTS_TABLE_HTML } from "../consts/html_consts";
-import { SideNavModal } from "./modal-window/side-nav-modal";
+import { ModalWindow } from "../components/modalWindow/modalWindow";
 
 class ResultsTable {
     constructor() {
@@ -22,7 +22,7 @@ class ResultsTable {
         this.bestResultsSortedArray = this.bestResultsSortedArray.slice(0, 10);
     };
     createResultsTable(focusedElBeforeOpen, bestResultsSortedArray) {
-        new SideNavModal(focusedElBeforeOpen, this.title).createSideNavModal(RESULTS_TABLE_HTML);
+        new ModalWindow(focusedElBeforeOpen, this.title).createSideNavModal(RESULTS_TABLE_HTML);
 
         let resultsTable = $("#resultsTable");
 

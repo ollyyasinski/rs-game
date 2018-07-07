@@ -1,7 +1,8 @@
-import { CLIP_PXS, MOVE_LENGTH, SOUND_LEVELS } from "../../../consts/slider_const";
-import { roundToTwenty } from "../../helpers";
-import { SideNavModal } from "../../modal-window/side-nav-modal";
-import { SOUND_SETTINGS_HTML } from "../../../consts/html_consts";
+import { CLIP_PXS, MOVE_LENGTH, SOUND_LEVELS } from "./consts/sliderConst";
+import { roundToTwenty } from "../../modules/helpers";
+import { ModalWindow } from "../modalWindow/modalWindow";
+import './soundSelectors.css';
+const SOUND_SETTINGS_HTML = require('./soundSelectors.html');
 
 let volume = 1,
     rate = 1,
@@ -122,7 +123,7 @@ class SoundSlider {
 
 };
 
-export class SoundSettings {
+export class SoundSelectors {
     constructor() {
         this.title = 'Sound Settings';
         this.volumeBtn = "#volumeBtn";
@@ -136,12 +137,12 @@ export class SoundSettings {
             volume = this.volumeSlider.getSoundSetting(volumeBtn);
             rate = this.speedSlider.getSoundSetting(speedBtn);
 
-            new SideNavModal(focusedElBeforeOpen).closeModal(focusedElBeforeOpen);
+            new ModalWindow(focusedElBeforeOpen).closeModal(focusedElBeforeOpen);
         });
     }
 
     showSoundSelector(focusedElBeforeOpen) {
-        new SideNavModal(focusedElBeforeOpen, this.title).createSideNavModal(SOUND_SETTINGS_HTML);
+        new ModalWindow(focusedElBeforeOpen, this.title).createSideNavModal(SOUND_SETTINGS_HTML);
 
         this.volumeSlider.createSoundSlider(volume);
         this.speedSlider.createSoundSlider(rate);

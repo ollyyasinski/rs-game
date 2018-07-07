@@ -7,7 +7,7 @@ import { modal, spell } from './show-spell';
 import { monsterAttack } from './monster-attack';
 import { doSpell } from './do-spell';
 import { Spells } from './spells'
-import { volume, rate } from './game-settings/sound-slider/sound-selector'
+import { volume, rate } from '../components/soundSliders/soundSelectors'
 
 let blitzCount = false;
 let blitzPower = 0;

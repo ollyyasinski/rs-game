@@ -2,8 +2,8 @@ import { ResultsTable } from "../game-results";
 import { gameColor } from "../game-settings/office-selector/office-selector";
 import { SIDE_NAV_HTML, RULES_HTML } from "../../consts/html_consts";
 import { OfficeSelector } from "../game-settings/office-selector/office-selector";
-import { SoundSettings } from "../game-settings/sound-slider/sound-selector";
-import { SideNavModal } from "../modal-window/side-nav-modal";
+import { SoundSelectors } from "../../components/soundSliders/soundSelectors";
+import { ModalWindow } from "../../components/modalWindow/modalWindow";
 import { createCircleTabNav, createCircleShiftTabNav } from "../helpers";
 
 const GAME_BGD = ".game-background";
@@ -87,13 +87,13 @@ class SideNav {
     createSoundMenuItem(link) {
         $(link).click(() => {
             let focusedElBeforeOpen = document.activeElement;
-            new SoundSettings().showSoundSelector(focusedElBeforeOpen);
+            new SoundSelectors().showSoundSelector(focusedElBeforeOpen);
         });
 
         $(link).keypress(e => {
             if (e.which === 13) {
                 let focusedElBeforeOpen = document.activeElement;
-                new SoundSettings().showSoundSelector(focusedElBeforeOpen);
+                new SoundSelectors().showSoundSelector(focusedElBeforeOpen);
             }
         });
     }
@@ -116,13 +116,13 @@ class SideNav {
         $(link).click(() => {
             let focusedElBeforeOpen = document.activeElement,
                 title = "Rules";
-            new SideNavModal(focusedElBeforeOpen, title).createSideNavModal(RULES_HTML);
+            new ModalWindow(focusedElBeforeOpen, title).createSideNavModal(RULES_HTML);
         });
         $(link).keypress(e => {
             if (e.which === 13) {
                 let focusedElBeforeOpen = document.activeElement,
                     title = "Rules";
-                new SideNavModal(focusedElBeforeOpen, title).createSideNavModal(RULES_HTML);
+                new ModalWindow(focusedElBeforeOpen, title).createSideNavModal(RULES_HTML);
             }
         });
     }
