@@ -1,0 +1,338 @@
+{
+    "javaScript": [
+        [
+            "console.log(NaN == NaN);<br><br>The output will be:",
+            "false"
+        ],
+        [
+            "var c = {};<br>var d = {};<br>conslole.log(c === d);<br><br>The output will be:",
+            "false"
+        ],
+        [
+            "console.log(0 ? 'truthy' : 'falsy');<br><br>The output will be:",
+            "falsy"
+        ],
+        [
+            "(function(){<br>console.log(typeof arguments);<br>})();<br><br>The output will be:",
+            "object"
+        ],
+        [
+            "(function(x){<br>delete x;<br>console.log (x);<br>})(1);<br><br>The output will be:",
+            "1"
+        ],
+        [
+            "function test(){<br>console.log(a);<br>var a = 2;<br>}<br>test();<br><br>The output will be:",
+            "undefined"
+        ],
+        [
+            "console.log('b'+'a' + + 'a');<br><br>The output will be:",
+            "banan"
+        ],
+        [
+            "function f(){ return f; }<br>console.log(new f() instanceof f);<br><br>The output will be:",
+            "false"
+        ],
+        [
+            "var y = 1, x = y = typeof x;<br>console.log(x);<br><br>The output will be:",
+            "undefined"
+        ],
+        [
+            "let a = [1,2]<br>(function() { alert(a) })()<br><br>The output will be:",
+            "error"
+        ]
+    ],
+    "css": [
+        [
+            "body{<br>width: 500px;<br>padding: 15px;<br>}<br><br>The width will be:",
+            "530"
+        ],
+        [
+            "body{<br>width: 500px;<br>margin: 15px;<br>}<br><br>The width will be:",
+            "500"
+        ],
+        [
+            "div.first{<br>position: absolute;<br>}<br><br>div.second{<br>position: absolute;<br>}<br><br>Which div we will see:",
+            "second"
+        ],
+        [
+            "div{<br>background-color: red;<br>background-color: yellow;<br>}<br><br>What color will be:",
+            "yellow"
+        ],
+        [
+            "div{<br>color: white;<br>background-color: red;<br>background-color: yellow;<br>color: pink;<br>}<br><br>What color the text is:",
+            "pink"
+        ],
+        [
+            "body{<br>width: 500px;<br>outline: 15px solid red;<br>}<br><br>The width will be:",
+            "500"
+        ],
+        [
+            "body{<br>width: 500px;<br>border: 15px solid red;<br>}<br><br>The width will be:",
+            "530"
+        ],
+        [
+            "div{<br>width: 0;<br>height: 0;<br>border-left: 150px solid transparent;<br>border-right: 150px solid transparent;<br>border-top: 150px solid blue;<br>}<br><br>What the block will look like:",
+            "triangle"
+        ],
+        [
+            "table{<br>border-collapse: separate;<br>border-spacing: 10px 20px;<br>}<br><br>How many px will be between the columns:",
+            "10"
+        ],
+        [
+            "table{<br>border-collapse: separate;<br>border-spacing: 10px 20px;<br>}<br><br>How many px will be between the rows:",
+            "20"
+        ]
+    ],
+    "html": [
+        [
+            "&lt;table&gt;<br>&lt;tr&gt;&lt;th&gt;X&lt;/th&gt;&lt;th&gt;X&lt;/th&gt;&lt;th&gt;X&lt;/th&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;th&gt;X&lt;/th&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;th&gt;X&lt;/th&gt;&lt;th&gt;X&lt;/th&gt;&lt;/tr&gt;<br>&lt;/table&gt;<br><br>How many cells will be in the table:",
+            "6"
+        ],
+        [
+            "&lt;table&gt;<br>&lt;tr&gt;&lt;th&gt;X&lt;/th&gt;&lt;th&gt;X&lt;/th&gt;&lt;th&gt;X&lt;/th&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;th&gt;X&lt;/th&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;th&gt;X&lt;/th&gt;&lt;th&gt;X&lt;/th&gt;&lt;/tr&gt;<br>&lt;/table&gt;<br><br>How many cells the second tr occupies:",
+            "3"
+        ],
+        [
+            "&lt;form&gt;<br>&lt;label for=\"input\"&gt;First&lt;/label&gt;<br>&lt;input type=\"text\" name=\"input\" id=\"inp\"&gt;<br>&lt;label for=\"inp\"&gt;Second&lt;/label&gt;<br>&lt;/form&gt;<br><br>Which label will be associated with input:",
+            "second"
+        ],
+        [
+            "&lt;form name=\"form\"&gt;<br>&lt;label for=\"form\"&gt;First&lt;/label&gt;<br>&lt;label&gt;Second<br>&lt;input type=\"text\" name=\"input\"&gt;<br>&lt;/label&gt;<br>&lt;label for=\"input\"&gt;Third&lt;/label&gt;<br>&lt;/form&gt;<br><br>Which label will be associated with input:",
+            "second"
+        ],
+        [
+            "&lt;button name=\"Button\"&gt;Name&lt;/button&gt;<br><br>What will be written on the button:",
+            "name"
+        ],
+        [
+            "&lt;button value=\"Button\"&gt;Name&lt;/button&gt;<br><br>What will be written on the button:",
+            "name"
+        ],
+        [
+            "&lt;input type=\"button\" value=\"Click\" name=\"Button\"&gt;<br><br>What will be written on the button:",
+            "click"
+        ],
+        [
+            "&lt;input type=\"button\" value=\"Click\"&gt;<br><br>Button What will be written on the button:",
+            "click"
+        ],
+        [
+            "&lt;blockquote cite=\"Mummy\"&gt;Text&lt;cite&gt;Daddy&lt;/cite&gt;&lt;/blockquote&gt;<br><br>Which author will be listed on the page:",
+            "daddy"
+        ],
+        [
+            "&lt;input type=\"radio\" name=\"test\" id=\"First\" checked&gt;&lt;input type=\"radio\" name=\"test\" id=\"Second\" checked&gt;<br><br>Which input will be checked default:",
+            "second"
+        ]
+    ],
+    "c++": [
+        [
+            "void print(int v) { std::cout << v << std::endl; }<br>void print(bool v){ std::cout << v << std::endl; }<br>int main()<br>{ print(1); }<br><br>The output will be:",
+            "1"
+        ],
+        [
+            "void print(int v) { std::cout << v << std::endl; }<br>void print(bool v){ std::cout << v << std::endl; }<br>int main()<br>{ print(true); }<br><br>The output will be:",
+            "1"
+        ],
+        [
+            "void print(int v) { std::cout << v << std::endl; }<br>void print(bool v){ std::cout << v << std::endl; }<br>int main()<br>{ print(\"Hello world\"); }<br><br>The output will be:",
+            "1"
+        ],
+        [
+            "void print(int v) { std::cout << v << std::endl; }<br>int main()<br>{<br>print(\"Hello world\");<br>}<br><br>The output will be:",
+            "error"
+        ],
+        [
+            "int main() {<br>for (int i = 0; i < 4; ++i)<br>{ switch (i) {<br>case 0  : std::cout << \"0\";<br>case 1  : std::cout << \"1\"; continue;<br>case 2  : std::cout << \"2\"; break;<br>default : std::cout << \"D\"; break; }<br>std::cout << \".\"; }<br>return 0; }<br><br>The output will be:",
+            "0112.d."
+        ],
+        [
+            "int main() {<br>for (int i = 0; i < 4; ++i)<br>{ switch (i) {<br>case 0  : std::cout << \"0\";<br>case 1  : std::cout << \"1\"; continue;<br>case 2  : std::cout << \"2\";<br>default : std::cout << \"D\"; break; }<br>std::cout << \".\"; }<br>return 0; }<br><br>The output will be:",
+            "0112d.d."
+        ],
+        [
+            "int main() {<br>for (int i = 0; i < 4; ++i)<br>{ switch (i) {<br>case 0  : std::cout << \"0\";<br>case 1  : std::cout << \"1\";<br>case 2  : std::cout << \"2\";<br>default : std::cout << \"D\"; break; }<br>std::cout << \".\"; }<br>return 0; }<br><br>The output will be:",
+            "012d.12d.2d.d."
+        ],
+        [
+            "int main() {<br>int x = 0;<br>switch(x) {<br>case 1: cout << \"Lan\";<br>case 0: cout << \"Ban\";<br>case 2: cout << \"An\"; }<br>}<br><br>The output will be:",
+            "banan"
+        ],
+        [
+            "int main() {<br>int x = 1;<br>switch(x) {<br>case 1: cout << \"Lan\";<br>case 0: cout << \"Ban\";<br>case 2: cout << \"An\"; }<br>}<br><br>The output will be:",
+            "lanbanan"
+        ],
+        [
+            "int main() {<br>int x = 1;<br>switch(x) {<br>case 1: cout << \"Lan\";<br>case 0: cout << \"Ban\"; break;<br>case 2: cout << \"An\"; }<br>}<br><br>The output will be:",
+            "lanban"
+        ]
+    ],
+    "java": [
+        [
+            "Float f1 = new Float(Float.NaN);<br>Float f2 = new Float(Float.NaN);<br>System.out.println(f1 == f2);<br><br>The output will be:",
+            "false"
+        ],
+        [
+            "Float f1 = new Float(Float.NaN);<br>Float f2 = new Float(Float.NaN);<br>System.out.println(f1.equals(f2));<br><br>The output will be:",
+            "true"
+        ],
+        [
+            "System.out.println(Float.NaN == Float.NaN);<br><br>The output will be:",
+            "false"
+        ],
+        [
+            "Integer a = 120;<br>Integer b = 120;<br>Integer c = 130;<br>Integer d = 130;<br>System.out.println(a == b);<br><br>The output will be:",
+            "true"
+        ],
+        [
+            "Integer a = 120;<br>Integer b = 120;<br>Integer c = 130;<br>Integer d = 130;<br>System.out.println(c == d);<br><br>The output will be:",
+            "false"
+        ],
+        [
+            "public static void main(String [] args)<br>{<br>String s = \"ONE\"+3+2+\"TWO\";<br>System.out.println(s);<br>}<br><br>The output will be:",
+            "one32two"
+        ],
+        [
+            "public class Main {<br>public static void main(String[] args) {<br>System.out.println(args.length);<br>}<br>}<br><br>The output will be:",
+            "0"
+        ],
+        [
+            "int i = 0;<br>System.out.print(++i);<br>System.out.print(i++);<br>System.out.print(i);<br><br>The output will be:",
+            "112"
+        ],
+        [
+            "int[][] array = {{1, 2, 3}, {0, 0, 0,},};<br>System.out.println(Arrays.deepToString(array));<br><br>The output will be:",
+            "[[1,2,3],[0,0,0]]"
+        ],
+        [
+            "long year = 201l;<br>System.out.print(year);<br><br>The output will be:",
+            "201"
+        ]
+    ],
+    "php": [
+        [
+            "$numeric = 42;<br>$type = gettype(gettype($numeric + 0.0));<br>echo $type;<br><br>The output will be:",
+            "string"
+        ],
+        [
+            "$a = 11;<br>$b = 22;<br>$c = 33;<br>echo $b = $a = $c;<br><br>The output will be:",
+            "33"
+        ],
+        [
+            "$state = array (\"Karnataka\", \"Goa\", \"Tamil Nadu\",\"Andhra Pradesh\");<br>echo (array_search (\"Tamil Nadu\", $state) );<br><br>The output will be:",
+            "2"
+        ],
+        [
+            "$fruits = array('apple', 0, 'banana', 1, 'orange');<br>for each ($fruits as $fruit) {<br>echo $fruit;<br>}<br><br>The output will be:",
+            "error"
+        ],
+        [
+            "echo 'Hello';<br>if (false)<br>echo \"PHP \"; echo \" Friend\";<br>echo \"!\";<br><br>The output will be:",
+            "hello friend!"
+        ],
+        [
+            "echo 'Hello';<br>if (false){<br>echo \"PHP \"; echo \" Friend\";<br>}<br>echo \"!\";<br><br>The output will be:",
+            "hello!"
+        ],
+        [
+            "$string = 'PHP';<br>if (print 'PHP' == (100-99)) {<br>echo 'B';<br>} else if (print 'PHP' == $string) {<br>echo 'A';<br>} else {<br>echo 'C';<br>};<br><br>The output will be:",
+            "b"
+        ],
+        [
+            "echo \"Результат: \" . 2 + 2;<br><br>The output will be:",
+            "2"
+        ],
+        [
+            "function some(){<br>return 1;<br>return 2;<br>return 3;<br>}<br>echo some();<br><br>The output will be:",
+            "1"
+        ],
+        [
+            "abstract class ololo{<br>static function dontDoIt(){<br>print \"wow\";<br>}<br>abstract function doIt();<br>}<br>ololo::dontDoIt();<br><br>The output will be:",
+            "wow"
+        ]
+    ],
+    "ruby": [
+        [
+            "a = [ \"d\", \"a\", \"e\", \"c\", \"b\" ]<br>puts a.sort {|x,y| y <=> x }<br><br>The output will be:",
+            "edcba"
+        ],
+        [
+            "arr = [1, -2, 5, -4]<br>p (0..arr.size-2).all?{ |x| (arr[x] * arr[x+1]) < 0 }<br><br>The output will be:",
+            "true"
+        ],
+        [
+            "arr = [5, 1, -2, 5, -4]<br>p (0..arr.size-2).all?{ |x| (arr[x] * arr[x+1]) < 0 }<br><br>The output will be:",
+            "false"
+        ],
+        [
+            "arr = [1, 2, 3, 4, 5]<br>ab = (3..5)<br>p arr&ab.to_a<br><br>The output will be:",
+            "[3,4,5]"
+        ],
+        [
+            "arr = [5, 7, 3, 4, 6]<br>ab = (0..2)<br>p arr&ab.to_a<br><br>The output will be:",
+            "[]"
+        ],
+        [
+            "a = [1, 2, 3, 4, 5, 6, 7, 8]<br>p a.reject{ |i| i.even? }.max<br><br>The output will be:",
+            "7"
+        ],
+        [
+            "str = \"acBdeFg\"<br>a=str.scan(/[a-z]/)<br>p a==a.sort<br><br>The output will be:",
+            "true"
+        ],
+        [
+            "str = \"dog cat duck\"<br>p str.split.size<br><br>The output will be:",
+            "3"
+        ],
+        [
+            "n=321<br>m1=n.to_s.split(//)<br>p m1==m1.sort.reverse<br><br>The output will be:",
+            "true"
+        ],
+        [
+            "n=1544<br>m=n.to_s.split(//)<br>p m.uniq==m<br><br>The output will be:",
+            "false"
+        ]
+    ],
+    "python3": [
+        [
+            "print(type(1 / 2))<br><br>The class will be:",
+            "float"
+        ],
+        [
+            "print(type(2 / 1))<br><br>The class will be:",
+            "float"
+        ],
+        [
+            "kvps  = {\"user\",\"bill\", \"password\",\"hillary\"}<br>print(kvps['password'])<br><br>The output will be:",
+            "error"
+        ],
+        [
+            "x = 4.5<br>y = 2<br>print(x // y)<br><br>The output will be:",
+            "2.0"
+        ],
+        [
+            "a = [1,2,3,None,(),[],]<br>print(len(a))<br><br>The output will be:",
+            "6"
+        ],
+        [
+            "name = \"snow storm\"<br>print(\"%s\" % name[6:8])<br><br>The output will be:",
+            "to"
+        ],
+        [
+            "print((0 < 5 <= 3) and (0 / 0))<br><br>The output will be:",
+            "false"
+        ],
+        [
+            "def summ(arg1, arg2):<br>return arg1 + arg2<br>num = 1, 2<br>print (summ(num))<br><br>The output will be:",
+            "error"
+        ],
+        [
+            "print (\"{0:*^15}\".format(1234567))<br><br>The output will be:",
+            "****1234567****"
+        ],
+        [
+            "a, b = 0, 1<br>while b < 5:<br>print(b, end = '')<br>a, b = b, a + b<br><br>The output will be:",
+            "1123"
+        ]
+    ]
+}

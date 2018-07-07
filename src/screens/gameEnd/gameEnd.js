@@ -1,7 +1,7 @@
-import { Dialogs, dialogActions } from '../../modules/dialogs'
+import { Dialogs, dialogActions } from '../../components/dialogs/dialogs'
 import { Office } from '../../components/office/office'
-import { SideNav } from '../../modules/game-settings/game-settings'
-import { BOSS_OFFICE } from '../../consts/office_consts';
+import { SideNav } from '../../components/gameSettings/gameSettings'
+import { BOSS_OFFICE } from '../../components/officeSelector/consts/officeConsts';
 import { player, selectedOffice, level } from '../levels/levels';
 
 export class GameEnd {

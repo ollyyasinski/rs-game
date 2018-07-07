@@ -1,4 +1,4 @@
-import { createCircleTabNav, createCircleShiftTabNav } from "../../modules/helpers";
+import { createCircleTabNav, createCircleShiftTabNav } from "../helpers/helpers";
 import './modalWindow.css';
 const MODAL_HTML = require('./modalWindow.html');
 

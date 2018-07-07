@@ -1,0 +1,12 @@
+[
+	["I click on this button but nothing happens. I think it's a ", ".", ["bug", "error", "mistake", "fault"]],
+	["This ", " was amazing! I learned a lot about Java.", ["meeting", "meet-up", "meetup", "lecture", "conference"]],
+	["I need to ", " my phone. It's only 10% left.", ["recharge", "charge"]],
+	["", " is my favorite science. Figures never lie.", ["math", "mathematics"]],
+	["Something is wrong with this ", ". It must return a number, not a string.", ["function", "method", "technique", "solution"]],
+	["If you like this track, you can ", " it in iTunes.", ["download", "find", "listen", "buy"]],
+	["Please ", " your work to Github. I want to see what you have done today.", ["send", "commit", "push"]],
+	["We can't continue the work until Mark finishes his part of the ", ".", ["code", "work", "programm"]],
+	["I never buy ", " programs. People should receive money for their work.", ["illegal", "stolen", "free"]],
+	["If you need any ", ", ask John. He's an expert. ", ["information", "info", "help", "consultation"]]
+]

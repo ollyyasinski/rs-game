@@ -1,12 +1,12 @@
-import { chooseLanguage, randomArrayElem, createBattle } from '../../modules/helpers';
-import { Dialogs, dialogActions } from '../../modules/dialogs';
+import { chooseLanguage, randomArrayElem, createBattle } from '../../components/helpers/helpers';
+import { Dialogs, dialogActions } from '../../components/dialogs/dialogs';
 import { Office } from '../../components/office/office';
-import { SideNav } from '../../modules/game-settings/game-settings';
+import { SideNav } from '../../components/gameSettings/gameSettings';
 import { languages, offices } from "../../variables/arrays";
-import { MonsterGenerator } from '../../modules/monster-generator';
-import { Monster } from '../../modules/monster-object';
-import { showSpell } from '../../modules/show-spell';
-import { MONSTER_HEAD_ARRAY, MONSTER_BODY_ARRAY, MONSTER_LEGS_ARRAY } from '../../consts/monster_consts';
+import { MonsterGenerator } from '../../components/monster-generator/monsterGenerator';
+import { Monster } from '../../screens/levels/monster-object';
+import { showSpell } from '../../components/spells/show-spell';
+import { MONSTER_HEAD_ARRAY, MONSTER_BODY_ARRAY, MONSTER_LEGS_ARRAY } from '../../components/monster-generator/consts/monster_consts';
 import { player } from '../reception/reception';
 
 import aQ from '../../../assets/questions/attackQuestions.json'

@@ -1,5 +1,5 @@
 import { CLIP_PXS, MOVE_LENGTH, SOUND_LEVELS } from "./consts/sliderConst";
-import { roundToTwenty } from "../../modules/helpers";
+import { roundToTwenty } from "../helpers/helpers";
 import { ModalWindow } from "../modalWindow/modalWindow";
 import './soundSelectors.css';
 const SOUND_SETTINGS_HTML = require('./soundSelectors.html');

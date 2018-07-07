@@ -1,0 +1,338 @@
+{
+    "javaScript": [
+        [
+            "The method used to remove the last element from an array and return that element.",
+            "pop"
+        ],
+        [
+            "The static method used to define a new property directly on an object, or modifie an existing property on an object, and return the object.",
+            "defineproperty"
+        ],
+        [
+            "The method used to return a string representing the object.",
+            "tostring"
+        ],
+        [
+            "The method used to return a string with a language sensitive representation of this number.",
+            "tolocalestring"
+        ],
+        [
+            "The method used to call a function with a given this value and arguments provided individually.",
+            "call"
+        ],
+        [
+            "The method used to return the time portion of a Date object in human readable form in American English.",
+            "totimestring"
+        ],
+        [
+            "The method used to return the number of milliseconds elapsed since January 1, 1970 00:00:00 UTC.",
+            "now"
+        ],
+        [
+            "The method used to add one or more elements to the beginning of an array and return the new length of the array.",
+            "unshift"
+        ],
+        [
+            "The method used to create a new array with the results of calling a provided function on every element in the calling array.",
+            "map"
+        ],
+        [
+            "The method used to merge two or more arrays.",
+            "concat"
+        ]
+    ],
+    "css": [
+        [
+            "The property used to align flex items of the current flex line in the perpendicular direction.",
+            "align-items"
+        ],
+        [
+            "The pseudo-class used to match elements based on their position in a group of siblings.",
+            ":nth-child"
+        ],
+        [
+            "The property letting you round the corners of an element's outer border edge.",
+            "border-radius"
+        ],
+        [
+            "The property which can show or hide an element without affecting the layout of a document",
+            "visibility"
+        ],
+        [
+            "The property defining the type of rendering box used for an element.",
+            "display"
+        ],
+        [
+            "The property specifying that an element should be placed along the left or right side of its container, allowing text and inline elements to wrap around it.",
+            "float"
+        ],
+        [
+            "The pseudo-class representing any <input> or other <form> element whose contents fail to validate.",
+            ":invalid"
+        ],
+        [
+            "The property specifying the appearance of decorative lines used on text.",
+            "text-decoration"
+        ],
+        [
+            "The property specifying under what circumstances (if any) a particular graphic element can become the target of mouse events.",
+            "pointer-events"
+        ],
+        [
+            "The property specifying what to do when an element's content is too large to fit in its block formatting context.",
+            "overflow"
+        ]
+    ],
+    "html": [
+        [
+            "The element indicating that the enclosed HTML provides contact information for a person or people, or for an organization.",
+            "<address>"
+        ],
+        [
+            "The element representing introductory content, typically a group of introductory or navigational aids.",
+            "<header>"
+        ],
+        [
+            "The element  indicating that the enclosed text is an extended quotation.",
+            "<blockquote>"
+        ],
+        [
+            "The element representing the dominant content of the &lt;body&gt; of a document, portion of a document or application.",
+            "<main>"
+        ],
+        [
+            "The element defining a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser.",
+            "<noscript>"
+        ],
+        [
+            "The element defining a set of rows defining the head of the columns of the table.",
+            "<thead>"
+        ],
+        [
+            "The element representing a document section that contains interactive controls for submitting information to a web server.",
+            "<form>"
+        ],
+        [
+            "The element representing a caption for an item in a user interface.",
+            "<label>"
+        ],
+        [
+            "The element representing a multi-line plain-text editing control.",
+            "<textarea>"
+        ],
+        [
+            "The element specifying a term in a description or definition list.",
+            "<dt>"
+        ]
+    ],
+    "c++": [
+        [
+            "The keyword deallocating the space previously allocated by std::malloc(), std::calloc() or std::realloc().",
+            "free"
+        ],
+        [
+            "The keyword allocating size bytes of uninitialized storage.",
+            "malloc"
+        ],
+        [
+            "The function comparing two null-terminated byte strings lexicographically.",
+            "strcmp"
+        ],
+        [
+            "The function calculating the product of the first and second specified arguments, and then adds the third specified argument.",
+            "mad"
+        ],
+        [
+            "The function, determining the sign of the specified argument.",
+            "sign"
+        ],
+        [
+            "The function which is not a member of the class, but has access to private and protected members of the class.",
+            "friend"
+        ],
+        [
+            "The function comparing two values, returning 0 or 1 depending on which value is greater.",
+            "step"
+        ],
+        [
+            "The function generating a random value by using the Perlin noise algorithm.",
+            "noise"
+        ],
+        [
+            "A keyword indicating that the virtual member will receive a new cell in the vtable table.",
+            "new"
+        ],
+        [
+            "Function determining the maximum numeric value of the arguments.",
+            "umax"
+        ]
+    ],
+    "java": [
+        [
+            "The keyword for a method that returns nothing.",
+            "void"
+        ],
+        [
+            "The numeric type for 16 bits.",
+            "short"
+        ],
+        [
+            "The package for input and output operations.",
+            "io"
+        ],
+        [
+            "The package for working with graphics and creating a GUI.",
+            "awt"
+        ],
+        [
+            "The package with main utilities.",
+            "util"
+        ],
+        [
+            "The package for cryptographic operations.",
+            "crypto"
+        ],
+        [
+            "The method defining actions in moment before the object deleted by the garbage collector.",
+            "finalize"
+        ],
+        [
+            "The keyword representing the current instance of the parent class.",
+            "super"
+        ],
+        [
+            "The method checking whether two objects are equivalent.",
+            "equals"
+        ],
+        [
+            "The keyword allowing you to check the assumptions about the values of arbitrary data at any place in the program.",
+            "assert"
+        ]
+    ],
+    "php": [
+        [
+            "The function drawing an arc of a circle with given coordinates of the center.",
+            "imagearc"
+        ],
+        [
+            "The function converting binary data to a hexadecimal representation.",
+            "bin2hex"
+        ],
+        [
+            "The function returning a string length.",
+            "strlen"
+        ],
+        [
+            "The function displaying information about the current configuration of PHP.",
+            "phpinfo"
+        ],
+        [
+            "The function returning the type of a variable.",
+            "gettype"
+        ],
+        [
+            "The function returning the number of array elements or object properties.",
+            "count"
+        ],
+        [
+            "The function sorting the array by keys in the reverse order.",
+            "krsort"
+        ],
+        [
+            "The function returning the absolute value of number.",
+            "abs"
+        ],
+        [
+            "The function which uppercase the first character of each word in a string",
+            "ucwords"
+        ],
+        [
+            "The function returning the height of the given image.",
+            "imagesy"
+        ]
+    ],
+    "ruby": [
+        [
+            "The keyword removing a method definition.",
+            "undef"
+        ],
+        [
+            "The method returning a new array without duplicate values.",
+            "uniq"
+        ],
+        [
+            "The method adding elements to the beginning of an array.",
+            "unshift"
+        ],
+        [
+            "The method choosing a random element (or elements) from the array.",
+            "sample"
+        ],
+        [
+            "The method searching through the array whose elements are also arrays.",
+            "rassoc"
+        ],
+        [
+            "The method invoking the given block once for each element of array.",
+            "map"
+        ],
+        [
+            "The method returning the cube root of value.",
+            "cbrt"
+        ],
+        [
+            "The function returning the number of array elements",
+            "count"
+        ],
+        [
+            "The function returning a copy of array with all nil elements removed.",
+            "compact"
+        ],
+        [
+            "The function removing all elements from array.",
+            "clear"
+        ]
+    ],
+    "python3": [
+        [
+            "The function generating arithmetic progressions.",
+            "range"
+        ],
+        [
+            "The function returning an ordered list of names in a module",
+            "dir"
+        ],
+        [
+            "The method checking whether an object belongs to a class or a subclass.",
+            "isinstance"
+        ],
+        [
+            "The keyword for function declaration.",
+            "def"
+        ],
+        [
+            "The keyword for declaring elementary functions",
+            "lambda"
+        ],
+        [
+            "The method adding an element to the end of the list.",
+            "append"
+        ],
+        [
+            "A keyword turning any function into a generator.",
+            "yield"
+        ],
+        [
+            "The function returning the string length.",
+            "len"
+        ],
+        [
+            "The function checking if the string consists of numbers.",
+            "isdigit"
+        ],
+        [
+            "The function, converting a string to lowercase.",
+            "lower"
+        ]
+    ]
+}

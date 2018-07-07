@@ -1,12 +1,11 @@
-import { createPlayer } from '../../modules/helpers';
-import { Dialogs } from '../../modules/dialogs';
-import { Office } from '../../components/office/office'
-import { SideNav } from '../../modules/game-settings/game-settings'
-import { RECEPTION } from '../../consts/office_consts'
+import { Dialogs, dialogActions } from '../../components/dialogs/dialogs';
+import { Office } from '../../components/office/office';
+import { SideNav } from '../../components/gameSettings/gameSettings';
+import { RECEPTION } from '../../components/officeSelector/consts/officeConsts';
 import { Level } from '../levels/levels';
-import { GameEnd } from '../gameEnd/gameEnd';
+import { player } from '../home/homeScreen';
 
-let selectedOffice, player;
+let selectedOffice;
 
 let synth = window.speechSynthesis;
 
@@ -14,7 +13,6 @@ export class Reception {
     constructor() { }
 
     createReception() {
-        player = createPlayer();
         selectedOffice = RECEPTION;
         $('body').css('overflow', 'hidden');
 
@@ -22,12 +20,11 @@ export class Reception {
             dialogText = new Dialogs().instructions(),
             nextFocusableEl = "door-right";
 
-
         reception.createOffice();
         reception.addHero(player.character, true);
 
         new SideNav(nextFocusableEl).createSideNav();
-        // new dialogActions().showTimeoutDialog(dialogText, 100, 'female');
+        new dialogActions().showTimeoutDialog(dialogText, 100, 'female');
 
         $('.door-right').click(() => {
             synth.cancel();

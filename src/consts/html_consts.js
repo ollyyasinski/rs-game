@@ -10,24 +10,6 @@ const
   </ul>
 </div>`,
 
-OFFICE_SELECTOR_HTML = `<div class="menu-modal-section">
-      <div class="offices-grid">
-        <div class="offices-row-1">
-          <div class="office-option office-option-1-1 selected" tabindex="0"></div>
-          <div class="office-option office-option-1-2" tabindex="0"></div>
-          <div class="office-option office-option-1-3" tabindex="0"></div>
-          <div class="office-option office-option-1-4" tabindex="0"></div>
-        </div>
-        <div class="offices-row-2">
-          <div class="office-option office-option-2-1" tabindex="0"></div>
-          <div class="office-option office-option-2-2" tabindex="0"></div>
-          <div class="office-option office-option-2-3" tabindex="0"></div>
-      </div>
-    </div>
-    <div class="menu-modal-submit-wrapper">
-      <button type="button" class="btn btn-danger menu-btn" id="saveOfficeBtn">Save</button>
-    </div>
-  </div>`,
 
   PLAY_AGAIN_BTN_HTML = `<div class="menu-modal-submit-wrapper">
                           <a href="https://anleonovich.github.io/Final-Game/" class="new-play-link">

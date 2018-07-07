@@ -1,4 +1,4 @@
-import { gameColor } from "../../modules/game-settings/game-settings";
+import { gameColor } from "../gameSettings/gameSettings";
 import { Door } from './door/door';
 
 const TWO_DOOR_OFFICE_HTML = require('./officeHtmls/twoDoorOffice.html');

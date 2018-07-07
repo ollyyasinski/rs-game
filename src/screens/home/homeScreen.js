@@ -1,5 +1,8 @@
-import { selectElementByClick } from '../../modules/helpers'
+import { selectElementByClick } from '../../components/helpers/helpers';
+import { createPlayer } from '../../components/helpers/helpers';
 import { Reception } from '../reception/reception';
+
+let player;
 
 export class HomeScreen {
     constructor() { }
@@ -16,7 +19,12 @@ export class HomeScreen {
                     $(div).addClass('selected');
                 }
             })
-        })
+        });
+
+        player = createPlayer();
+
         $('#startGame').click(new Reception().createReception);
     }
 }
+
+export { player };

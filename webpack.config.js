@@ -21,7 +21,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.(jpg|png)$/,
-				loader: 'file-loader?name=/assets/..[name].[ext]'
+				loader: 'url-loader?name=img/[name].[ext]'
 			},
 			{
 				test: /\.(eot|svg|ttf|woff|woff2)$/,
@@ -58,7 +58,7 @@ module.exports = {
 			jQuery: 'jquery'
 		}),
 		new HtmlWebpackPlugin({
-			template: "index.html",
+			template: "./index.html",
 			filename: "./index.html"
 		})
 	]
