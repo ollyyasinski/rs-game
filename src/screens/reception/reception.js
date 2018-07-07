@@ -37,10 +37,10 @@ export class Reception {
         $('.door-right').keypress(e => {
             if (e.which === 13) {
                 synth.cancel();
-                setTimeout(new GameEnd().createGameEndScreen(), 1500);
+                setTimeout(new Level().createLevelPage(), 1500);
             }
         })
     }
 }
 
-export { player }
+export { player, selectedOffice }

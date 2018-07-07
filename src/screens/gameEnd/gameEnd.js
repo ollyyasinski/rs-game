@@ -20,3 +20,5 @@ export class GameEnd {
         new dialogActions().showTimeoutDialog([dialogText], 500);
     }
 }
+
+export { selectedOffice };

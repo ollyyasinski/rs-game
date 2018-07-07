@@ -21,7 +21,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.(jpg|png)$/,
-				loader: 'file-loader?name=/assets/img/**/[name].[ext]'
+				loader: 'file-loader?name=/assets/..[name].[ext]'
 			},
 			{
 				test: /\.(eot|svg|ttf|woff|woff2)$/,
