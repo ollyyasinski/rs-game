@@ -48,6 +48,7 @@ export class monsterAttack {
       document.querySelector('.hero-shield__number').innerHTML = player.shield;
       setTimeout(function () {
         document.querySelector('.spells').classList.toggle('showSpells');
+        $('.attack').focus();
       }, 2500);
     }
   }
@@ -59,6 +60,7 @@ export class monsterAttack {
     new showSpell().shield('monster');
     setTimeout(function () {
       document.querySelector('.spells').classList.toggle('showSpells');
+      $('.attack').focus();
     }, 2500);
   }
   heal() {
@@ -74,6 +76,7 @@ export class monsterAttack {
     new showSpell().heal('monster');
     setTimeout(function () {
       document.querySelector('.spells').classList.toggle('showSpells');
+      $('.attack').focus();
     }, 2500);
   }
 }
