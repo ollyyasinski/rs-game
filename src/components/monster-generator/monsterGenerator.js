@@ -1,6 +1,6 @@
 import { addRandomClass } from '../helpers/helpers';
 import { ROLE_ARRAY, NAME_ARRAY, SECOND_NAME_ARRAY } from './consts/monster_consts';
-import './css/monster-legs.css';
+import './css/monsters-main.css';
 
 export class MonsterGenerator {
   constructor(head, body, legs) {
