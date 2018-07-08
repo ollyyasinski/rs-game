@@ -1,5 +1,6 @@
-import { result } from './give-task'
-import { showIfAnswerCorrect, showIfAnswerWrong } from '../helpers/helpers'
+import { result } from './give-task';
+import { showIfAnswerCorrect, showIfAnswerWrong } from '../helpers/helpers';
+import { KeyboardEvents } from './consts/taskConsts';
 
 let answerArray = [];
 
@@ -49,7 +50,7 @@ export class checkAnswer {
   submitAnswer(selector, check, key) {
     if (key) {
       $(selector).keypress(e => {
-        if (e.which == 13) {
+        if (e.which === KeyboardEvents.ENTER) {
           check();
           $(selector).blur();
         }

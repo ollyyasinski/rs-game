@@ -3,6 +3,7 @@ import { randomArrayElem, createReadableText, setVoiceGender } from '../helpers/
 import { SideNav } from '../gameSettings/gameSettings'
 import { lose } from '../levelResults/levelResults';
 import { level, levelLanguage, monster } from '../../screens/levels/levels';
+import { KeyboardEvents } from './consts/dialogConsts';
 
 let synth = window.speechSynthesis;
 
@@ -91,7 +92,7 @@ export class dialogActions {
     dialogButton.focus();
     dialogButton.click(new dialogActions().closeDialog);
     dialogButton.keydown(e => {
-      if (e.which === 13) {
+      if (e.which === KeyboardEvents.ENTER) {
         new dialogActions().closeDialog;
       }
     })

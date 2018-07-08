@@ -10,6 +10,11 @@ const CLIP_PXS = 'px,8px, 183px,0px)',
         { 120: 0.3 },
         { 140: 0.1 },
         { 160: 0 }
-    ];
+    ],
+    KeyboardEvents = {
+        ENTER: 13,
+        TAB: 9
+    };
 
-export { CLIP_PXS, MOVE_LENGTH, SOUND_LEVELS }
+
+export { CLIP_PXS, MOVE_LENGTH, SOUND_LEVELS, KeyboardEvents }

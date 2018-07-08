@@ -9,8 +9,13 @@ const ATTACK_SOUNDS = _.range(1, 9),
     HEAL_SOUNDS = _.range(1, 7),
     SHILED_SOUNDS = _.range(1, 5);
 
+const KeyboardEvents = {
+    ENTER: 13,
+    TAB: 9
+};
+
 
 export {
     ATTACK_POWER, SHIELD_POWER, HEAL_POWER, PLAYER_MAX_HEALTH, SUPER_ATTACK_POWER,
-    ATTACK_SOUNDS, HEAL_SOUNDS, SHILED_SOUNDS
+    ATTACK_SOUNDS, HEAL_SOUNDS, SHILED_SOUNDS, KeyboardEvents
 }

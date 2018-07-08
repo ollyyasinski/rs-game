@@ -8,6 +8,7 @@ import { monsterAttack } from '../spells/monster-attack';
 import { doSpell } from '../spells/do-spell';
 import { Spells } from '../spells/spells';
 import { volume, rate } from '../soundSliders/soundSelectors';
+import { KeyboardEvents } from './consts/helpersConsts';
 
 let blitzCount = false;
 let blitzPower = 0;
@@ -238,7 +239,7 @@ let randomTasksArray = () => {
 
 let createCircleTabNav = (lastFocusableEl, firstFocusableEl) => {
   $(lastFocusableEl).keydown(e => {
-    if (e.which === 9) {
+    if (e.which === KeyboardEvents.TAB) {
       e.preventDefault();
       firstFocusableEl.focus();
     }
@@ -247,7 +248,7 @@ let createCircleTabNav = (lastFocusableEl, firstFocusableEl) => {
 
 let createCircleShiftTabNav = (lastFocusableEl, firstFocusableEl) => {
   $(firstFocusableEl).keydown(e => {
-    if (e.shiftKey && e.keyCode === 9) {
+    if (e.shiftKey && e.keyCode === KeyboardEvents.TAB) {
       e.preventDefault();
       lastFocusableEl.focus();
     }

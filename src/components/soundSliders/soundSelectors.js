@@ -1,6 +1,7 @@
-import { CLIP_PXS, MOVE_LENGTH, SOUND_LEVELS } from "./consts/sliderConst";
+import { CLIP_PXS, MOVE_LENGTH, SOUND_LEVELS, KeyboardEvents } from "./consts/sliderConst";
 import { roundToTwenty } from "../helpers/helpers";
 import { ModalWindow } from "../modalWindow/modalWindow";
+
 import './soundSelectors.css';
 const SOUND_SETTINGS_HTML = require('./soundSelectors.html');
 
@@ -68,7 +69,7 @@ class SoundSlider {
         $(this.minusBtn).on('click', actOnMinusBtn);
 
         $(this.minusBtn).keypress(e => {
-            if (e.which === 13) {
+            if (e.which === KeyboardEvents.ENTER) {
                 actOnMinusBtn();
             }
         });
@@ -96,7 +97,7 @@ class SoundSlider {
         $(this.plusBtn).on('click', actOnPlusBtn);
 
         $(this.plusBtn).keypress(e => {
-            if (e.which === 13) {
+            if (e.which === KeyboardEvents.ENTER) {
                 actOnPlusBtn();
             }
         });

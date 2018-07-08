@@ -1,6 +1,6 @@
 import { selectElementByClick, selectElementByEnter } from "../helpers/helpers";
 import { ModalWindow } from "../modalWindow/modalWindow";
-import { OFFICE_COLORS } from "./consts/officeConsts";
+import { OFFICE_COLORS, KeyboardEvents } from "./consts/officeConsts";
 import { selectedOffice as levelSelectedOffice } from "../../screens/levels/levels";
 import { selectedOffice as receptionSelectedOffice } from "../../screens/reception/reception";
 import { selectedOffice as bossSelectedOffice } from "../../screens/gameEnd/gameEnd";
@@ -30,7 +30,7 @@ export class OfficeSelector {
             $(officesArray[i]).click(selectElementByClick);
 
             $(officesArray[i]).keypress(e => {
-                if (e.which === 13) {
+                if (e.which === KeyboardEvents.ENTER) {
                     selectElementByEnter(officesArray[i]);
                 }
             });

@@ -9,4 +9,9 @@ export const RULES_HTML = `<div class="menu-modal-section">
   <p>Use the doors to go to new levels.</p>
   <p>Good luck!</p>
 </div>
-</div>`;
+</div>`,
+  KeyboardEvents = {
+    ENTER: 13,
+    TAB: 9
+  };
+

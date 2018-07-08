@@ -1,5 +1,5 @@
 import { ResultsTable } from "../gameResults/gameResults";
-import { RULES_HTML } from "./consts/gameSettingsConsts";
+import { RULES_HTML, KeyboardEvents } from "./consts/gameSettingsConsts";
 import { OfficeSelector, gameColor } from "../officeSelector/officeSelector";
 import { SoundSelectors } from "../soundSliders/soundSelectors";
 import { ModalWindow } from "../modalWindow/modalWindow";
@@ -33,7 +33,7 @@ class SideNav {
         });
 
         $(triggerBtn).keypress(e => {
-            if (e.which === 13) {
+            if (e.which === KeyboardEvents.ENTER) {
                 this.openSideNav(closeBtn);
             }
         });
@@ -49,8 +49,8 @@ class SideNav {
         $(closeBtn).click(() => {
             this.closeSideNav(triggerBtn);
         });
-        $("#closeBtn").keypress(e => {
-            if (e.which === 13) {
+        $(closeBtn).keypress(e => {
+            if (e.which === KeyboardEvents.ENTER ) {
                 this.closeSideNav(triggerBtn);
             }
         });
@@ -59,14 +59,14 @@ class SideNav {
     createSideNavView(level, levelLanguage, lastMenuLink, nextFocusableEl) {
         $(GAME_BGD).append(SIDE_NAV_HTML);
 
-        this.triggerSideNavOpen(this.humburgerBtn, this.closeBtn);
         this.triggerSideNavClose(this.humburgerBtn, this.closeBtn);
+        this.triggerSideNavOpen(this.humburgerBtn, this.closeBtn);
 
         createCircleTabNav($(lastMenuLink), $(this.closeBtn));
         createCircleShiftTabNav($(lastMenuLink), $(this.closeBtn));
 
-        // createCircleTabNav($(this.humburgerBtn), $(nextFocusableEl));
-        // createCircleShiftTabNav($(this.humburgerBtn), $(nextFocusableEl));
+        createCircleTabNav($(this.humburgerBtn), $(nextFocusableEl));
+        createCircleShiftTabNav($(this.humburgerBtn), $(nextFocusableEl));
 
     }
 
@@ -77,7 +77,7 @@ class SideNav {
         });
 
         $(link).keypress(e => {
-            if (e.which === 13) {
+            if (e.which === KeyboardEvents.ENTER) {
                 let focusedElBeforeOpen = document.activeElement;
                 new OfficeSelector().showOfficeSelector(focusedElBeforeOpen);
             }
@@ -92,7 +92,7 @@ class SideNav {
         });
 
         $(link).keypress(e => {
-            if (e.which === 13) {
+            if (e.which ===KeyboardEvents.ENTER ) {
                 let focusedElBeforeOpen = document.activeElement;
                 new SoundSelectors().showSoundSelector(focusedElBeforeOpen);
             }
@@ -106,7 +106,7 @@ class SideNav {
         });
 
         $(link).keypress(e => {
-            if (e.which === 13) {
+            if (e.which === KeyboardEvents.ENTER) {
                 let focusedElBeforeOpen = document.activeElement;
                 new ResultsTable().showResults(focusedElBeforeOpen);
             }
@@ -120,7 +120,7 @@ class SideNav {
             new ModalWindow(focusedElBeforeOpen, title).createSideNavModal(RULES_HTML);
         });
         $(link).keypress(e => {
-            if (e.which === 13) {
+            if (e.which === KeyboardEvents.ENTER) {
                 let focusedElBeforeOpen = document.activeElement,
                     title = "Rules";
                 new ModalWindow(focusedElBeforeOpen, title).createSideNavModal(RULES_HTML);

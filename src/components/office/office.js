@@ -1,5 +1,6 @@
 import { gameColor } from "../gameSettings/gameSettings";
 import { Door } from './door/door';
+import {KeyboardEvents, DIALOG, DIALOG_BTN, DOOR, HERO} from './consts/officeConsts';
 
 const TWO_DOOR_OFFICE_HTML = require('./officeHtmls/twoDoorOffice.html');
 const LEFT_DOOR_OFFICE_HTML = require('./officeHtmls/leftDoorOffice.html');
@@ -28,16 +29,16 @@ class Office {
             main.innerHTML = RIGHT_DOOR_OFFICE_HTML;
             addGameBody();
 
-            $('#dialogButton').focus();
-            $('#dialogButton').keypress(e => {
-                if (e.which == 13) {
-                    $('.door').focus();
-                    $('#dialog').remove();
+            $(DIALOG_BTN).focus();
+            $(DIALOG_BTN).keypress(e => {
+                if (e.which === KeyboardEvents.ENTER) {
+                    $(DOOR).focus();
+                    $(DIALOG).remove();
                 }
             });
-            $('#dialogButton').click(() => {
-                $('.door').focus();
-                $('#dialog').remove();
+            $(DIALOG_BTN).click(() => {
+                $(DOOR).focus();
+                $(DIALOG).remove();
             });
 
             new Door($(".door-right")).openDoor();
@@ -49,9 +50,9 @@ class Office {
     };
     addHero(hero, mirror) {
         if (mirror) {
-            $(".hero-container").addClass(hero).addClass("hero-container-mirror");
+            $(HERO).addClass(hero).addClass("hero-container-mirror");
         }
-        $(".hero-container").addClass(hero);
+        $(HERO).addClass(hero);
     }
 }
 

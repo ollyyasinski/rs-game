@@ -1,5 +1,8 @@
 import { createCircleTabNav, createCircleShiftTabNav } from "../helpers/helpers";
 import './modalWindow.css';
+import './consts/windowConsts';
+import { KeyboardEvents } from "./consts/windowConsts";
+
 const MODAL_HTML = require('./modalWindow.html');
 
 export class ModalWindow {
@@ -45,7 +48,7 @@ export class ModalWindow {
 
         let closeModalOnEnter = () => {
             $(this.closeBtn).keypress(e => {
-                if (e.which === 13) {
+                if (e.which === KeyboardEvents.ENTER) {
                     this.closeModal();
                 }
             })

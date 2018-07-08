@@ -1,4 +1,6 @@
 import { Spells } from './spells';
+import { createCircleShiftTabNav, createCircleTabNav } from '../helpers/helpers';
+import { KeyboardEvents } from './consts/attack_consts';
 
 let spell, modal;
 
@@ -94,6 +96,9 @@ export class showSpell {
   }
   showSpellsCyrcle() {
     let magicArray = $('.spell').toArray();
+    createCircleShiftTabNav(magicArray[2], magicArray[0]);
+    createCircleTabNav(magicArray[2], magicArray[0]);
+
     magicArray.forEach(div => {
       $(div).click(e => {
         spell = e.target.classList[1];
@@ -103,7 +108,7 @@ export class showSpell {
       });
 
       $(div).keypress(e => {
-        if (e.which === 13) {
+        if (e.which === KeyboardEvents.ENTER) {
           spell = e.target.classList[1];
           if (spell !== 'super') {
             new showSpell().showNotSuperSpell();

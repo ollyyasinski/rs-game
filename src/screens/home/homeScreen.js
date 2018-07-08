@@ -1,12 +1,9 @@
 import { selectElementByClick, selectElementByEnter } from '../../components/helpers/helpers';
-import { createPlayer } from '../../components/helpers/helpers';
 import { Reception } from '../reception/reception';
 import './css/style.css';
 import { KeyboardEvents, START_GAME_BTN } from './consts/homeScreenConsts';
 
 const HTML = require('./index.html');
-
-let player;
 
 export class HomeScreen {
     constructor() { }
@@ -24,10 +21,7 @@ export class HomeScreen {
             });
         });
 
-        player = createPlayer();
-
+        
         $(START_GAME_BTN).click(new Reception().createReception);
     }
 }
-
-export { player };
