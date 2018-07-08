@@ -8,6 +8,7 @@ import { Monster } from '../../screens/levels/monster-object';
 import { showSpell } from '../../components/spells/show-spell';
 import { MONSTER_HEAD_ARRAY, MONSTER_BODY_ARRAY, MONSTER_LEGS_ARRAY } from '../../components/monster-generator/consts/monster_consts';
 import { player } from '../reception/reception';
+import './css/style.css';
 
 import aQ from './questions/attackQuestions.json'
 import sQ from './questions/shieldQuestions.json'

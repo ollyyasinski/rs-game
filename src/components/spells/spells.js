@@ -3,6 +3,7 @@ import { randomTasksArray, randomArrayElem } from '../helpers/helpers';
 import { modal } from './show-spell';
 import { giveTask } from '../tasks/give-task'
 import { Tasks } from '../tasks/tasks';
+import './css/spells.css';
 
 let BC = false;
 

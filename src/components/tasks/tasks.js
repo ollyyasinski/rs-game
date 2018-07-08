@@ -9,7 +9,8 @@ import countQuestions from './assets/questions/countQuestions.json'
 import nameQuestions from './assets/questions/nameTask.json'
 import addWordQuestions from './assets/questions/addWordTask.json'
 import celebritiesQuestions from './assets/questions/celebritiesQuestions.json'
-import ddQuestions from './assets/questions/d&dQuestions.json'
+import ddQuestions from './assets/questions/d&dQuestions.json';
+import './task-modal.css';
 
 let englishVocab = vocabulary.english;
 

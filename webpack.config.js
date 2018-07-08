@@ -4,28 +4,28 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 module.exports = {
-	// devtool: 'source-map',
-	entry: './src/script.js',
-	// output: {
-	// 	path: path.join(__dirname, 'build'),
-	// 	filename: 'bundle.js',
-	// 	publicPath: './build/'
-	// },
-	// devServer: {
-	// publicPath: "./build/",
-	// 	contentBase: path.join(__dirname, '/'),
-	// 	watchContentBase: true,
-	// 	hot: true
-	// },
+	devtool: 'source-map',
+	entry: './src/app.js',
+	output: {
+		path: path.join(__dirname, 'dist'),
+		filename: 'bundle.js'
+	},
 	module: {
+
 		rules: [
 			{
 				test: /\.(jpg|png)$/,
 				loader: 'url-loader?name=img/[name].[ext]'
 			},
 			{
-				test: /\.(eot|svg|ttf|woff|woff2)$/,
-				loader: 'file-loader?name=/fonts/[name].[ext]'
+				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+				use: [{
+					loader: 'file-loader',
+					options: {
+						name: '[name].[ext]',
+						outputPath: 'fonts/'
+					}
+				}]
 			},
 			{
 				test: /\.css$/,
@@ -58,8 +58,8 @@ module.exports = {
 			jQuery: 'jquery'
 		}),
 		new HtmlWebpackPlugin({
-			template: "./index.html",
-			filename: "./index.html"
+			template: "./src/screens/home/index.html",
+			filename: "index.html"
 		})
 	]
 }

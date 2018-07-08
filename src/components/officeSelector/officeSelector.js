@@ -5,6 +5,7 @@ import { selectedOffice as levelSelectedOffice } from "../../screens/levels/leve
 import { selectedOffice as receptionSelectedOffice } from "../../screens/reception/reception";
 import { selectedOffice as bossSelectedOffice } from "../../screens/gameEnd/gameEnd";
 import { gameBackground } from '../office/office';
+import './office-backgrounds.css';
 
 const OFFICE_SELECTOR_HTML = require('./officeSelector.html');
 let gameColor = OFFICE_COLORS[0];

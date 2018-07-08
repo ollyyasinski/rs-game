@@ -1,6 +1,9 @@
 import { selectElementByClick } from '../../components/helpers/helpers';
 import { createPlayer } from '../../components/helpers/helpers';
 import { Reception } from '../reception/reception';
+import './css/style.css';
+
+const HTML = require('./index.html');
 
 let player;
 
