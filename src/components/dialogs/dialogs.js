@@ -87,8 +87,18 @@ export class dialogActions {
   showDialog(text, gender) {
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
-    let dialogButton = document.getElementById('dialogButton');
-    dialogButton.addEventListener('click', new dialogActions().closeDialog);
+
+    let dialogButton = $('#dialogButton');
+    dialogButton.focus();
+    dialogButton.click(new dialogActions().closeDialog);
+    dialogButton.keydown(e => {
+      if (e.which === 13) {
+        new dialogActions().closeDialog();
+        $('.attack').focus();
+      }
+    })
+
+
     new dialogActions().writeDialogText('message', text, 60, gender);
   }
   writeDialogText(id, text, speed, gender) {
@@ -96,7 +106,7 @@ export class dialogActions {
     let ele = document.getElementById(id),
       txt = text.join("").split("");
     let readDialogText = createReadableText(text);
-   setVoiceGender(readDialogText, gender);
+    setVoiceGender(readDialogText, gender);
 
     synth.speak(readDialogText);
     let interval = setInterval(function () {
@@ -109,6 +119,7 @@ export class dialogActions {
   }
   closeDialog() {
     synth.cancel();
+    $('dialogButton').blur();
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
     if (monster !== undefined) {
@@ -118,6 +129,7 @@ export class dialogActions {
     }
     if (level === 'boss' || lose === true) {
       new SideNav().showResults(true);
+      $('.attack').focus();
     }
   }
   showTimeoutDialog(dialogText, timeout, gender) {

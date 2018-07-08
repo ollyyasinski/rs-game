@@ -93,9 +93,8 @@ export class showSpell {
     new Spells()[spell]();
   }
   showSpellsCyrcle() {
+    $('.attack').focus();
     let magicArray = $('.spell').toArray();
-    magicArray[0].focus();
-    console.log(magicArray[0]);
     magicArray.forEach(div => {
       $(div).click(e => {
         spell = e.target.classList[1];

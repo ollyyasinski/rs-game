@@ -24,7 +24,7 @@ export class Reception {
         reception.addHero(player.character, true);
 
         new SideNav(nextFocusableEl).createSideNav();
-        new dialogActions().showTimeoutDialog(dialogText, 100, 'female');
+        new dialogActions().showTimeoutDialog(dialogText, 200, 'female');
 
         $('.door-right').click(() => {
             synth.cancel();
