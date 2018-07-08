@@ -87,18 +87,14 @@ export class dialogActions {
   showDialog(text, gender) {
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
-
     let dialogButton = $('#dialogButton');
     dialogButton.focus();
     dialogButton.click(new dialogActions().closeDialog);
     dialogButton.keydown(e => {
       if (e.which === 13) {
-        new dialogActions().closeDialog();
-        $('.attack').focus();
+        new dialogActions().closeDialog;
       }
     })
-
-
     new dialogActions().writeDialogText('message', text, 60, gender);
   }
   writeDialogText(id, text, speed, gender) {
@@ -119,17 +115,17 @@ export class dialogActions {
   }
   closeDialog() {
     synth.cancel();
-    $('dialogButton').blur();
+    $('#dialogButton').blur();
     let dialogWrapper = document.getElementById('dialog');
     dialogWrapper.classList.toggle('dialog-active');
     if (monster !== undefined) {
       if (level && player.health !== 0 && monster.health !== 0) {
         document.querySelector('.spells').classList.toggle('showSpells');
+        $(".attack").focus();
       }
     }
     if (level === 'boss' || lose === true) {
       new SideNav().showResults(true);
-      $('.attack').focus();
     }
   }
   showTimeoutDialog(dialogText, timeout, gender) {
